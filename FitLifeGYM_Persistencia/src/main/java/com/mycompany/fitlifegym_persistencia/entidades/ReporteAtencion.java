@@ -1,38 +1,45 @@
 
 package com.mycompany.fitlifegym_persistencia.entidades;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Objects;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
  * @author Julian
  */
 public class ReporteAtencion {
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private String folio;
     private String solucion;
     private LocalDate fecha;
     private EstadoReporte estado;
+    private Categoria categoria;
     private Imagen imagen;
     private Cliente cliente;
 
-    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, EstadoReporte estado, Imagen imagen, Cliente cliente) {
+    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, EstadoReporte estado, Categoria categoria, Imagen imagen, Cliente cliente) {
         this.id = id;
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
         this.estado = estado;
+        this.categoria = categoria;
         this.imagen = imagen;
         this.cliente = cliente;
     }
 
-    public ReporteAtencion(String folio, String solucion, LocalDate fecha, EstadoReporte estado, Imagen imagen, Cliente cliente) {
+    public ReporteAtencion(String folio, String solucion, LocalDate fecha, EstadoReporte estado, Categoria categoria, Imagen imagen, Cliente cliente) {
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
         this.estado = estado;
+        this.categoria = categoria;
         this.imagen = imagen;
         this.cliente = cliente;
     }
@@ -45,6 +52,16 @@ public class ReporteAtencion {
         this.id = id;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+    
+    
+    
     public String getFolio() {
         return folio;
     }

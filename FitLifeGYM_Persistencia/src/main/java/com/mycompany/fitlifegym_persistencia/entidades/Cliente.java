@@ -1,14 +1,18 @@
 package com.mycompany.fitlifegym_persistencia.entidades;
 
 import java.time.LocalDate;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
  * @author Julian
  */
 public class Cliente {
-
-    private Long idCliente;
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idCliente;
     private String nombre;
     private String apellidos;
     private String correo;
@@ -21,8 +25,14 @@ public class Cliente {
 
     public Cliente() {
     }
-
-    public Cliente(Long idCliente, String nombre, String apellidos, String correo, String telefono, String contrasenia, LocalDate fechaNacimiento, String pin, MembresiaComprada membresíaComprada) {
+    
+    public Cliente(String id, String nombre, String apellidos){
+        this.idCliente = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+    
+    public Cliente(String idCliente, String nombre, String apellidos, String correo, String telefono, String contrasenia, LocalDate fechaNacimiento, String pin, MembresiaComprada membresíaComprada) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -34,7 +44,7 @@ public class Cliente {
         this.membresíaComprada = membresíaComprada;
     }
 
-    public Cliente(Long idCliente, String nombre, String apellidos, String correo, String telefono, String contrasenia, LocalDate fechaNacimiento, String pin) {
+    public Cliente(String idCliente, String nombre, String apellidos, String correo, String telefono, String contrasenia, LocalDate fechaNacimiento, String pin) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -56,7 +66,7 @@ public class Cliente {
         this.membresíaComprada = membresíaComprada;
     }
     
-    public Cliente(Long idCliente, String nombre, String apellidos, String correo, String telefono, String pin, String contrasenia, MembresiaComprada membresiaComprada) {
+    public Cliente(String idCliente, String nombre, String apellidos, String correo, String telefono, String pin, String contrasenia, MembresiaComprada membresiaComprada) {
     this.idCliente = idCliente;
     this.nombre = nombre;
     this.apellidos = apellidos;
@@ -67,11 +77,11 @@ public class Cliente {
     this.membresíaComprada = membresiaComprada;
 }
 
-    public Long getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Long idCliente) {
+    public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
     }
 

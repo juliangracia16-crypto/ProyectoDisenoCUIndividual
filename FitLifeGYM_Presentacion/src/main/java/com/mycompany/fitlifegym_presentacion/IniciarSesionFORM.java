@@ -6,6 +6,7 @@ package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
+import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
@@ -190,8 +191,10 @@ public class IniciarSesionFORM extends javax.swing.JDialog {
 
         try {
             ClienteLogueadoDTO cliente = control.iniciarSesion(pin, contrasenia);
+            ClienteLogueadoDTO clienteSesion = new ClienteLogueadoDTO(cliente.getIdCliente(),cliente.getNombre(),cliente.getApellido(),cliente.getMembresiaActiva(),cliente.getEstadoMembresia());
+            SesionUsuario.getInstancia().iniciarSesion(clienteSesion);
             dispose();
-            control.navegarBienvenida(cliente);
+            control.navegarBienvenida();
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

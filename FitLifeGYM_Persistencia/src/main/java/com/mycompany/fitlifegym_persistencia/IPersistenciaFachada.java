@@ -29,4 +29,6 @@ public interface IPersistenciaFachada {
     //Catalogos
     public abstract List<EstadoReporte> consultarCatalogoEstados() throws PersistenciaException;
     public abstract List<Categoria> consultarCatalogoCategorias() throws PersistenciaException;
+    public abstract Categoria consultarCategoriaPorNombre(String nombre) throws PersistenciaException;
+    public abstract EstadoReporte consultarEstadoPorNombre(String nombre) throws PersistenciaException;
 }

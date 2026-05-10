@@ -1,0 +1,91 @@
+
+package com.mycompany.fitlifegym_persistencia;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
+import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
+import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
+import java.util.LinkedList;
+import java.util.List;
+import org.bson.Document;
+
+/**
+ *
+ * @author Julian
+ */
+public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
+    private static final String NOMBRE_COLECCION = "clientes";
+    private static final String ID_KEY = "_id";
+    private static final String PIN_KEY = "pin";
+    
+    @Override
+    public MongoDatabase obtenerBaseDatos(MongoClient cliente) {
+        MongoDatabase empresaBD = cliente.getDatabase(ManejadorConexiones.BASE_DATOS).withCodecRegistry(obtenerCodecs());
+        return empresaBD;
+    }
+
+    @Override
+    public MongoCollection obtenerColeccion(MongoDatabase baseDatos) {
+        MongoCollection<Cliente> coleccion = baseDatos.getCollection(NOMBRE_COLECCION,Cliente.class);
+        return coleccion;
+    }
+
+    @Override
+    public Cliente registrarCliente(Cliente cliente) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Cliente consultarClientePorId(String id) throws PersistenciaException {
+        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
+            
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
+            
+            Document filtros = new Document().append(ID_KEY,id);
+            Cliente clienteEncontrado = coleccion.find(filtros).first();
+            if(clienteEncontrado == null){
+                throw new PersistenciaException("No existe ningun cliente con ese ID.");
+            }
+            return clienteEncontrado;
+        }
+    }
+
+    @Override
+    public List<Cliente> consultarClientes() throws PersistenciaException {
+        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
+            
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
+            List<Cliente> clientes = new LinkedList<>();
+            coleccion.find().into(clientes);
+            return clientes;
+        }
+    }
+
+    @Override
+    public Cliente buscarPorPin(String pin) throws PersistenciaException {
+        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
+            
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
+            
+            Document filtros = new Document().append(PIN_KEY,pin);
+            Cliente clienteEncontrado = coleccion.find(filtros).first();
+            if(clienteEncontrado == null){
+                throw new PersistenciaException("No existe ningun cliente con ese ID.");
+            }
+            return clienteEncontrado;
+        }
+    }
+
+    @Override
+    public void actualizarMembresia(String idCliente, TipoMembresia nuevaMembresia) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    
+}

@@ -35,7 +35,7 @@ public class ClientesBO implements IClientesBO {
     }
 
     @Override
-    public Cliente buscarClientePorId(Long id) throws NegocioException{
+    public Cliente buscarClientePorId(String id) throws NegocioException{
 
         if(id == null){
             throw new NegocioException("Se debe de colocar un ID.");

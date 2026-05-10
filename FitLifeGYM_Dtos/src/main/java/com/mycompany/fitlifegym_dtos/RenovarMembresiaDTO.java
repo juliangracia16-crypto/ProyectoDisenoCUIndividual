@@ -9,15 +9,15 @@ package com.mycompany.fitlifegym_dtos;
  * @author PC GAMER MASTER RACE
  */
 public class RenovarMembresiaDTO {
-    private final Long idCliente;
+    private final String idCliente;
     private final TipoMembresiaDTO tipoMembresia;
 
-    public RenovarMembresiaDTO(Long idCliente, TipoMembresiaDTO tipoMembresia) {
+    public RenovarMembresiaDTO(String idCliente, TipoMembresiaDTO tipoMembresia) {
         this.idCliente = idCliente;
         this.tipoMembresia = tipoMembresia;
     }
 
-    public Long getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 

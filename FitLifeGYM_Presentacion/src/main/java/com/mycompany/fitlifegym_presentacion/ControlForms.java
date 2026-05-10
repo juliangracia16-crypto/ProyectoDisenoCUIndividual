@@ -1,19 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.cuquejassugerencias.CUQuejasSugerencias;
+import com.mycompany.cuquejassugerencias.ICUQuejasSugerencias;
+import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
+import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoDTO;
+import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
+import com.mycompany.fitlifegym_dtos.FiltrosConsultaIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.FiltrosConsultasAtencionesDTO;
 import com.mycompany.fitlifegym_dtos.LoginDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaCompradaDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
+import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.RenovarMembresiaDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
+import com.mycompany.fitlifegym_negocio.CatalogosBO;
 import com.mycompany.fitlifegym_negocio.ClientesBO;
+import com.mycompany.fitlifegym_negocio.HistorialAtencionesBO;
+import com.mycompany.fitlifegym_negocio.HistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.ICatalogosBO;
 import com.mycompany.fitlifegym_negocio.IClientesBO;
+import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
+import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
 import com.mycompany.fitlifegym_negocio.ILoginBO;
 import com.mycompany.fitlifegym_negocio.IMembresiaBO;
 import com.mycompany.fitlifegym_negocio.IRenovarMembresiaBO;
@@ -21,12 +34,23 @@ import com.mycompany.fitlifegym_negocio.LoginBO;
 import com.mycompany.fitlifegym_negocio.MembresiaBO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_negocio.RenovarMembresiaBO;
-import com.mycompany.fitlifegym_persistencia.ClientesListDAO;
+import com.mycompany.fitlifegym_persistencia.CatalogosDAO;
+import com.mycompany.fitlifegym_persistencia.ClientesDAO;
+import com.mycompany.fitlifegym_persistencia.HistorialAtencionesDAO;
+import com.mycompany.fitlifegym_persistencia.HistorialIncidentesDAO;
+import com.mycompany.fitlifegym_persistencia.ICatalogosDAO;
 import com.mycompany.fitlifegym_persistencia.IClientesDAO;
+import com.mycompany.fitlifegym_persistencia.IHistorialAtencionesDAO;
+import com.mycompany.fitlifegym_persistencia.IHistorialIncidentesDAO;
+import com.mycompany.fitlifegym_persistencia.IImagenesDAO;
 import com.mycompany.fitlifegym_persistencia.IMembresiaDAO;
+import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
+import com.mycompany.fitlifegym_persistencia.ImagenesDAO;
 import com.mycompany.fitlifegym_persistencia.MembresiaListDAO;
+import com.mycompany.fitlifegym_persistencia.PersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
+import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import com.mycompany.funcionalidadcomprarmembresiausuarionoregistrado.FuncionalidadRegistroUsuario;
 import com.mycompany.funcionalidadcomprarmembresiausuarionoregistrado.IFuncionalidadRegistrarUsuario;
 import com.mycompany.funcionalidadiniciarsesionrenovarmembresia.FuncionalidadIniciarSesionRenovarMembresia;
@@ -36,28 +60,37 @@ import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Diego
  */
-public class ControlForms {
+public class ControlForms implements ICUQuejasSugerencias{
 
     private JFrame frameActual;
-    private ClienteLogueadoDTO clienteActual;
     private IFuncionalidadRegistrarUsuario funcionalidadCU;
     private IFuncionalidadIniciarSesionRenovarMembresia funcionalidad;
+    private ICUQuejasSugerencias quejasSugerenciasCU;
 
     public ControlForms() {
-        IClientesDAO dao = new ClientesListDAO();
+        IClientesDAO dao = new ClientesDAO();
         IClientesBO negocio = new ClientesBO(dao);
         IMembresiaDAO membresiaDAO = new MembresiaListDAO();
         IMembresiaBO membresiaBO = new MembresiaBO(membresiaDAO);
         ILoginBO loginBO = new LoginBO(dao);
         IRenovarMembresiaBO renovarBO = new RenovarMembresiaBO(dao);
+        //CASO DE USO
+        IHistorialIncidentesDAO historialIncidentesDAO = new HistorialIncidentesDAO();
+        IHistorialAtencionesDAO historialAtencionesDAO = new HistorialAtencionesDAO();
+        ICatalogosDAO catalogosDAO = new CatalogosDAO();
+        IImagenesDAO imagenesDAO = new ImagenesDAO();
+        IPersistenciaFachada fachada = new PersistenciaFachada(historialAtencionesDAO,historialIncidentesDAO,imagenesDAO,catalogosDAO);
+        IHistorialIncidentesBO historialIncidentesBO = new HistorialIncidentesBO(fachada);
+        IHistorialAtencionesBO historialAtencionesBO = new HistorialAtencionesBO(fachada);
+        ICatalogosBO catalogosBO = new CatalogosBO(fachada);
         this.funcionalidadCU = new FuncionalidadRegistroUsuario(negocio);
         this.funcionalidad = new FuncionalidadIniciarSesionRenovarMembresia(loginBO, membresiaBO, renovarBO);
+        this.quejasSugerenciasCU = new CUQuejasSugerencias(historialIncidentesBO, historialAtencionesBO, catalogosBO);
     }
 
     private void mostrarPantalla(JFrame nuevoFrame) {
@@ -85,14 +118,26 @@ public class ControlForms {
         mostrarPantalla(new BeneficiosFORM(this, cliente));
     }
 
-    public void navegarBienvenida(ClienteLogueadoDTO cliente) {
-        mostrarPantalla(new BienvenidaFORM(this, cliente));
+    public void navegarBienvenida() {
+        mostrarPantalla(new BienvenidaFORM(this));
     }
 
     public void navegarMetodosPago(TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
         mostrarPantalla(new SuscribirseFORM(this, membresia, cliente));
     }
-
+    //FORMS CU
+    public void navegarInicioBuzonQuejas(){
+        mostrarPantalla(new InicioBuzonQuejasFORM(this));
+    }
+    
+    public void navegarGenerarNuevoReporte(){
+        mostrarPantalla(new GenerarNuevoReporteFORM(this));
+    }
+    
+    public void navegarReporteGenerado(){
+        mostrarPantalla(new ReporteGeneradoFORM(this));
+    }
+    
     //Dialogs
     public void navegarRegistrarse() {
         mostrarDialogo(new RegistrarseFORM(this.frameActual, true, this));
@@ -155,7 +200,7 @@ public class ControlForms {
         funcionalidadCU.validarTarjeta(cvv, numeroTarjeta, fechaVencimiento,nombreTitular);
 
         // Si hay cliente logueado es pos es renovacion
-        if (this.clienteActual != null) {
+        if (SesionUsuario.getInstancia().getClienteActual() != null) {
             if (cliente.getMembresíaComprada() == null) {
                 throw new NegocioException("No se ha seleccionado ninguna membresia.");
             }
@@ -179,7 +224,7 @@ public class ControlForms {
         funcionalidadCU.validarPaypal(correo, contrasenia);
 
         // Si hay cliente logueado es pos es renovacion
-        if (this.clienteActual != null) {
+        if (SesionUsuario.getInstancia().getClienteActual() != null) {
             if (cliente.getMembresíaComprada() == null) {
                 throw new NegocioException("No se ha seleccionado ninguna membresia.");
             }
@@ -201,7 +246,7 @@ public class ControlForms {
     
     public void procesarPagoTransferencia(NuevoClienteDTO cliente) throws NegocioException {
         // Si hay cliente logueado es pos es renovacion
-        if (this.clienteActual != null) {
+        if (SesionUsuario.getInstancia().getClienteActual() != null) {
             if (cliente.getMembresíaComprada() == null) {
                 throw new NegocioException("No se ha seleccionado ninguna membresia.");
             }
@@ -222,7 +267,7 @@ public class ControlForms {
     }
 
     public ClienteLogueadoDTO getClienteActual() {
-        return clienteActual;
+        return SesionUsuario.getInstancia().getClienteActual();
     }
 
     public List<Cliente> consultarClientes() throws NegocioException {
@@ -232,8 +277,8 @@ public class ControlForms {
     //Modificado
     public ClienteLogueadoDTO iniciarSesion(String pin, String contrasenia) throws NegocioException {
         LoginDTO loginDTO = new LoginDTO(pin, contrasenia);
-        this.clienteActual = funcionalidad.iniciarSesion(loginDTO);
-        return this.clienteActual;
+        ClienteLogueadoDTO cliente = funcionalidad.iniciarSesion(loginDTO);
+        return cliente;
     }
 
     //Nuevo Para consultar las Membresias
@@ -248,12 +293,43 @@ public class ControlForms {
 
     //Nuevo(lo agregrege para la renovacion)
     public void renovarMembresia(TipoMembresiaDTO tipoDTO) throws NegocioException {
-        if (this.clienteActual == null) {
+        if (SesionUsuario.getInstancia().getClienteActual() == null) {
             throw new NegocioException("No hay un cliente logueado para renovar membresia.");
         }
 
-        RenovarMembresiaDTO dto = new RenovarMembresiaDTO(clienteActual.getIdCliente(), tipoDTO);
+        RenovarMembresiaDTO dto = new RenovarMembresiaDTO(SesionUsuario.getInstancia().getClienteActual().getIdCliente(), tipoDTO);
         funcionalidad.renovarMembresia(dto);
+    }
+    
+    //Metodos del CU QUEJAS/SUGERENCIAS
+    @Override
+    public List<CategoriaDTO> cargarCatalogoCategorias() throws NegocioException {
+        return quejasSugerenciasCU.cargarCatalogoCategorias();
+    }
+
+    @Override
+    public List<EstadoReporteDTO> cargarCatalogoEstados() throws NegocioException {
+        return quejasSugerenciasCU.cargarCatalogoEstados();
+    }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaIncidenteDTO filtros) throws NegocioException {
+        return quejasSugerenciasCU.consultarReportesIncidentes(filtros);
+    }
+
+    @Override
+    public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultasAtencionesDTO filtros) throws NegocioException {
+        return quejasSugerenciasCU.consultarReportesAtenciones(filtros);
+    }
+
+    @Override
+    public ReporteIncidenteDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException {
+        return quejasSugerenciasCU.generarReporteIncidente(reporteIncidente);
+    }
+
+    @Override
+    public ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
+        return quejasSugerenciasCU.atenderReporteIncidente(reporteAtencion);
     }
 
 }

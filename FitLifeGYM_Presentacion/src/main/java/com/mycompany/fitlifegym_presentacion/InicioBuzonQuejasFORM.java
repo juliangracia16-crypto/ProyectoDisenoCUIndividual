@@ -11,12 +11,14 @@ package com.mycompany.fitlifegym_presentacion;
 public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InicioBuzonQuejasFORM.class.getName());
-
+    private ControlForms control;
+    
     /**
      * Creates new form InicioBuzonQuejasFORM
      */
-    public InicioBuzonQuejasFORM() {
+    public InicioBuzonQuejasFORM(ControlForms control) {
         initComponents();
+        this.control = control;
     }
 
     /**
@@ -52,6 +54,7 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
         btnGenerarNuevoReporte.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnGenerarNuevoReporte.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerarNuevoReporte.setText("Generar Nuevo Reporte");
+        btnGenerarNuevoReporte.addActionListener(this::btnGenerarNuevoReporteActionPerformed);
 
         btnMisReportes.setBackground(new java.awt.Color(255, 0, 51));
         btnMisReportes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -67,9 +70,8 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnMisReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnGenerarNuevoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnGenerarNuevoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,30 +101,10 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new InicioBuzonQuejasFORM().setVisible(true));
-    }
+    private void btnGenerarNuevoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarNuevoReporteActionPerformed
+        control.navegarGenerarNuevoReporte();
+        this.dispose();
+    }//GEN-LAST:event_btnGenerarNuevoReporteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarNuevoReporte;

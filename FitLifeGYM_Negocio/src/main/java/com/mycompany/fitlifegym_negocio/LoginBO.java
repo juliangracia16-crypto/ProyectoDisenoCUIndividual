@@ -36,7 +36,6 @@ public class LoginBO implements ILoginBO {
                 return null;
             }
 
-            String nombreCompleto = cliente.getNombre() + " " + cliente.getApellidos();
             TipoMembresiaDTO tipoDTO = null;
             EstadoDTO estadoDTO = EstadoDTO.INACTIVO;
 
@@ -50,7 +49,7 @@ public class LoginBO implements ILoginBO {
                 }
             }
 
-            return new ClienteLogueadoDTO(cliente.getIdCliente(), nombreCompleto, tipoDTO,estadoDTO);
+            return new ClienteLogueadoDTO(cliente.getIdCliente(), cliente.getNombre(), cliente.getApellidos(), tipoDTO,estadoDTO);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al iniciar sesion", ex);
         }

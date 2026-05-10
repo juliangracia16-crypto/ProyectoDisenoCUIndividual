@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface IHistorialAtencionesBO {
     public abstract List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultasAtencionesDTO filtros) throws NegocioException;
-    public abstract AtenderReporteDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException;
+    public abstract ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException;
     public abstract ReporteAtencionDTO eliminarReporteAtencion(String folio) throws NegocioException;
 }

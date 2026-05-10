@@ -17,6 +17,13 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     private IHistorialIncidentesDAO historialIncidentes;
     private IImagenesDAO imagenes;
     private ICatalogosDAO catalogos;
+
+    public PersistenciaFachada(IHistorialAtencionesDAO historialAtenciones, IHistorialIncidentesDAO historialIncidentes, IImagenesDAO imagenes, ICatalogosDAO catalogos) {
+        this.historialAtenciones = historialAtenciones;
+        this.historialIncidentes = historialIncidentes;
+        this.imagenes = imagenes;
+        this.catalogos = catalogos;
+    }
     
     //Imagenes
     @Override
@@ -87,6 +94,18 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     public List<Categoria> consultarCatalogoCategorias() throws PersistenciaException {
         List<Categoria> categorias = catalogos.consultarCatalogoCategorias();
         return categorias;
+    }
+
+    @Override
+    public Categoria consultarCategoriaPorNombre(String nombre) throws PersistenciaException {
+        Categoria categoria = catalogos.consultarCategoriaPorNombre(nombre);
+        return categoria;
+    }
+
+    @Override
+    public EstadoReporte consultarEstadoPorNombre(String nombre) throws PersistenciaException {
+        EstadoReporte estado = catalogos.consultarEstadoPorNombre(nombre);
+        return estado;
     }
     
 }

@@ -4,16 +4,29 @@
  */
 package Adapter;
 
+import com.mycompany.fitlifegym_dtos.CategoriaDTO;
+import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoDTO;
+import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
+import com.mycompany.fitlifegym_dtos.ImagenDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaCompradaDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
+import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
+import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import com.mycompany.fitlifegym_persistencia.entidades.Estado;
+import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
+import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import com.mycompany.fitlifegym_persistencia.entidades.MembresiaComprada;
+import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
+import com.mycompany.fitlifegym_persistencia.entidades.ReporteIncidente;
 import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
+import java.time.LocalDate;
 
 /**
  *
@@ -96,5 +109,123 @@ public class DtosAEntidadesAdapter {
         }
         return EstadoDTO.INACTIVO;
     }
+    
+    //==============================================
+    public static ReporteAtencion adaptarReporteAtencionDTO(ReporteAtencionDTO reporteAtencionDTO){
+        Imagen imagen = adaptarImagenDTO(reporteAtencionDTO.imagen());
+        Cliente cliente = adaptarClienteDTO(reporteAtencionDTO.cliente());
+        EstadoReporte estado = adaptarEstadoReporteDTO(reporteAtencionDTO.estado());
+        Categoria categoria = adaptarCategoriaDTO(reporteAtencionDTO.categoria());
+        ReporteAtencion reporteAtencion = new ReporteAtencion(
+                reporteAtencionDTO.folio(),
+                reporteAtencionDTO.solucion(),
+                reporteAtencionDTO.fecha(),
+                estado,
+                categoria,
+                imagen,
+                cliente
+        );
+        return reporteAtencion;
+    }
+    
+    public static ReporteAtencionDTO adaptarReporteAtencionEntidad(ReporteAtencion reporteAtencion){
+        ImagenDTO imagenDTO = adaptarImagenEntidad(reporteAtencion.getImagen());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteAtencion.getEstado());
+        CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporteAtencion.getCategoria());
+        ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporteAtencion.getCliente());
+        
+        ReporteAtencionDTO reporteAtencionDTO = new ReporteAtencionDTO(
+                reporteAtencion.getFolio(),
+                reporteAtencion.getSolucion(),
+                categoriaDTO,
+                reporteAtencion.getFecha(),
+                estadoDTO,
+                imagenDTO,
+                clienteDTO
+        );
+        return reporteAtencionDTO;
+    }
+    
+    public static ReporteIncidente adaptarReporteIncidenteDTO(NuevoReporteIncidenteDTO reporteIncidenteDTO){
+        Imagen imagen = adaptarImagenDTO(reporteIncidenteDTO.imagen());
+        Cliente cliente = adaptarClienteDTO(reporteIncidenteDTO.cliente());
+        Categoria categoria = adaptarCategoriaDTO(reporteIncidenteDTO.categoria());
+        
+        ReporteIncidente reporteIncidente = new ReporteIncidente(
+                reporteIncidenteDTO.asunto(),
+                reporteIncidenteDTO.descripcion(),
+                reporteIncidenteDTO.fecha(),
+                null,
+                categoria,
+                imagen,
+                cliente
+        );
+        return reporteIncidente;
+    }
+    
+    public static ReporteIncidenteDTO adaptarReporteIncidenteEntidad(ReporteIncidente reporteIncidente){
+        CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporteIncidente.getCategoria());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteIncidente.getEstado());
+        ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporteIncidente.getCliente());
+        ImagenDTO imagenDTO = adaptarImagenEntidad(reporteIncidente.getImagen());
+        ReporteIncidenteDTO reporteIncidenteDTO = new ReporteIncidenteDTO(
+                reporteIncidente.getFolio(),
+                categoriaDTO,
+                estadoDTO,
+                reporteIncidente.getAsunto(),
+                reporteIncidente.getFecha(),
+                reporteIncidente.getDescripcion(),
+                imagenDTO,
+                clienteDTO
+        );
+        return reporteIncidenteDTO;
+    }
+    
+    public static CategoriaDTO adaptarCategoriaEntidad(Categoria categoria){
+        CategoriaDTO categoriaDTO = new CategoriaDTO(categoria.getId(),categoria.getCategoria());
+        return categoriaDTO;
+    }
+    
+    public static Categoria adaptarCategoriaDTO(CategoriaDTO categoria){
+        Categoria categoriaEntidad = new Categoria(categoria.categoria());
+        return categoriaEntidad;
+    }
+    
+    public static EstadoReporteDTO adaptarEstadoReporteEntidad(EstadoReporte estado){
+        EstadoReporteDTO estadoReporte = new EstadoReporteDTO(estado.getId(),estado.getEstado());
+        return estadoReporte;
+    }
+    
+    public static EstadoReporte adaptarEstadoReporteDTO(EstadoReporteDTO estadoReporte){
+        EstadoReporte estado = new EstadoReporte(estadoReporte.estado());
+        return estado;
+    }
+    
+    public static ClienteLogueadoDTO adaptarClienteEntidad(Cliente cliente){
+        ClienteLogueadoDTO clienteLogueado = new ClienteLogueadoDTO(
+                cliente.getIdCliente(),
+                cliente.getNombre(),
+                cliente.getApellidos()
+        );
+        return clienteLogueado;
+    }
+    
+    public static Cliente adaptarClienteDTO(ClienteLogueadoDTO cliente){
+        Cliente clienteEntidad = new Cliente(
+                cliente.getIdCliente(),
+                cliente.getNombre(),
+                cliente.getApellido()
+        );
+        return clienteEntidad;
+    }
+    
+    public static Imagen adaptarImagenDTO(ImagenDTO imagen){
+        Imagen imagenEntidad = new Imagen(imagen.imagen());
+        return imagenEntidad;
+    }
 
+    public static ImagenDTO adaptarImagenEntidad(Imagen imagen){
+        ImagenDTO imagenDTO = new ImagenDTO(imagen.getImagen());
+        return imagenDTO;
+    }
 }

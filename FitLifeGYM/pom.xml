@@ -12,6 +12,7 @@
         <module>../FuncionalidadComprarMembresiaUsuarioNoRegistrado</module>
         <module>../FuncionalidadIniciarSesionRenovarMembresia</module>
         <module>../FitLifeGYM_Dtos</module>
+        <module>../CUQuejasSugerencias</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
