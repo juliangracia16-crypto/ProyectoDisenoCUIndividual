@@ -18,6 +18,7 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
      */
     public InicioBuzonQuejasFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.control = control;
     }
 
@@ -45,6 +46,7 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
         btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,6 +62,7 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
         btnMisReportes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnMisReportes.setForeground(new java.awt.Color(255, 255, 255));
         btnMisReportes.setText("Mis Reportes Generados");
+        btnMisReportes.addActionListener(this::btnMisReportesActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,6 +108,16 @@ public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
         control.navegarGenerarNuevoReporte();
         this.dispose();
     }//GEN-LAST:event_btnGenerarNuevoReporteActionPerformed
+
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+        control.navegarBienvenida();
+        this.dispose();
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
+
+    private void btnMisReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMisReportesActionPerformed
+        control.navegarMisReportesGenerados();
+        this.dispose();
+    }//GEN-LAST:event_btnMisReportesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarNuevoReporte;

@@ -12,6 +12,7 @@ import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
 import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteIncidente;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -65,6 +66,22 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
     @Override
     public ReporteAtencionDTO eliminarReporteAtencion(String folio) throws NegocioException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<ReporteAtencionDTO> consultarReportesAtenciones() throws NegocioException {
+        try {
+            List<ReporteAtencionDTO> reportesAtencionDTO = new LinkedList<>();
+            List<ReporteAtencion> reportesAtencion = fachada.consultarReportesAtencion();
+            for(ReporteAtencion reporte: reportesAtencion){
+                ReporteAtencionDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporte);
+                reportesAtencionDTO.add(reporteDTO);
+            }
+            return reportesAtencionDTO;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar todos los reportes de atenciones.");
+        }
+        
     }
     
 }

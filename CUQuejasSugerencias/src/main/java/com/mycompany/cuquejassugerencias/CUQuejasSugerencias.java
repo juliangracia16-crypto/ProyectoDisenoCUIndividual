@@ -63,7 +63,9 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     @Override
     public ReporteIncidenteDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException {
         validarDescripcionReporteIncidente(reporteIncidente.descripcion());
-        validarImagen(reporteIncidente.imagen().imagen());
+        if(reporteIncidente.imagen() != null){
+            validarImagen(reporteIncidente.imagen().imagen());
+        }
         validarAsuntoReporteIncidente(reporteIncidente.asunto());
         ReporteIncidenteDTO reporteIncidenteGenerado = historialIncidentesBO.generarReporteIncidente(reporteIncidente);
         return reporteIncidenteGenerado;
@@ -75,6 +77,23 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         validarSolucionReporteAtencion(reporteAtencion.solucion());
         ReporteAtencionDTO reporteIncidenteAtendido = historialAtencionesBO.atenderReporteIncidente(reporteAtencion);
         return reporteIncidenteAtendido;
+    }
+    @Override
+    public List<ReporteAtencionDTO> consultarTodosLosReportesAtenciones() throws NegocioException {
+        List<ReporteAtencionDTO> reportesAtenciones = historialAtencionesBO.consultarReportesAtenciones();
+        return reportesAtenciones;
+    }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException {
+        List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes();
+        return reportesIncidentes;
+    }
+    
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentesCliente(String id) throws NegocioException {
+        List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentesCliente(id);
+        return reportesIncidentes;
     }
     
     private void validarDescripcionReporteIncidente(String descripcion) throws NegocioException{
@@ -148,4 +167,5 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             throw new NegocioException("El asunto debe contener como minimo 5 caracteres.");
         }
     }
+
 }

@@ -4,6 +4,14 @@
  */
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_negocio.NegocioException;
+import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
+import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Julian
@@ -11,12 +19,17 @@ package com.mycompany.fitlifegym_presentacion;
 public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MisReportesGeneradosFORM.class.getName());
-
+    private ControlForms control;
+    
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
-    public MisReportesGeneradosFORM() {
+    public MisReportesGeneradosFORM(ControlForms control) {
         initComponents();
+        this.control = control;
+        this.setLocationRelativeTo(null);
+        llenarTablaReportes();
+        colorBotones();
     }
 
     /**
@@ -46,6 +59,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("<- Atras");
         btnSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,31 +156,44 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        control.navegarInicioBuzonQuejas();
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+    
+    private void llenarTablaReportes() {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            List<ReporteIncidenteDTO> reportesIncidentes = control.consultarReportesIncidentesCliente(SesionUsuario.getInstancia().getClienteActual().getIdCliente());
+            DefaultTableModel modelo
+                    = (DefaultTableModel) tblRegistrosReportes.getModel();
+            
+            modelo.setRowCount(0);
+            
+            for (ReporteIncidenteDTO reporte : reportesIncidentes) {
+                
+                Object[] fila = {
+                    reporte.asunto(),
+                    reporte.categoria().categoria(),
+                    reporte.estado().estado(),
+                    reporte.cliente().getNombreCompleto(),
+                    reporte.fecha().toString()
+                };
+                
+                modelo.addRow(fila);
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog( this, "Error al cargar los reportes de incidentes. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MisReportesGeneradosFORM().setVisible(true));
     }
-
+        
+    private void colorBotones(){
+        btnBuscadorReportes.setBackground(new Color(86,86,86));
+        btnBuscadorReportes.setForeground(Color.WHITE);
+        btnSeleccionarReporte.setBackground(new Color(86,86,86));
+        btnSeleccionarReporte.setForeground(Color.WHITE);
+        btnMostrarTodos.setBackground(new Color(86,86,86));
+        btnMostrarTodos.setForeground(Color.WHITE);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscadorReportes;
     private javax.swing.JButton btnMostrarTodos;

@@ -7,6 +7,7 @@ package com.mycompany.fitlifegym_presentacion;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.ImagenDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import java.io.File;
@@ -19,6 +20,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
+import java.awt.Image;
 
 
 /**
@@ -35,6 +37,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
      */
     public GenerarNuevoReporteFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.control = control;
         llenarComboCategorias();
     }
@@ -72,6 +75,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
         btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -81,24 +85,27 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
         lblCategoria.setForeground(new java.awt.Color(255, 255, 255));
         lblCategoria.setText("Categoría: ");
 
-        comboCategorias.setBackground(new java.awt.Color(102, 102, 102));
+        comboCategorias.setBackground(new java.awt.Color(255, 255, 255));
+        comboCategorias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        comboCategorias.setForeground(new java.awt.Color(0, 0, 0));
 
         lblAsunto.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblAsunto.setForeground(new java.awt.Color(255, 255, 255));
         lblAsunto.setText("Asunto: ");
 
-        txtAsunto.setBackground(new java.awt.Color(102, 102, 102));
-        txtAsunto.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtAsunto.setForeground(new java.awt.Color(255, 255, 255));
+        txtAsunto.setBackground(new java.awt.Color(255, 255, 255));
+        txtAsunto.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        txtAsunto.setForeground(new java.awt.Color(0, 0, 0));
+        txtAsunto.setMaximumSize(new java.awt.Dimension(298, 35));
 
         lblDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblDescripcion.setForeground(new java.awt.Color(255, 255, 255));
         lblDescripcion.setText("Descripción:");
 
-        txtAreaDescripcion.setBackground(new java.awt.Color(102, 102, 102));
+        txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setColumns(20);
-        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtAreaDescripcion.setForeground(new java.awt.Color(255, 255, 255));
+        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         txtAreaDescripcion.setRows(5);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
@@ -108,6 +115,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
 
         btnSeleccionarImagen.setBackground(new java.awt.Color(102, 102, 102));
         btnSeleccionarImagen.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnSeleccionarImagen.setForeground(new java.awt.Color(255, 255, 255));
         btnSeleccionarImagen.setText("Seleccionar Imagen");
         btnSeleccionarImagen.addActionListener(this::btnSeleccionarImagenActionPerformed);
 
@@ -126,9 +134,6 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                 .addComponent(btnVolverAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(119, 119, 119)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(185, 185, 185)
-                        .addComponent(btnSeleccionarImagen))
                     .addComponent(lblTitulo)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,16 +142,22 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                             .addComponent(lblDescripcion)
                             .addComponent(lblImagen))
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(txtAsunto)
-                            .addComponent(comboCategorias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 139, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(txtAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboCategorias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(82, 82, 82)))
+                .addGap(169, 169, 169))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(264, 264, 264))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(300, 300, 300))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSeleccionarImagen)
+                        .addGap(310, 310, 310))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,16 +179,19 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                         .addComponent(lblDescripcion))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblImagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(lblImagen))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
                 .addComponent(btnGenerarReporte, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -197,29 +211,41 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-        generarReporteIncidente();
-        control.navegarReporteGenerado();
-        this.dispose();
+        boolean generado = generarReporteIncidente();
+        if(generado){
+           control.navegarReporteGenerado();
+            this.dispose(); 
+        }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
         seleccionarImagen();
     }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
+
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+        control.navegarInicioBuzonQuejas();
+        this.dispose();
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
     
-    private void generarReporteIncidente(){
+    private boolean generarReporteIncidente(){
         try {
             CategoriaDTO nombreCategoria = new CategoriaDTO(null,comboCategorias.getSelectedItem().toString());
             String asunto = txtAsunto.getText();
             String descripcion = txtAreaDescripcion.getText();
-            ImagenDTO imagen = new ImagenDTO(this.imagenSeleccionada);
+            ImagenDTO imagen = null;
+            if (this.imagenSeleccionada != null) {
+                imagen = new ImagenDTO(this.imagenSeleccionada);
+            }
             LocalDate fechaGenerado = LocalDate.now();
             NuevoReporteIncidenteDTO reporteIncidente = new NuevoReporteIncidenteDTO(
                     asunto, nombreCategoria, descripcion, fechaGenerado, imagen,
                     SesionUsuario.getInstancia().getClienteActual()
             );
-            control.generarReporteIncidente(reporteIncidente);
+            ReporteIncidenteDTO reporteGenerado = control.generarReporteIncidente(reporteIncidente);
+            return reporteGenerado != null;
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog( this, "Error al generar el reporte de incidente.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog( this, "Error al generar el reporte de incidente. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
     private void seleccionarImagen(){
@@ -227,8 +253,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
             JFileChooser selector = new JFileChooser();
             FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes JPG y PNG", "jpg", "jpeg", "png");
             selector.setFileFilter(filtro);
-            int resultado =
-            selector.showOpenDialog(this);
+            int resultado = selector.showOpenDialog(this);
 
             if (resultado == JFileChooser.APPROVE_OPTION) {
             
@@ -236,8 +261,13 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                 this.imagenSeleccionada = Files.readAllBytes(archivo.toPath());
                 
                 ImageIcon icono = new ImageIcon(this.imagenSeleccionada);
+                Image imagenEscalada = icono.getImage().getScaledInstance(
+                            lblLugarImagen.getWidth(),
+                            lblLugarImagen.getHeight(),
+                            Image.SCALE_SMOOTH
+                );
 
-                lblLugarImagen.setIcon(icono);
+                lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
             }
         }catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al leer la imagen.");

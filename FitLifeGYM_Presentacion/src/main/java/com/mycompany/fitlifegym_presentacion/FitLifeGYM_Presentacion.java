@@ -13,6 +13,6 @@ public class FitLifeGYM_Presentacion {
     public static void main(String[] args) {
         ControlForms control = new ControlForms();
         
-        control.navegarMenuPrincipal();
+        control.navegarSeleccionAdminCliente();
     }
 }

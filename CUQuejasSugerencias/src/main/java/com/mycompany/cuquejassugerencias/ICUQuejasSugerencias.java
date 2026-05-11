@@ -21,6 +21,9 @@ public interface ICUQuejasSugerencias {
     public abstract List<EstadoReporteDTO> cargarCatalogoEstados()throws NegocioException;
     public abstract List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaIncidenteDTO filtros) throws NegocioException;
     public abstract List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultasAtencionesDTO filtros) throws NegocioException;
+    public abstract List<ReporteIncidenteDTO> consultarReportesIncidentesCliente(String id) throws NegocioException;
+    public abstract List<ReporteAtencionDTO> consultarTodosLosReportesAtenciones() throws NegocioException;
+    public abstract List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException;
     public abstract ReporteIncidenteDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException;
     public abstract ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException;
     //TODO 

@@ -10,4 +10,8 @@ public record CategoriaDTO(
         String categoria
     ) {
 
+    @Override
+    public String toString() {
+        return categoria;
+    }
 }

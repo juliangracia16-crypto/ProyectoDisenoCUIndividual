@@ -220,11 +220,17 @@ public class DtosAEntidadesAdapter {
     }
     
     public static Imagen adaptarImagenDTO(ImagenDTO imagen){
+        if(imagen == null){
+            return null;
+        }
         Imagen imagenEntidad = new Imagen(imagen.imagen());
         return imagenEntidad;
     }
 
     public static ImagenDTO adaptarImagenEntidad(Imagen imagen){
+        if(imagen == null){
+            return null;
+        }
         ImagenDTO imagenDTO = new ImagenDTO(imagen.getImagen());
         return imagenDTO;
     }

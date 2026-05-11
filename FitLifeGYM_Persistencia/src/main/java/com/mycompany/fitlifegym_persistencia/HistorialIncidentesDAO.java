@@ -4,11 +4,14 @@ package com.mycompany.fitlifegym_persistencia;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteIncidente;
+import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -18,6 +21,7 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
     
     private static final String NOMBRE_COLECCION = "historial_incidentes"; 
     private static final String FOLIO_KEY = "folio";
+    private static final String ID_CLIENTE_KEY = "cliente._id";
     
     @Override
     public MongoDatabase obtenerBaseDatos(MongoClient cliente) {
@@ -33,7 +37,14 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
     
     @Override
     public List<ReporteIncidente> consultarReportesIncidentes() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<ReporteIncidente> coleccion = this.obtenerColeccion(empresaBD);
+            List<ReporteIncidente> reportesIncidentes = new LinkedList<>();
+            coleccion.find().into(reportesIncidentes);
+            return reportesIncidentes;
+        }
     }
 
     @Override
@@ -85,6 +96,24 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
             }
             
             return reporteIncidente;
+        }
+    }
+
+    @Override
+    public List<ReporteIncidente> consultarReportesIncidentesFiltros() throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<ReporteIncidente> consultarReportesIncidentesCliente(String id) throws PersistenciaException {
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<ReporteIncidente> coleccion = this.obtenerColeccion(empresaBD);
+            
+            List<ReporteIncidente> reportesIncidentes = new LinkedList<>();
+            coleccion.find(Filters.eq(ID_CLIENTE_KEY, new ObjectId(id))).into(reportesIncidentes);
+            return reportesIncidentes;
         }
     }
 

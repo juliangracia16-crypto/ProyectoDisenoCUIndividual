@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
+import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 
@@ -32,7 +33,14 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
     
     @Override
     public List<ReporteAtencion> consultarReportesAtencion() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
+            
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<ReporteAtencion> coleccion = this.obtenerColeccion(empresaBD);
+            List<ReporteAtencion> reportesAtencion = new LinkedList<>();
+            coleccion.find().into(reportesAtencion);
+            return reportesAtencion;
+        }
     }
 
     @Override
@@ -81,6 +89,11 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             }
             return reporteAtencion;
         }
+    }
+
+    @Override
+    public List<ReporteAtencion> consultarReportesAtencionesFiltros() throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

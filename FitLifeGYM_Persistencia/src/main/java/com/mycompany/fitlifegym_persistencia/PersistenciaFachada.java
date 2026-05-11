@@ -40,9 +40,21 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     //Reportes de Incidentes
     @Override
     public List<ReporteIncidente> consultarReportesIncidentes() throws PersistenciaException {
+        List<ReporteIncidente> reportesIncidentes = historialIncidentes.consultarReportesIncidentes();
+        return reportesIncidentes;
+    }
+    
+    @Override
+    public List<ReporteIncidente> consultarReportesIncidentesCliente(String id) throws PersistenciaException {
+        List<ReporteIncidente> reportesIncidentes = historialIncidentes.consultarReportesIncidentesCliente(id);
+        return reportesIncidentes;
+    }
+    
+    @Override
+    public List<ReporteIncidente> consultarReportesIncidentesFiltros() throws PersistenciaException {
         return null; //TODO
     }
-
+    
     @Override
     public ReporteIncidente consultarReporteIncidentePorId(String id) throws PersistenciaException {
         ReporteIncidente reporteIncidente = historialIncidentes.consultarReporteIncidentePorId(id);
@@ -63,9 +75,15 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     //Re[prtes de Atenciones
     @Override
     public List<ReporteAtencion> consultarReportesAtencion() throws PersistenciaException {
+        List<ReporteAtencion> reportesAtenciones = historialAtenciones.consultarReportesAtencion();
+        return reportesAtenciones;
+    }
+    
+    @Override
+    public List<ReporteAtencion> consultarReportesAtencionFiltros() throws PersistenciaException {
         return null; //TODO
     }
-
+    
     @Override
     public ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException {
         ReporteAtencion reporteAtencion = historialAtenciones.consultarReporteAtencionPorId(id);
@@ -107,5 +125,7 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         EstadoReporte estado = catalogos.consultarEstadoPorNombre(nombre);
         return estado;
     }
+
+    
     
 }

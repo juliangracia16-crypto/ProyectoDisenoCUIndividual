@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface IHistorialAtencionesDAO {
     public abstract List<ReporteAtencion> consultarReportesAtencion() throws PersistenciaException; //agregar como parametro la dto de los filtros
+    public abstract List<ReporteAtencion> consultarReportesAtencionesFiltros() throws PersistenciaException;
     public abstract ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
     public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;

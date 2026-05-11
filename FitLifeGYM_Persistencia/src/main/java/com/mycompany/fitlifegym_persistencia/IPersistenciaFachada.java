@@ -18,11 +18,14 @@ public interface IPersistenciaFachada {
     public abstract Imagen guardarImagen(Imagen imagen) throws PersistenciaException;
     //Reportes de Incidentes
     public abstract List<ReporteIncidente> consultarReportesIncidentes() throws PersistenciaException; //Agregar como parametro DTO con los filtros
+    public abstract List<ReporteIncidente> consultarReportesIncidentesFiltros() throws PersistenciaException;
+    public abstract List<ReporteIncidente> consultarReportesIncidentesCliente(String id) throws PersistenciaException;
     public abstract ReporteIncidente consultarReporteIncidentePorId(String id) throws PersistenciaException;
     public abstract ReporteIncidente generarReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException;
     public abstract ReporteIncidente eliminarReporteIncidente(String idReporte) throws PersistenciaException;
     //Reportes de atenciones
     public abstract List<ReporteAtencion> consultarReportesAtencion() throws PersistenciaException; //agregar como parametro la dto de los filtros
+    public abstract List<ReporteAtencion> consultarReportesAtencionFiltros() throws PersistenciaException;
     public abstract ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
     public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;

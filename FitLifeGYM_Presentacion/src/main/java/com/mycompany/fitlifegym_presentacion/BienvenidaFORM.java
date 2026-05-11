@@ -137,7 +137,7 @@ public class BienvenidaFORM extends javax.swing.JFrame {
         btnQuejaSugerencia.addActionListener(this::btnQuejaSugerenciaActionPerformed);
 
         btnCerrarSesion.setBackground(new java.awt.Color(44, 44, 44));
-        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnCerrarSesion.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Salir");
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -253,7 +253,8 @@ public class BienvenidaFORM extends javax.swing.JFrame {
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         SesionUsuario.getInstancia().cerrarSesion();
-        //TODO Regresar a pantalla de seleccionar admin o cliente
+        control.navegarSeleccionAdminCliente();
+        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void configiracionPorMembresia() {

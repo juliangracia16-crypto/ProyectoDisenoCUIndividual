@@ -134,8 +134,16 @@ public class ControlForms implements ICUQuejasSugerencias{
         mostrarPantalla(new GenerarNuevoReporteFORM(this));
     }
     
+    public void navegarMisReportesGenerados(){
+        mostrarPantalla(new MisReportesGeneradosFORM(this));
+    }
+    
     public void navegarReporteGenerado(){
         mostrarPantalla(new ReporteGeneradoFORM(this));
+    }
+    
+    public void navegarSeleccionAdminCliente(){
+        mostrarPantalla(new SeleccionarAdminClienteFORM(this));
     }
     
     //Dialogs
@@ -330,6 +338,21 @@ public class ControlForms implements ICUQuejasSugerencias{
     @Override
     public ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
         return quejasSugerenciasCU.atenderReporteIncidente(reporteAtencion);
+    }
+
+    @Override
+    public List<ReporteAtencionDTO> consultarTodosLosReportesAtenciones() throws NegocioException {
+        return quejasSugerenciasCU.consultarTodosLosReportesAtenciones();
+    }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException {
+        return quejasSugerenciasCU.consultarTodosLosReportesIncidentes();
+    }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentesCliente(String id) throws NegocioException {
+        return quejasSugerenciasCU.consultarReportesIncidentesCliente(id);
     }
 
 }
