@@ -51,6 +51,10 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         try {
             Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
             Imagen imagenGuardada = fachada.guardarImagen(imagen);
+//            Imagen imagenGuardada = null;
+//            if(imagenGuardada != null){
+//                imagenGuardada = fachada.guardarImagen(imagen);
+//            }
             EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_INICIAL_REPORTE);
             Categoria categoria = fachada.consultarCategoriaPorNombre(reporte.categoria().categoria());
             
