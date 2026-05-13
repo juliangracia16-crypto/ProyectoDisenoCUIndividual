@@ -1,5 +1,5 @@
 
-package com.mycompany.fitlifegym_persistencia.fabricaDAO;
+package com.mycompany.fitlifegym_persistencia.fabricaPersistencia;
 
 import com.mycompany.fitlifegym_persistencia.CatalogosDAO;
 import com.mycompany.fitlifegym_persistencia.ClientesDAO;
@@ -12,27 +12,43 @@ import com.mycompany.fitlifegym_persistencia.IHistorialIncidentesDAO;
 import com.mycompany.fitlifegym_persistencia.IImagenesDAO;
 import com.mycompany.fitlifegym_persistencia.IMembresiaCompradaDAO;
 import com.mycompany.fitlifegym_persistencia.IMembresiaDAO;
-import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.ImagenesDAO;
 import com.mycompany.fitlifegym_persistencia.MembresiaCompradaListDAO;
 import com.mycompany.fitlifegym_persistencia.MembresiaListDAO;
-import com.mycompany.fitlifegym_persistencia.PersistenciaFachada;
 
 /**
  *
  * @author Julian
  */
 public class FabricaDAO {
-    public static IPersistenciaFachada crearPersistenciaFachada(){
-        
-        IHistorialIncidentesDAO historialIncidentes = new HistorialIncidentesDAO();
-        IHistorialAtencionesDAO historialAtenciones = new HistorialAtencionesDAO();
+    
+    public static ICatalogosDAO crearCatalogoDAO(){
         ICatalogosDAO catalogosDAO = new CatalogosDAO();
-        IImagenesDAO imagenesDAO = new ImagenesDAO();
-        IMembresiaDAO membresiaDAO = new MembresiaListDAO();
-        IMembresiaCompradaDAO membresiaCompradaDAO = new MembresiaCompradaListDAO();
-        IClientesDAO clientesDAO = new ClientesDAO();
-        
-        return  new PersistenciaFachada(historialAtenciones, historialIncidentes, imagenesDAO, catalogosDAO, clientesDAO, membresiaDAO, membresiaCompradaDAO);
+        return catalogosDAO;
     }
+    public static IHistorialIncidentesDAO crearHistorialIncidenteDAO(){
+        IHistorialIncidentesDAO historialIncidentes = new HistorialIncidentesDAO();
+        return historialIncidentes;
+    }
+    public static IHistorialAtencionesDAO crearHistorialAtencionDAO(){
+        IHistorialAtencionesDAO historialAtenciones = new HistorialAtencionesDAO();
+        return historialAtenciones;
+    }
+    public static IMembresiaDAO crearMembresiaDAO(){
+        IMembresiaDAO membresiaDAO = new MembresiaListDAO();
+        return membresiaDAO;
+    }
+    public static IMembresiaCompradaDAO crearMembresiaCompradaDAO(){
+        IMembresiaCompradaDAO membresiaCompradaDAO = new MembresiaCompradaListDAO();
+        return membresiaCompradaDAO;
+    }
+    public static IImagenesDAO crearImagenDAO(){
+        IImagenesDAO imagenesDAO = new ImagenesDAO();
+        return imagenesDAO;
+    }
+    public static IClientesDAO crearClientesDAO(){
+        IClientesDAO clientesDAO = new ClientesDAO();
+        return clientesDAO;
+    }
+    
 }

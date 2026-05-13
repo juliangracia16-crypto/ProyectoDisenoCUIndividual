@@ -17,7 +17,7 @@ import com.mycompany.fitlifegym_negocio.LoginBO;
 import com.mycompany.fitlifegym_negocio.MembresiaBO;
 import com.mycompany.fitlifegym_negocio.MembresiaCompradaBO;
 import com.mycompany.fitlifegym_negocio.RenovarMembresiaBO;
-import com.mycompany.fitlifegym_persistencia.fabricaDAO.FabricaDAO;
+import com.mycompany.fitlifegym_persistencia.fabricaPersistencia.FabricaFachada;
 
 /**
  *
@@ -26,27 +26,27 @@ import com.mycompany.fitlifegym_persistencia.fabricaDAO.FabricaDAO;
 public class FabricaBO {
     
     public static IHistorialIncidentesBO crearHistorialIncidenteBO(){
-        return new HistorialIncidentesBO( FabricaDAO.crearPersistenciaFachada());
+        return new HistorialIncidentesBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static IHistorialAtencionesBO crearHistorialAtencionBO(){
-        return new HistorialAtencionesBO( FabricaDAO.crearPersistenciaFachada());
+        return new HistorialAtencionesBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static ICatalogosBO crearCatalogosBO(){
-        return new CatalogosBO( FabricaDAO.crearPersistenciaFachada());
+        return new CatalogosBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static IMembresiaBO crearMembresiaBO(){
-        return new MembresiaBO( FabricaDAO.crearPersistenciaFachada());
+        return new MembresiaBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static IMembresiaCompradaBO crearMembresiaCompradaBO(){
-        return new MembresiaCompradaBO( FabricaDAO.crearPersistenciaFachada());
+        return new MembresiaCompradaBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static IClientesBO crearClientesBO(){
-        return new ClientesBO( FabricaDAO.crearPersistenciaFachada());
+        return new ClientesBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static ILoginBO crearLoginBO(){
-        return new LoginBO( FabricaDAO.crearPersistenciaFachada());
+        return new LoginBO( FabricaFachada.crearPersistenciaFachada());
     }
     public static IRenovarMembresiaBO crearRenovarMembresiaBO(){
-        return new RenovarMembresiaBO( FabricaDAO.crearPersistenciaFachada());
+        return new RenovarMembresiaBO( FabricaFachada.crearPersistenciaFachada());
     }
 }
