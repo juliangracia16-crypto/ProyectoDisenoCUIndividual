@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.ImagenDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
-import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import java.io.File;
@@ -234,14 +231,14 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
             String descripcion = txtAreaDescripcion.getText();
             ImagenDTO imagen = null;
             if (this.imagenSeleccionada != null) {
-                imagen = new ImagenDTO(this.imagenSeleccionada);
+                imagen = new ImagenDTO(this.imagenSeleccionada,null);
             }
             LocalDate fechaGenerado = LocalDate.now();
             NuevoReporteIncidenteDTO reporteIncidente = new NuevoReporteIncidenteDTO(
                     asunto, nombreCategoria, descripcion, fechaGenerado, imagen,
                     SesionUsuario.getInstancia().getClienteActual()
             );
-            ReporteIncidenteDTO reporteGenerado = control.generarReporteIncidente(reporteIncidente);
+            ReporteIncidenteGeneradoDTO reporteGenerado = control.generarReporteIncidente(reporteIncidente);
             return reporteGenerado != null;
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog( this, "Error al generar el reporte de incidente. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

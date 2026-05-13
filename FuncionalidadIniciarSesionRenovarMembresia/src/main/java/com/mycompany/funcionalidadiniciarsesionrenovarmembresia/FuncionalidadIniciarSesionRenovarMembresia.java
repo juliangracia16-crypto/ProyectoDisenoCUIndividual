@@ -6,13 +6,13 @@ package com.mycompany.funcionalidadiniciarsesionrenovarmembresia;
 
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.LoginDTO;
+import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.RenovarMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.ILoginBO;
 import com.mycompany.fitlifegym_negocio.IMembresiaBO;
 import com.mycompany.fitlifegym_negocio.IRenovarMembresiaBO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
-import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import java.util.List;
 
 /**
@@ -52,8 +52,8 @@ public class FuncionalidadIniciarSesionRenovarMembresia implements IFuncionalida
     }
 
     @Override
-    public List<Membresia> consultarMembresias() throws NegocioException {
-        List<Membresia> membresias = membresiaBO.obtenerTodas();
+    public List<NuevaMembresiaDTO> consultarMembresias() throws NegocioException {
+        List<NuevaMembresiaDTO> membresias = membresiaBO.obtenerTodas();
 
         if (membresias == null || membresias.isEmpty()) {
             throw new NegocioException("No hay tipos de membresia disponibles.");
@@ -80,17 +80,17 @@ public class FuncionalidadIniciarSesionRenovarMembresia implements IFuncionalida
     }
 
     @Override
-    public Membresia buscarMembresiaPorTipo(TipoMembresiaDTO tipo) throws NegocioException {
+    public NuevaMembresiaDTO buscarMembresiaPorTipo(TipoMembresiaDTO tipo) throws NegocioException {
         if (tipo == null) {
             throw new NegocioException("El tipo de membresia no puede ser nulo.");
         }
 
-        List<Membresia> membresias = membresiaBO.obtenerTodas();
+        List<NuevaMembresiaDTO> membresias = membresiaBO.obtenerTodas();
         if (membresias == null || membresias.isEmpty()) {
             throw new NegocioException("No hay membresias disponibles.");
         }
 
-        for (Membresia m : membresias) {
+        for (NuevaMembresiaDTO m : membresias) {
             if (m.getTipoMembresia().name().equals(tipo.name())) {
                 return m;
             }

@@ -4,6 +4,10 @@
  */
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Julian
@@ -11,14 +15,23 @@ package com.mycompany.fitlifegym_presentacion;
 public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DetallesReporteSeleccionadoMisReportesGeneradosFORM.class.getName());
-
-    /**
-     * Creates new form DetallesReporteSeleccionadoFORM
-     */
-    public DetallesReporteSeleccionadoMisReportesGeneradosFORM() {
+    private ControlForms control;
+    private ReporteIncidenteDTO reporteSeleccionado;
+    
+    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
     }
-
+    
+    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(ControlForms control, ReporteIncidenteDTO reporteSeleccionado) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        this.reporteSeleccionado = reporteSeleccionado;
+        mostrarDetallesReporte();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +62,7 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
         btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -63,18 +77,19 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         jLabel1.setText("Folio: ");
 
         txtFolioReporte.setEditable(false);
-        txtFolioReporte.setBackground(new java.awt.Color(102, 102, 102));
+        txtFolioReporte.setBackground(new java.awt.Color(255, 255, 255));
         txtFolioReporte.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtFolioReporte.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setForeground(new java.awt.Color(0, 0, 0));
 
         lblDescripcionReporte.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDescripcionReporte.setForeground(new java.awt.Color(255, 255, 255));
         lblDescripcionReporte.setText("Descripción: ");
 
         txtAreaDescripcion.setEditable(false);
-        txtAreaDescripcion.setBackground(new java.awt.Color(102, 102, 102));
+        txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setColumns(20);
-        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         txtAreaDescripcion.setRows(5);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
@@ -151,29 +166,27 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+        control.navegarMisReportesGenerados();
+        this.dispose();
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
+    
+    private void mostrarDetallesReporte(){
+        txtFolioReporte.setText(reporteSeleccionado.asunto());
+        txtAreaDescripcion.setText(reporteSeleccionado.descripcion());
+        if (reporteSeleccionado.imagen() != null) {
+            ImageIcon icono = new ImageIcon(reporteSeleccionado.imagen().imagen());
+            Image imagenEscalada = icono.getImage().getScaledInstance(
+                    lblLugarImagen.getWidth(),
+                    lblLugarImagen.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DetallesReporteSeleccionadoMisReportesGeneradosFORM().setVisible(true));
+            lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+        } else {
+            lblImagen.setText("REPORTE SIN IMAGEN");
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

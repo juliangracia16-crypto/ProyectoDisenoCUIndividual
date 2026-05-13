@@ -1,16 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
-import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
+import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
-import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
-import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,7 +29,7 @@ public class TransferenciaFORM extends javax.swing.JDialog {
 
     private void cargarMonto() {
         try {
-            Membresia m = control.buscarMembresiaPorTipo(this.membresia);
+            NuevaMembresiaDTO m = control.buscarMembresiaPorTipo(this.membresia);
             textMonto.setText("Monto: $" + m.getPrecio());
         } catch (NegocioException ex) {
             textMonto.setText("Monto: error al cargar");

@@ -4,11 +4,11 @@ package com.mycompany.cuquejassugerencias;
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
-import com.mycompany.fitlifegym_dtos.FiltrosConsultaIncidenteDTO;
-import com.mycompany.fitlifegym_dtos.FiltrosConsultasAtencionesDTO;
+import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_negocio.ICatalogosBO;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
@@ -46,28 +46,34 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     }
 
     @Override
-    public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaIncidenteDTO filtros) throws NegocioException {
+    public ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException {
+        ReporteIncidenteDTO reporteIncidente = historialIncidentesBO.consultarReporteIncidentePorFolio(folio);
+        return reporteIncidente;
+    }
+    
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         validarFechasFiltro(filtros.fechaDesde(),filtros.fechaHasta());
         List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes(filtros);
         return reportesIncidentes;
     }
 
     @Override
-    public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultasAtencionesDTO filtros) throws NegocioException {
+    public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         validarFechasFiltro(filtros.fechaDesde(),filtros.fechaHasta());
-        validarNombreFiltro(filtros.nombreCliente());
+        validarNombreFiltro(filtros.cliente());
         List<ReporteAtencionDTO> reportesAtenciones = historialAtencionesBO.consultarReportesAtenciones(filtros);
         return reportesAtenciones;
     }
 
     @Override
-    public ReporteIncidenteDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException {
+    public ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException {
         validarDescripcionReporteIncidente(reporteIncidente.descripcion());
         if(reporteIncidente.imagen() != null){
             validarImagen(reporteIncidente.imagen().imagen());
         }
         validarAsuntoReporteIncidente(reporteIncidente.asunto());
-        ReporteIncidenteDTO reporteIncidenteGenerado = historialIncidentesBO.generarReporteIncidente(reporteIncidente);
+        ReporteIncidenteGeneradoDTO reporteIncidenteGenerado = historialIncidentesBO.generarReporteIncidente(reporteIncidente);
         return reporteIncidenteGenerado;
     }
 
@@ -87,12 +93,6 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     @Override
     public List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException {
         List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes();
-        return reportesIncidentes;
-    }
-    
-    @Override
-    public List<ReporteIncidenteDTO> consultarReportesIncidentesCliente(String id) throws NegocioException {
-        List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentesCliente(id);
         return reportesIncidentes;
     }
     

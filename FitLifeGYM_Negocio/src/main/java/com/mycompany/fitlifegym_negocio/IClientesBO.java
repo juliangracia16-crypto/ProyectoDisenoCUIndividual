@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package com.mycompany.fitlifegym_negocio;
 
+import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
-import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import java.util.List;
 
 /**
@@ -14,9 +11,9 @@ import java.util.List;
  */
 public interface IClientesBO {
 
-    public abstract Cliente registrarCliente(NuevoClienteDTO cliente)throws NegocioException;
+    public abstract ClienteLogueadoDTO registrarCliente(NuevoClienteDTO cliente)throws NegocioException;
 
-    public abstract Cliente buscarClientePorId(String id)throws NegocioException;
+    public abstract ClienteLogueadoDTO buscarClientePorId(String id)throws NegocioException;
 
-    public abstract List<Cliente> consultarClientes() throws NegocioException;
+    public abstract List<ClienteLogueadoDTO> consultarClientes() throws NegocioException;
 }

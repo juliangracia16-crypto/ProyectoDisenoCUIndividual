@@ -7,11 +7,6 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>AbsoluteLayout</artifactId>
-            <version>RELEASE280</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>FitLifeGYM_Dtos</artifactId>
             <version>${project.version}</version>
@@ -20,11 +15,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>FitLifeGYM_Negocio</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>FitLifeGYM_Persistencia</artifactId>
-            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mycompany</groupId>
+                    <artifactId>FitLifeGYM_Persistencia</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <properties>

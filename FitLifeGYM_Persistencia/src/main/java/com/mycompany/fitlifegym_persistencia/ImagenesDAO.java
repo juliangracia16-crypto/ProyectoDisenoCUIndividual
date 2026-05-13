@@ -60,8 +60,8 @@ public class ImagenesDAO implements IImagenesDAO, IBaseMongoDAO{
             if(!resultado.wasAcknowledged()){
                 throw new PersistenciaException("No se pudo guardar la imagen correctamente.");
             }
-            
-            imagen.setId(resultado.getInsertedId().toString());
+            String id = resultado.getInsertedId().asObjectId().getValue().toHexString();
+            imagen.setId(id);
             return imagen;
          }
     }

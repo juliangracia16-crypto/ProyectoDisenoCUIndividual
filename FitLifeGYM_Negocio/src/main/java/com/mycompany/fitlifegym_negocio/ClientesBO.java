@@ -5,11 +5,12 @@
 package com.mycompany.fitlifegym_negocio;
 
 import Adapter.DtosAEntidadesAdapter;
+import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
-import com.mycompany.fitlifegym_persistencia.IClientesDAO;
+import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,40 +19,45 @@ import java.util.List;
  */
 public class ClientesBO implements IClientesBO {
 
-    private final IClientesDAO clientesDAO;
+    private final IPersistenciaFachada fachada;
 
-    public ClientesBO(IClientesDAO clientesDAO) {
-        this.clientesDAO = clientesDAO;
+    public ClientesBO(IPersistenciaFachada fachada) {
+        this.fachada = fachada;
     }
 
     @Override
-    public Cliente registrarCliente(NuevoClienteDTO clienteDTO) throws NegocioException{
+    public ClienteLogueadoDTO registrarCliente(NuevoClienteDTO clienteDTO) throws NegocioException{
         Cliente cliente = DtosAEntidadesAdapter.adaptarClienteDTO(clienteDTO);      
         try {
-            return clientesDAO.registrarCliente(cliente);
+            Cliente clienteGuardado = fachada.registrarCliente(cliente);
+            ClienteLogueadoDTO clienteAgregadoDTO = DtosAEntidadesAdapter.adaptarClienteEntidad(clienteGuardado);
+            return clienteAgregadoDTO;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al registrar el cliente",ex);
         }
     }
 
     @Override
-    public Cliente buscarClientePorId(String id) throws NegocioException{
-
-        if(id == null){
-            throw new NegocioException("Se debe de colocar un ID.");
-        }
-        
+    public ClienteLogueadoDTO buscarClientePorId(String id) throws NegocioException{
         try {
-            return clientesDAO.consultarClientePorId(id);
+            Cliente cliente = fachada.consultarClientePorId(id);
+            ClienteLogueadoDTO clienteDTO = DtosAEntidadesAdapter.adaptarClienteEntidad(cliente);
+            return clienteDTO;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al registrar el cliente",ex);
         }
     }
 
     @Override
-    public List<Cliente> consultarClientes() throws NegocioException{
+    public List<ClienteLogueadoDTO> consultarClientes() throws NegocioException{
         try {
-            return clientesDAO.consultarClientes();
+            List<Cliente> clientes = fachada.consultarClientes();
+            List<ClienteLogueadoDTO> clientesDTO = new LinkedList<>();
+            for(Cliente c: clientes){
+                ClienteLogueadoDTO cliente = DtosAEntidadesAdapter.adaptarClienteEntidad(c);
+                clientesDTO.add(cliente);
+            }
+            return clientesDTO;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al registrar el cliente",ex);
         }

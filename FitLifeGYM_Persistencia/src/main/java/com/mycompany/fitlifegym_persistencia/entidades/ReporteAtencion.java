@@ -18,30 +18,38 @@ public class ReporteAtencion {
     private String folio;
     private String solucion;
     private LocalDate fecha;
-    private EstadoReporte estado;
-    private Categoria categoria;
-    private Imagen imagen;
-    private Cliente cliente;
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idEstado;
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idCategoria;
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idImagen;
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idCliente;
 
-    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, EstadoReporte estado, Categoria categoria, Imagen imagen, Cliente cliente) {
+    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
         this.id = id;
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
-        this.estado = estado;
-        this.categoria = categoria;
-        this.imagen = imagen;
-        this.cliente = cliente;
+        this.idEstado = idEstado;
+        this.idCategoria = idCategoria;
+        this.idImagen = idImagen;
+        this.idCliente = idCliente;
     }
 
-    public ReporteAtencion(String folio, String solucion, LocalDate fecha, EstadoReporte estado, Categoria categoria, Imagen imagen, Cliente cliente) {
+    public ReporteAtencion(String folio, String solucion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
-        this.estado = estado;
-        this.categoria = categoria;
-        this.imagen = imagen;
-        this.cliente = cliente;
+        this.idEstado = idEstado;
+        this.idCategoria = idCategoria;
+        this.idImagen = idImagen;
+        this.idCliente = idCliente;
     }
 
     public String getId() {
@@ -52,12 +60,12 @@ public class ReporteAtencion {
         this.id = id;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public String getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setIdCategoria(String idCategoria) {
+        this.idCategoria = idCategoria;
     }
     
     
@@ -86,28 +94,28 @@ public class ReporteAtencion {
         this.fecha = fecha;
     }
 
-    public EstadoReporte getEstado() {
-        return estado;
+    public String getIdEstado() {
+        return idEstado;
     }
 
-    public void setEstado(EstadoReporte estado) {
-        this.estado = estado;
+    public void setIdEstado(String idEstado) {
+        this.idEstado = idEstado;
     }
 
-    public Imagen getImagen() {
-        return imagen;
+    public String getIdImagen() {
+        return idImagen;
     }
 
-    public void setImagen(Imagen imagen) {
-        this.imagen = imagen;
+    public void setIdImagen(String idImagen) {
+        this.idImagen = idImagen;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
 
     @Override
@@ -134,7 +142,7 @@ public class ReporteAtencion {
 
     @Override
     public String toString() {
-        return "ReporteAtencion{" + "id=" + id + ", folio=" + folio + ", solucion=" + solucion + ", fecha=" + fecha + ", estado=" + estado + ", imagen=" + imagen + ", cliente=" + cliente + '}';
+        return "ReporteAtencion{" + "id=" + id + ", folio=" + folio + ", solucion=" + solucion + ", fecha=" + fecha + ", estado=" + idEstado + ", imagen=" + idImagen + ", cliente=" + idCliente + '}';
     }
     
 }

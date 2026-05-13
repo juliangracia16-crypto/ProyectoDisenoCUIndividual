@@ -7,12 +7,12 @@ import java.time.LocalDate;
  *
  * @author Julian
  */
-public record FiltrosConsultasAtencionesDTO(
-        String nombreCliente,
+public record FiltrosConsultaHistorialReportesNegocioDTO(
+        String cliente, 
         EstadoReporteDTO estado,
         CategoriaDTO categoria,
         LocalDate fechaDesde,
         LocalDate fechaHasta
     ) {
-
+    
 }

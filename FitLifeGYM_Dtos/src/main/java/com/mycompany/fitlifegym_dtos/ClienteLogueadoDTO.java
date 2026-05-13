@@ -10,7 +10,7 @@ public class ClienteLogueadoDTO {
     private final String idCliente;
 
     private final String nombre;
-    private final String apellido;
+    private  String apellido;
     private  TipoMembresiaDTO membresiaActiva;
 
     private  EstadoDTO estadoMembresia;
@@ -27,6 +27,11 @@ public class ClienteLogueadoDTO {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
+    }
+    
+    public ClienteLogueadoDTO(String idCliente, String nombre){
+        this.idCliente = idCliente;
+        this.nombre = nombre;
     }
     
     public String getNombre() {

@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
@@ -20,15 +18,26 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MisReportesGeneradosFORM.class.getName());
     private ControlForms control;
-    
+    private FiltrosConsultaHistorialReportesNegocioDTO filtros;
+    private List<ReporteIncidenteDTO> reportesIncidentes;
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
     public MisReportesGeneradosFORM(ControlForms control) {
         initComponents();
+        ocultarFolioTabla();
         this.control = control;
         this.setLocationRelativeTo(null);
-        llenarTablaReportes();
+        cargarTabla();
+        colorBotones();
+    }
+    public MisReportesGeneradosFORM(ControlForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+        initComponents();
+        this.control = control;
+        this.filtros = filtros;
+        this.setLocationRelativeTo(null);
+        ocultarFolioTabla();
+        llenarTablaReportesFiltros();
         colorBotones();
     }
 
@@ -68,20 +77,21 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         btnBuscadorReportes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnBuscadorReportes.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscadorReportes.setText("Buscador Reportes");
+        btnBuscadorReportes.addActionListener(this::btnBuscadorReportesActionPerformed);
 
         tblRegistrosReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha"
+                "Folio", "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -93,10 +103,12 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         btnSeleccionarReporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSeleccionarReporte.setForeground(new java.awt.Color(255, 255, 255));
         btnSeleccionarReporte.setText("Seleccionar Reporte");
+        btnSeleccionarReporte.addActionListener(this::btnSeleccionarReporteActionPerformed);
 
         btnMostrarTodos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMostrarTodos.setForeground(new java.awt.Color(255, 255, 255));
         btnMostrarTodos.setText("Mostrar Todos");
+        btnMostrarTodos.addActionListener(this::btnMostrarTodosActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,18 +172,72 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         control.navegarInicioBuzonQuejas();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnBuscadorReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorReportesActionPerformed
+        control.navegarBuscadorMisReportesCliente();
+        this.dispose();
+    }//GEN-LAST:event_btnBuscadorReportesActionPerformed
+
+    private void btnMostrarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodosActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_btnMostrarTodosActionPerformed
+
+    private void btnSeleccionarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarReporteActionPerformed
+        ReporteIncidenteDTO reporteSeleccionado = seleccionarReporte();
+        if(reporteSeleccionado == null){
+            JOptionPane.showMessageDialog(this,"Seleccione un reporte.");
+            return;
+        }
+        control.navegarDetallesReporteSeleccionadoCliente(reporteSeleccionado);
+        this.dispose();
+    }//GEN-LAST:event_btnSeleccionarReporteActionPerformed
     
-    private void llenarTablaReportes() {
+    private ReporteIncidenteDTO seleccionarReporte(){
         try {
-            List<ReporteIncidenteDTO> reportesIncidentes = control.consultarReportesIncidentesCliente(SesionUsuario.getInstancia().getClienteActual().getIdCliente());
-            DefaultTableModel modelo
-                    = (DefaultTableModel) tblRegistrosReportes.getModel();
+            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
+            
+            if (filaSeleccionada == -1) {
+                return null;
+            }
+            
+            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
+            
+            ReporteIncidenteDTO reporte = control.consultarReporteIncidentePorFolio(folio);
+            return reporte;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this,"Error al cargar los reportes.", "Error",JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
+    private void cargarTabla() {
+        try {
+            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentes(
+                new FiltrosConsultaHistorialReportesNegocioDTO(SesionUsuario.getInstancia().getClienteActual().getIdCliente(),null,null,null,null)
+            );
+            llenarTablaReportes(reportes);
+        } catch (NegocioException ex) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al cargar los reportes.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void llenarTablaReportesFiltros(){
+        try {
+            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentes(filtros);
+            DefaultTableModel modelo = (DefaultTableModel) tblRegistrosReportes.getModel();
             
             modelo.setRowCount(0);
             
-            for (ReporteIncidenteDTO reporte : reportesIncidentes) {
+            for (ReporteIncidenteDTO reporte : reportes) {
                 
                 Object[] fila = {
+                    reporte.folio(),
                     reporte.asunto(),
                     reporte.categoria().categoria(),
                     reporte.estado().estado(),
@@ -185,7 +251,40 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
             JOptionPane.showMessageDialog( this, "Error al cargar los reportes de incidentes. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-        
+    
+    private void llenarTablaReportes(List<ReporteIncidenteDTO> reportes) {
+            this.reportesIncidentes = reportes;
+            DefaultTableModel modelo = (DefaultTableModel) tblRegistrosReportes.getModel();
+            
+            modelo.setRowCount(0);
+            
+            for (ReporteIncidenteDTO reporte : reportesIncidentes) {
+                
+                Object[] fila = {
+                    reporte.folio(),
+                    reporte.asunto(),
+                    reporte.categoria().categoria(),
+                    reporte.estado().estado(),
+                    reporte.cliente().getNombreCompleto(),
+                    reporte.fecha().toString()
+                };
+                
+                modelo.addRow(fila);
+            }
+    }
+    private void ocultarFolioTabla(){
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setMinWidth(0);
+
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setMaxWidth(0);
+
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setWidth(0);
+    }
     private void colorBotones(){
         btnBuscadorReportes.setBackground(new Color(86,86,86));
         btnBuscadorReportes.setForeground(Color.WHITE);

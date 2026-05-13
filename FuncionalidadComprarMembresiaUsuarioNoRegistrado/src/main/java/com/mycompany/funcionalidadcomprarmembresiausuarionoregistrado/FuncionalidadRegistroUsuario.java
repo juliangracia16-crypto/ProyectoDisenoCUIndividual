@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.funcionalidadcomprarmembresiausuarionoregistrado;
 
+import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_negocio.IClientesBO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
-import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import java.util.List;
 
 /**
@@ -33,7 +30,7 @@ public class FuncionalidadRegistroUsuario implements IFuncionalidadRegistrarUsua
     }
 
     @Override
-    public List<Cliente> obtenerTodas() throws NegocioException {
+    public List<ClienteLogueadoDTO> obtenerTodas() throws NegocioException {
         try {
             return clientesBO.consultarClientes();
         } catch (NegocioException ex) {
@@ -63,23 +60,9 @@ public class FuncionalidadRegistroUsuario implements IFuncionalidadRegistrarUsua
             throw new NegocioException("Ingrese un PIN con al menos 4 números.");
         }
 
-        // Validar que el PIN y el correo no esten duplicados Dieguin
-        List<Cliente> clientesExistentes = clientesBO.consultarClientes();
-        if (clientesExistentes != null) {
-            for (Cliente c : clientesExistentes) {
-                if (c.getPin() != null && c.getPin().equals(clienteDTO.getPin())) {
-                    throw new NegocioException("El PIN ya esta en uso por favor elige otro.");
-                }
-                if (c.getCorreo() != null && c.getCorreo().equalsIgnoreCase(clienteDTO.getCorreo())) {
-                    throw new NegocioException("El correo ya está registrado por favor usa otro.");
-                }
-            }
-        }
-
     }
 
-    @Override
-    public void validarTarjeta(String cvv, String numeroTarjeta, String fechaVencimiento, String nombreTitular) throws NegocioException {
+    private void validarTarjeta(String cvv, String numeroTarjeta, String fechaVencimiento, String nombreTitular) throws NegocioException {
         if (!numeroTarjeta.matches("\\d{16}")) {
             throw new NegocioException("La tarjeta debe tener exactamente 16 números.");
         }
@@ -97,8 +80,7 @@ public class FuncionalidadRegistroUsuario implements IFuncionalidadRegistrarUsua
         }
     }
 
-    @Override
-    public void validarPaypal(String correo, String contrasenia) throws NegocioException {
+    private void validarPaypal(String correo, String contrasenia) throws NegocioException {
         if (!correo.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new NegocioException("Formato de correo inválido");
         }

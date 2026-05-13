@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
-import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;

@@ -1,10 +1,10 @@
 
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
-import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -17,7 +17,7 @@ public class BeneficiosFORM extends javax.swing.JFrame {
 
     private ControlForms control;
     private NuevoClienteDTO cliente; 
-    private List<Membresia> membresiasDisponibles;
+    private List<NuevaMembresiaDTO> membresiasDisponibles;
 
     public BeneficiosFORM(ControlForms control, NuevoClienteDTO cliente) {
         this.control = control;
@@ -299,7 +299,7 @@ public class BeneficiosFORM extends javax.swing.JFrame {
                 break;
         }
 
-        Membresia seleccionada = buscarMembresiaPorNombre(membresia);
+        NuevaMembresiaDTO seleccionada = buscarMembresiaPorNombre(membresia);
         if (seleccionada != null && seleccionada.getPrecio() != null) {
             btnPrecio.setText("$" + seleccionada.getPrecio());
         }
@@ -320,7 +320,7 @@ public class BeneficiosFORM extends javax.swing.JFrame {
         }
     }
 
-    private Membresia buscarMembresiaPorNombre(String nombre) {
+    private NuevaMembresiaDTO buscarMembresiaPorNombre(String nombre) {
         try {
             TipoMembresiaDTO tipo = control.seleccionarMembresia(nombre);
             return control.buscarMembresiaPorTipo(tipo);

@@ -1,16 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.fitlifegym_negocio;
 
 import Adapter.DtosAEntidadesAdapter;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
-import com.mycompany.fitlifegym_persistencia.IMembresiaDAO;
+import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
 import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,11 +16,11 @@ import java.util.List;
  */
 public class MembresiaBO implements IMembresiaBO {
 
-    private IMembresiaDAO membresiaDAO;
+    private IPersistenciaFachada fachada;
    
 
-    public MembresiaBO(IMembresiaDAO membresiaDAO) {
-        this.membresiaDAO = membresiaDAO;
+    public MembresiaBO(IPersistenciaFachada fachada) {
+        this.fachada = fachada;
     }
 
     @Override
@@ -46,30 +43,33 @@ public class MembresiaBO implements IMembresiaBO {
         }
         Membresia membresia = DtosAEntidadesAdapter.adaptarMembresia(membresiaDTO);
         try {
-            membresiaDAO.guardar(membresia);
+            fachada.guardar(membresia);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al guardar la membresia.",ex);
         }
     }
 
     @Override
-    public List<Membresia> obtenerTodas() throws NegocioException{
+    public List<NuevaMembresiaDTO> obtenerTodas() throws NegocioException{
         try {
-            return membresiaDAO.obtenerTodas();
+            List<Membresia> membresias =  fachada.obtenerTodas();
+            List<NuevaMembresiaDTO> membresiasDTO = new LinkedList<>();
+            for(Membresia m: membresias){
+                NuevaMembresiaDTO membresiaDTO = DtosAEntidadesAdapter.adaptarMembresiaEntidad(m);
+                membresiasDTO.add(membresiaDTO);
+            }
+            return membresiasDTO;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al obtener las membresias",ex);
         }
     }
 
     @Override
-    public Membresia obtenerPorId(Long id) throws NegocioException{
-
-        if(id == null){
-            throw new NegocioException("El ID no puede ser nulo.");
-        }
-
+    public NuevaMembresiaDTO obtenerPorId(Long id) throws NegocioException{
         try {
-            return membresiaDAO.obtenerPorId(id);
+            Membresia membresiaEntidad = fachada.obtenerPorId(id);
+            NuevaMembresiaDTO membresia = DtosAEntidadesAdapter.adaptarMembresiaEntidad(membresiaEntidad);
+            return membresia;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al obtener membresia por ID.",ex);
         }

@@ -13,13 +13,14 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>FitLifeGYM_Persistencia</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>FitLifeGYM_Negocio</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mycompany</groupId>
+                    <artifactId>FitLifeGYM_Persistencia</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -30,11 +31,23 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>FuncionalidadComprarMembresiaUsuarioNoRegistrado</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mycompany</groupId>
+                    <artifactId>FitLifeGYM_Persistencia</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>FuncionalidadIniciarSesionRenovarMembresia</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mycompany</groupId>
+                    <artifactId>FitLifeGYM_Persistencia</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.lgooddatepicker</groupId>
@@ -44,6 +57,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>CUQuejasSugerencias</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FitLifeGYM_Persistencia</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
