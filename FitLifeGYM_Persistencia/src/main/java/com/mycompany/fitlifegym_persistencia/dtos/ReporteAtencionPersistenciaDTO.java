@@ -9,6 +9,7 @@ import java.time.LocalDate;
  */
 public class ReporteAtencionPersistenciaDTO {
     private String folio;
+    private String asunto;
     private String solucion;
     private CategoriaPersistenciaDTO categoria;
     private LocalDate fecha;
@@ -19,8 +20,9 @@ public class ReporteAtencionPersistenciaDTO {
     public ReporteAtencionPersistenciaDTO() {
     }
     
-    public ReporteAtencionPersistenciaDTO(String folio, String solucion, CategoriaPersistenciaDTO categoria, LocalDate fecha, EstadoReportePersistenciaDTO estado, ImagenPersistenciaDTO imagen, ClientePersistenciaDTO cliente) {
+    public ReporteAtencionPersistenciaDTO(String folio, String asunto, String solucion, CategoriaPersistenciaDTO categoria, LocalDate fecha, EstadoReportePersistenciaDTO estado, ImagenPersistenciaDTO imagen, ClientePersistenciaDTO cliente) {
         this.folio = folio;
+        this.asunto = asunto;
         this.solucion = solucion;
         this.categoria = categoria;
         this.fecha = fecha;
@@ -29,6 +31,14 @@ public class ReporteAtencionPersistenciaDTO {
         this.cliente = cliente;
     }
 
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+    
     public String getFolio() {
         return folio;
     }

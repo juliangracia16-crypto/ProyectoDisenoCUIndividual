@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface IHistorialAtencionesDAO {
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException;
-    public abstract List<ReporteAtencion> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
-    public abstract ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException;
+    public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
+    public abstract ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
     public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;
 }

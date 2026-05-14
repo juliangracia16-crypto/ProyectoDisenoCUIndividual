@@ -1,8 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
+
+import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_negocio.NegocioException;
+import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,12 +18,19 @@ package com.mycompany.fitlifegym_presentacion;
 public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ReportesQuejasClientesFORM.class.getName());
-
+    private ControlForms control;
+    private List<RegistroReporteAdminDTO> registrosReportes;
+    private FiltrosConsultaHistorialReportesNegocioDTO filtros;
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
-    public ReportesQuejasClientesFORM() {
+    public ReportesQuejasClientesFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        ocultarFolioTabla();
+        this.control = control;
+        cargarTabla();
+        colorBotones();
     }
 
     /**
@@ -47,6 +61,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
         btnSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -58,17 +73,17 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
 
         tblRegistrosReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha"
+                "Folio", "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -149,31 +164,105 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        control.navegarMenuPrincipalAdmin();
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+    
+    private ReporteIncidenteDTO seleccionarReporteIncidente() {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                return null;
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+
+            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
+
+            ReporteIncidenteDTO reporte = control.consultarReporteIncidentePorFolio(folio);
+            return reporte;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los reportes.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ReportesQuejasClientesFORM().setVisible(true));
     }
+    private ReporteAtencionDTO seleccionarReporteAtencion() {
+        try {
+            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
 
+            if (filaSeleccionada == -1) {
+                return null;
+            }
+
+            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
+
+            ReporteAtencionDTO reporte = control.consultarReporteAtencionPorFolio(folio);
+            return reporte;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los reportes.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
+    private void cargarTabla() {
+        try {
+            List<RegistroReporteAdminDTO> reportes = control.consultarTodosLosReportes();
+            llenarTablaReportes(reportes);
+        } catch (NegocioException ex) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al cargar los reportes.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    private void llenarTablaReportes(List<RegistroReporteAdminDTO> reportes) {
+            this.registrosReportes = reportes;
+            DefaultTableModel modelo = (DefaultTableModel) tblRegistrosReportes.getModel();
+            
+            modelo.setRowCount(0);
+            
+            for (RegistroReporteAdminDTO reporte : registrosReportes) {
+                
+                Object[] fila = {
+                    reporte.folio(),
+                    reporte.asunto(),
+                    reporte.categoria().categoria(),
+                    reporte.estado().estado(),
+                    reporte.cliente().getNombreCompleto(),
+                    reporte.fecha().toString()
+                };
+                
+                modelo.addRow(fila);
+            }
+    }
+    private void ocultarFolioTabla(){
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setMinWidth(0);
+
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setMaxWidth(0);
+
+        tblRegistrosReportes.getColumnModel()
+                .getColumn(0)
+                .setWidth(0);
+    }
+    
+    private void colorBotones(){
+        btnBuscadorReportes.setBackground(new Color(86,86,86));
+        btnBuscadorReportes.setForeground(Color.WHITE);
+        btnSeleccionarReporte.setBackground(new Color(86,86,86));
+        btnSeleccionarReporte.setForeground(Color.WHITE);
+        btnMostrarTodos.setBackground(new Color(86,86,86));
+        btnMostrarTodos.setForeground(Color.WHITE);
+        btnExportarPdf.setBackground(new Color(86,86,86));
+        btnExportarPdf.setForeground(Color.WHITE);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscadorReportes;
     private javax.swing.JButton btnExportarPdf;

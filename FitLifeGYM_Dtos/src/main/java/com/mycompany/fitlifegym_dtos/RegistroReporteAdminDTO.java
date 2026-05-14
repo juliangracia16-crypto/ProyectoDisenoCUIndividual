@@ -7,14 +7,12 @@ import java.time.LocalDate;
  *
  * @author Julian
  */
-public record ReporteAtencionDTO(
-        String folio, 
+public record RegistroReporteAdminDTO(
+        String folio,
         String asunto,
-        String solucion,
-        CategoriaDTO categoria, 
-        LocalDate fecha, 
+        CategoriaDTO categoria,
         EstadoReporteDTO estado,
-        ImagenDTO imagen,
+        LocalDate fecha,
         ClienteLogueadoDTO cliente
     ) {
 

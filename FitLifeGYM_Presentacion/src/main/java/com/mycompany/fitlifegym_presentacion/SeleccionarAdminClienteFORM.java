@@ -112,7 +112,8 @@ public class SeleccionarAdminClienteFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-
+        control.navegarMenuPrincipalAdmin();
+        this.dispose();
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed

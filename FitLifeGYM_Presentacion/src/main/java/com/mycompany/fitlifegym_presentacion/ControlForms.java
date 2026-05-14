@@ -14,8 +14,10 @@ import com.mycompany.fitlifegym_dtos.NuevaMembresiaCompradaDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.RenovarMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
@@ -116,6 +118,14 @@ public class ControlForms implements ICUQuejasSugerencias{
     
     public void navegarBuscadorMisReportesCliente(){
         mostrarPantalla(new BuscadorRegistrosReportesClientesIndividualFORM(this));
+    }
+    
+    public void navegarMenuPrincipalAdmin(){
+        mostrarPantalla(new MenuPrincipalAdminFORM(this));
+    }
+    
+    public void navegarReportesQuejasClientes(){
+        mostrarPantalla(new ReportesQuejasClientesFORM(this));
     }
     
     //Dialogs
@@ -306,7 +316,7 @@ public class ControlForms implements ICUQuejasSugerencias{
     }
 
     @Override
-    public ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
+    public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
         return quejasSugerenciasCU.atenderReporteIncidente(reporteAtencion);
     }
 
@@ -323,6 +333,16 @@ public class ControlForms implements ICUQuejasSugerencias{
     @Override
     public ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException {
         return quejasSugerenciasCU.consultarReporteIncidentePorFolio(folio);
+    }
+
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException {
+        return quejasSugerenciasCU.consultarTodosLosReportes();
+    }
+
+    @Override
+    public ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException {
+        return quejasSugerenciasCU.consultarReporteAtencionPorFolio(folio);
     }
 
 }

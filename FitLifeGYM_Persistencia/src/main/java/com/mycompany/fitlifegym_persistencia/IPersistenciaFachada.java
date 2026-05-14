@@ -31,8 +31,8 @@ public interface IPersistenciaFachada {
     public abstract ReporteIncidente eliminarReporteIncidente(String idReporte) throws PersistenciaException;
     //Reportes de atenciones
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException; 
-    public abstract List<ReporteAtencion> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
-    public abstract ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException;
+    public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
+    public abstract ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
     public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;
     //Catalogos

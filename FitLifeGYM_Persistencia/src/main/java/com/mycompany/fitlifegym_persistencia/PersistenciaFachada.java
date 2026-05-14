@@ -90,13 +90,14 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     }
     
     @Override
-    public List<ReporteAtencion> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
-        return null; //TODO
+    public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
+        List<ReporteAtencionPersistenciaDTO> reportesAtencion = historialAtenciones.consultarReportesAtencionesFiltros(filtros);
+        return reportesAtencion;
     }
     
     @Override
-    public ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException {
-        ReporteAtencion reporteAtencion = historialAtenciones.consultarReporteAtencionPorId(id);
+    public ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException {
+        ReporteAtencionPersistenciaDTO reporteAtencion = historialAtenciones.consultarReporteAtencionPorFolio(folio);
         return reporteAtencion;
     }
 
@@ -136,7 +137,7 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         return estado;
     }
     
-    // CU BASE
+    // METODOS DEL CU BASE
     @Override
     public Membresia guardar(Membresia membresia) throws PersistenciaException {
         Membresia membresiaGuardada = membresias.guardar(membresia);

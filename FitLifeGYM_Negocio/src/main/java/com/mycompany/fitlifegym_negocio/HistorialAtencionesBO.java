@@ -4,10 +4,17 @@ package com.mycompany.fitlifegym_negocio;
 import Adapter.DtosAEntidadesAdapter;
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
 import com.mycompany.fitlifegym_persistencia.dtos.FiltrosConsultaHistorialReportesDTO;
+import com.mycompany.fitlifegym_persistencia.dtos.ReporteAtencionPersistenciaDTO;
+import com.mycompany.fitlifegym_persistencia.dtos.ReporteIncidentePersistenciaDTO;
+import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
+import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
+import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,9 +35,9 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
     public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         try {
             FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesAdapter.adaptarFiltrosDTO(filtros);
-            List<ReporteAtencion> reportesAtenciones = fachada.consultarReportesAtencionFiltros(filtrosPersistencia);
+            List<ReporteAtencionPersistenciaDTO> reportesAtenciones = fachada.consultarReportesAtencionFiltros(filtrosPersistencia);
             List<ReporteAtencionDTO> reportesAtencionesDTO = new LinkedList<>();
-            for(ReporteAtencion r: reportesAtenciones){
+            for(ReporteAtencionPersistenciaDTO r: reportesAtenciones){
                 ReporteAtencionDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(r);
                 reportesAtencionesDTO.add(reporteDTO);
             }
@@ -41,35 +48,32 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
     }
 
     @Override
-    public ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException {
-//        try {
-//            EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_REPORTE_RESUELTO);
-//            ReporteIncidente reporteIncidente = fachada.consultarReporteIncidentePorId(reporte.folio());
-//            reporteIncidente.setIdEstado(estado.getId());
-//            ReporteIncidenteDTO reporteIncidenteDTO  = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporteIncidente);
-//            
-//            ReporteAtencionDTO reporteAtencionDTO = new ReporteAtencionDTO(
-//                    reporteIncidenteDTO.folio(),
-//                    reporte.solucion(),
-//                    reporteIncidenteDTO.categoria(),
-//                    reporteIncidenteDTO.fecha(),
-//                    reporteIncidenteDTO.estado(),
-//                    reporte.imagen(),
-//                    reporteIncidenteDTO.cliente()
-//            );
-//            
-//            Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
-//            fachada.guardarImagen(imagen);
-//            
-//            ReporteAtencion reporteAtencion = DtosAEntidadesAdapter.adaptarReporteAtencionDTO(reporteAtencionDTO);
-//            ReporteAtencion reporteAtendido = fachada.resolverReporte(reporteAtencion);
-//            
-//            ReporteAtencionDTO reporteAtendidoDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporteAtendido);
-//            return reporteAtendidoDTO;
-//        } catch (PersistenciaException ex) {
-//            throw new NegocioException("No se pudo atender el reporte de incidente correctamente.",ex);
-//        }
-        return null;
+    public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException {
+        try {
+            ReporteIncidentePersistenciaDTO reporteIncidente = fachada.consultarReporteIncidentePorFolio(reporte.folio());
+            EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_REPORTE_RESUELTO);
+            Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
+            Imagen imagenGuardada = fachada.guardarImagen(imagen);
+            Categoria categoria = fachada.consultarCategoriaPorNombre(reporteIncidente.getCategoria().getNombre());
+            
+            //TODO cambiarle el estado al reporte incidente tambien
+            
+            ReporteAtencion reporteAtencion = DtosAEntidadesAdapter.adaptarReporteAtencionDTO(reporte);
+            reporteAtencion.setIdCategoria(categoria.getId());
+            reporteAtencion.setIdEstado(estado.getId());
+            reporteAtencion.setFecha(reporteIncidente.getFecha());
+            if(imagenGuardada == null){
+                reporteAtencion.setIdImagen(null);
+            }else{
+                reporteAtencion.setIdImagen(imagen.getId());
+            }
+            
+            ReporteAtencion reporteAtendido = fachada.resolverReporte(reporteAtencion);
+            ReporteAtencionGeneradoDTO reporteAtendidoDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporteAtendido);
+            return reporteAtendidoDTO;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No se pudo atender el reporte de incidente correctamente.",ex);
+        }
     }
 
     @Override
@@ -79,19 +83,48 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
 
     @Override
     public List<ReporteAtencionDTO> consultarReportesAtenciones() throws NegocioException {
-//        try {
-//            List<ReporteAtencionDTO> reportesAtencionDTO = new LinkedList<>();
-//            List<ReporteAtencion> reportesAtencion = fachada.consultarReportesAtencion();
-//            for(ReporteAtencion reporte: reportesAtencion){
-//                ReporteAtencionDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporte);
-//                reportesAtencionDTO.add(reporteDTO);
-//            }
-//            return reportesAtencionDTO;
-//        } catch (PersistenciaException ex) {
-//            throw new NegocioException("Error al cargar todos los reportes de atenciones.");
-//        }
-        return null;
-        
+        try {
+            List<ReporteAtencionDTO> reportesAtencionDTO = new LinkedList<>();
+            List<ReporteAtencionPersistenciaDTO> reportesAtencion = fachada.consultarReportesAtencion();
+            for(ReporteAtencionPersistenciaDTO reporte: reportesAtencion){
+                ReporteAtencionDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporte);
+                reportesAtencionDTO.add(reporteDTO);
+            }
+            return reportesAtencionDTO;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar todos los reportes de atenciones.");
+        }
+    }
+
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosRegistrosReportes() throws NegocioException {
+        try {
+            List<RegistroReporteAdminDTO> registrosReportes = new LinkedList<>();
+            List<ReporteAtencionPersistenciaDTO> reportesAtencion = fachada.consultarReportesAtencion();
+            List<ReporteIncidentePersistenciaDTO> reporteIncidentes = fachada.consultarReportesIncidentes();
+            for(ReporteAtencionPersistenciaDTO reporte: reportesAtencion){
+                RegistroReporteAdminDTO reporteDTO = DtosAEntidadesAdapter.adaptarRegistrosReportesAdminDTO(reporte);
+                registrosReportes.add(reporteDTO);
+            }
+            for(ReporteIncidentePersistenciaDTO reporte: reporteIncidentes){
+                RegistroReporteAdminDTO reporteIncidenteDTO = DtosAEntidadesAdapter.adaptarRegistrosReportesAdminDTO(reporte);
+                registrosReportes.add(reporteIncidenteDTO);
+            }
+            return registrosReportes;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar todos los registros de los reportes.");
+        }
+    }
+
+    @Override
+    public ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException {
+        try {
+            ReporteAtencionPersistenciaDTO reporteAtencion = fachada.consultarReporteAtencionPorFolio(folio);
+            ReporteAtencionDTO reporteAtencionDTO = DtosAEntidadesAdapter.adaptarReporteAtencionEntidad(reporteAtencion);
+            return reporteAtencionDTO;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al consultar el reporte de atencion por folio.");
+        }
     }
     
 }

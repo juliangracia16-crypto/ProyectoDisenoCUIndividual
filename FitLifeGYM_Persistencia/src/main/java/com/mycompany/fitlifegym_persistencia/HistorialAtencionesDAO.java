@@ -15,10 +15,10 @@ import com.mycompany.fitlifegym_persistencia.dtos.ReporteAtencionPersistenciaDTO
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -27,11 +27,6 @@ import org.bson.conversions.Bson;
 public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMongoDAO{
     private static final String NOMBRE_COLECCION = "historial_atenciones"; 
     private static final String FOLIO_KEY = "folio";
-    private static final String NOMBRE_CLIENTE_KEY = "cliente.nombre";
-    private static final String FECHA_KEY = "fecha";
-    private static final String CATEGORIA_KEY = "categoria.nombre";
-    private static final String ESTADO_KEY = "estado.nombre"
-            + "";
     
     @Override
     public MongoDatabase obtenerBaseDatos(MongoClient cliente) {
@@ -92,20 +87,62 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
     }
 
     @Override
-    public ReporteAtencion consultarReporteAtencionPorId(String id) throws PersistenciaException {
+    public ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
             
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
-            MongoCollection<ReporteAtencion> coleccion = this.obtenerColeccion(empresaBD);
-            
-            Document filtros = new Document().append(FOLIO_KEY,id);
-            ReporteAtencion reporteAtencion = coleccion.find(filtros).first();
-            if(reporteAtencion == null){
-                throw new PersistenciaException("No se encontro ningun reporte de atencion con ese folio.");
+            MongoCollection<Document> coleccion = empresaBD.getCollection(NOMBRE_COLECCION);
+            List<Bson> pipeline = new ArrayList<>();
+            pipeline.add(
+                    Aggregates.match(
+                            Filters.eq(FOLIO_KEY, folio)
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "clientes",
+                            "idCliente",
+                            "_id",
+                            "cliente"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "categorias",
+                            "idCategoria",
+                            "_id",
+                            "categoria"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "estados_reportes",
+                            "idEstado",
+                            "_id",
+                            "estado"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "imagenes",
+                            "idImagen",
+                            "_id",
+                            "imagen"
+                    )
+            );
+            pipeline.add(Aggregates.unwind("$cliente"));
+            pipeline.add(Aggregates.unwind("$categoria"));
+            pipeline.add(Aggregates.unwind("$estado"));
+            pipeline.add(Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+
+            ReporteAtencionPersistenciaDTO reporteIncidente = coleccion.aggregate(pipeline, ReporteAtencionPersistenciaDTO.class).first();
+            if (reporteIncidente == null) {
+                throw new PersistenciaException("No se encontro ningun reporte con ese folio.");
             }
-            return reporteAtencion;
+            return reporteIncidente;
         }
     }
+    
 
     @Override
     public ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException {
@@ -140,46 +177,92 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
     }
 
     @Override
-    public List<ReporteAtencion> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
+    public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
             
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
-            MongoCollection<ReporteAtencion> coleccion = this.obtenerColeccion(empresaBD);
-            
-            List<Bson> docFiltros = new ArrayList<>();
+            MongoCollection<Document> coleccion = empresaBD.getCollection(NOMBRE_COLECCION);
+
+            List<Bson> pipeline = new ArrayList<>();
+            List<Bson> filtrosBusqueda = new ArrayList<>();
 
             if (filtros.cliente() != null && !filtros.cliente().isBlank()) {
-                docFiltros.add(Filters.regex(NOMBRE_CLIENTE_KEY, filtros.cliente(),"i"));
+                filtrosBusqueda.add(Filters.eq("idCliente", new ObjectId(filtros.cliente())));
             }
 
             if (filtros.fechaDesde() != null) {
-                docFiltros.add(Filters.gte(FECHA_KEY, filtros.fechaDesde()));
+                filtrosBusqueda.add(Filters.gte("fecha", filtros.fechaDesde()));
             }
 
             if (filtros.fechaHasta() != null) {
-                docFiltros.add(Filters.lte(FECHA_KEY, filtros.fechaHasta()));
+                filtrosBusqueda.add(Filters.lte("fecha", filtros.fechaHasta()));
             }
 
-            if (filtros.categoria().getCategoria() != null && !filtros.categoria().getCategoria().isBlank()) {
-                docFiltros.add(Filters.eq(CATEGORIA_KEY, filtros.categoria().getCategoria()));
+            if (!filtrosBusqueda.isEmpty()) {
+                pipeline.add(Aggregates.match(Filters.and(filtrosBusqueda)));
             }
-
-            if (filtros.estado().getEstado() != null && !filtros.estado().getEstado().isBlank()) {
-                docFiltros.add(Filters.eq(ESTADO_KEY, filtros.estado().getEstado()));
+            pipeline.add(
+                    Aggregates.lookup(
+                            "clientes",
+                            "idCliente",
+                            "_id",
+                            "cliente"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "categorias",
+                            "idCategoria",
+                            "_id",
+                            "categoria"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "estados_reportes",
+                            "idEstado",
+                            "_id",
+                            "estado"
+                    )
+            );
+            pipeline.add(
+                    Aggregates.lookup(
+                            "imagenes",
+                            "idImagen",
+                            "_id",
+                            "imagen"
+                    )
+            );
+            pipeline.add(Aggregates.unwind("$cliente"));
+            pipeline.add(Aggregates.unwind("$categoria"));
+            pipeline.add(Aggregates.unwind("$estado"));
+            pipeline.add(Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+            if (filtros.categoria() != null && filtros.categoria().getCategoria() != null && !filtros.categoria().getCategoria().isBlank()) {
+                pipeline.add(
+                        Aggregates.match(
+                                Filters.eq(
+                                        "categoria.nombre",
+                                        filtros.categoria().getCategoria()
+                                )
+                        )
+                );
             }
-
-            Bson consultaFinal;
-
-            if (docFiltros.isEmpty()) {
-                consultaFinal = new Document();
-            } else {
-                consultaFinal = Filters.and(docFiltros);
+            if (filtros.estado() != null && filtros.estado().getEstado() != null && !filtros.estado().getEstado().isBlank()) {
+                pipeline.add(
+                        Aggregates.match(
+                                Filters.eq(
+                                        "estado.nombre",
+                                        filtros.estado().getEstado()
+                                )
+                        )
+                );
             }
+            AggregateIterable<ReporteAtencionPersistenciaDTO> resultados = coleccion.aggregate(pipeline, ReporteAtencionPersistenciaDTO.class);
+            List<ReporteAtencionPersistenciaDTO> reportes = new ArrayList<>();
+            resultados.into(reportes);
 
-            return coleccion.find(consultaFinal).into(new ArrayList<>());
+            return reportes;
         }
     }
-
-    
-    
+ 
 }

@@ -6,7 +6,9 @@ import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_negocio.ICatalogosBO;
@@ -78,10 +80,10 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     }
 
     @Override
-    public ReporteAtencionDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
+    public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
         validarImagen(reporteAtencion.imagen().imagen());
         validarSolucionReporteAtencion(reporteAtencion.solucion());
-        ReporteAtencionDTO reporteIncidenteAtendido = historialAtencionesBO.atenderReporteIncidente(reporteAtencion);
+        ReporteAtencionGeneradoDTO reporteIncidenteAtendido = historialAtencionesBO.atenderReporteIncidente(reporteAtencion);
         return reporteIncidenteAtendido;
     }
     @Override
@@ -94,6 +96,18 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     public List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException {
         List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes();
         return reportesIncidentes;
+    }
+    
+    @Override
+    public ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException {
+        ReporteAtencionDTO reporteAtencion = historialAtencionesBO.consultarReporteAtencionPorFolio(folio);
+        return reporteAtencion;
+    }
+    
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException {
+        List<RegistroReporteAdminDTO> reportes = historialAtencionesBO.consultarTodosLosRegistrosReportes();
+        return reportes;
     }
     
     private void validarDescripcionReporteIncidente(String descripcion) throws NegocioException{
@@ -167,5 +181,5 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             throw new NegocioException("El asunto debe contener como minimo 5 caracteres.");
         }
     }
-
+    
 }
