@@ -1,10 +1,12 @@
 
 package com.mycompany.cuquejassugerencias;
 
+import com.mycompany.fitlifegym_dtos.AdministradorLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.LoginAdminDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
@@ -16,6 +18,7 @@ import com.mycompany.fitlifegym_negocio.ICatalogosBO;
 import com.mycompany.fitlifegym_negocio.IGeneradorReportePDF;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.ILoginBO;
 import com.mycompany.fitlifegym_negocio.InfraestructuraException;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.io.IOException;
@@ -34,14 +37,18 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     private IHistorialAtencionesBO historialAtencionesBO;
     private ICatalogosBO catalogosBO;
     private IGeneradorReportePDF generadorPdf;
+    private ILoginBO login;
     private final String RUTA_LOGO_REPORTE_PDF = "/logo gym.jpg";
     private final String TITULO_REPORTE_PDF = "REPORTE DE REGISTROS DE QUEJAS Y SUGERENCIAS";
 
-    public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, ICatalogosBO catalogosBO, IGeneradorReportePDF generadorPdf) {
+    public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, 
+        ICatalogosBO catalogosBO, IGeneradorReportePDF generadorPdf, ILoginBO login) 
+    {
         this.historialIncidentesBO = historialIncidentesBO;
         this.historialAtencionesBO = historialAtencionesBO;
         this.catalogosBO = catalogosBO;
         this.generadorPdf = generadorPdf;
+        this.login = login;
     }
     
     @Override
@@ -139,7 +146,12 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             throw new NegocioException("No se pudo generar el reporte pdf correctamente.",ex);
         }
     }
-    
+    @Override
+    public AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO loginDTO) throws NegocioException {
+        validarInicioSesion(loginDTO);
+        AdministradorLogueadoDTO administrador = login.iniciarSesion(loginDTO);
+        return administrador;
+    }
     private void validarDescripcionReporteIncidente(String descripcion) throws NegocioException{
         if(descripcion.isEmpty() || descripcion == null){
             throw new NegocioException("La descripcion del reporte de incidente no debe estar vacía.");
@@ -209,6 +221,17 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         }
         if(asunto.trim().length() < 5){
             throw new NegocioException("El asunto debe contener como minimo 5 caracteres.");
+        }
+    }
+    private void validarInicioSesion(LoginAdminDTO login) throws NegocioException{
+        if(login == null){
+            throw new NegocioException("Los datos de inicio de sesion no pueden ser nulos.");
+        }
+        if(login.contrasenia().isBlank() || login.contrasenia() == null){
+            throw new NegocioException("La contraseña no debe estar vacia.");
+        }
+        if(login.usuario().isBlank() || login.usuario() == null){
+            throw new NegocioException("El usuario es obligatorio.");
         }
     }
  

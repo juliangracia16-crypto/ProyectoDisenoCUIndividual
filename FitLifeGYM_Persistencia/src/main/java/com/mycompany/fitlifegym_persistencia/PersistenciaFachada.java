@@ -4,10 +4,10 @@ package com.mycompany.fitlifegym_persistencia;
 import com.mycompany.fitlifegym_persistencia.dtos.FiltrosConsultaHistorialReportesDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.ReporteAtencionPersistenciaDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.ReporteIncidentePersistenciaDTO;
+import com.mycompany.fitlifegym_persistencia.entidades.Administrador;
 import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
-import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import com.mycompany.fitlifegym_persistencia.entidades.MembresiaComprada;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
@@ -22,22 +22,22 @@ import java.util.List;
 public class PersistenciaFachada implements IPersistenciaFachada{
     private IHistorialAtencionesDAO historialAtenciones;
     private IHistorialIncidentesDAO historialIncidentes;
-    private IImagenesDAO imagenes;
     private ICatalogosDAO catalogos;
     private IClientesDAO clientes;
     private IMembresiaDAO membresias;
     private IMembresiaCompradaDAO  membresiaComprada;
+    private IAdministradorDAO administradores;
 
     public PersistenciaFachada(IHistorialAtencionesDAO historialAtenciones, IHistorialIncidentesDAO historialIncidentes, ICatalogosDAO catalogos,
-        IClientesDAO clientes, IMembresiaDAO membresias, IMembresiaCompradaDAO membresiaComprada
+        IClientesDAO clientes, IMembresiaDAO membresias, IMembresiaCompradaDAO membresiaComprada, IAdministradorDAO administradores
     ) {
         this.historialAtenciones = historialAtenciones;
         this.historialIncidentes = historialIncidentes;
-        this.imagenes = imagenes;
         this.catalogos = catalogos;
         this.clientes = clientes;
         this.membresias = membresias;
         this.membresiaComprada = membresiaComprada;
+        this.administradores = administradores;
     }
     
     //Reportes de Incidentes
@@ -96,7 +96,7 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         return reporteAtencion;
     }
 
-    //Catalogod de Estados y Categorias de los Reportes
+    //Catalogos de Estados y Categorias de los Reportes
     @Override
     public List<EstadoReporte> consultarCatalogoEstados() throws PersistenciaException {
         List<EstadoReporte> estadosReportes = catalogos.consultarCatalogoEstados();
@@ -119,6 +119,25 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     public EstadoReporte consultarEstadoPorNombre(String nombre) throws PersistenciaException {
         EstadoReporte estado = catalogos.consultarEstadoPorNombre(nombre);
         return estado;
+    }
+    
+    //Administradores
+    @Override
+    public Administrador consultarAdministradorPorUsuario(String usuario) throws PersistenciaException {
+        Administrador administrador = administradores.consultarAdministradorPorUsuario(usuario);
+        return administrador;
+    }
+
+    @Override
+    public List<Administrador> consultarAdministradores() throws PersistenciaException {
+        List<Administrador> administradoresEncontrados = administradores.consultarAdministradores();
+        return administradoresEncontrados;
+    }
+
+    @Override
+    public Administrador consultarAdministradorPorId(String id) throws PersistenciaException {
+        Administrador administrador = administradores.consultarAdministradorPorId(id);
+        return administrador;
     }
     
     // METODOS DEL CU BASE
@@ -180,6 +199,5 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     public void actualizarMembresia(String idCliente, TipoMembresia nuevaMembresia) throws PersistenciaException {
         
     }
-
     
 }

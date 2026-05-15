@@ -1,10 +1,12 @@
 
 package com.mycompany.cuquejassugerencias;
 
+import com.mycompany.fitlifegym_dtos.AdministradorLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.LoginAdminDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
@@ -34,6 +36,7 @@ public interface ICUQuejasSugerencias {
     public abstract ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException;
     //Vista admin
     public abstract List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException;
-    //TODO 
-        public abstract byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException;
+    public abstract AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO login) throws NegocioException;
+    //Generar pdf
+    public abstract byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException;
 }

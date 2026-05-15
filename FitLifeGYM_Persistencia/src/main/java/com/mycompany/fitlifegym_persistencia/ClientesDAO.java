@@ -1,12 +1,12 @@
 
 package com.mycompany.fitlifegym_persistencia;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
-import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
@@ -50,6 +50,8 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
                 throw new PersistenciaException("No existe ningun cliente con ese ID.");
             }
             return clienteEncontrado;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar el cliente por ID.", ex);
         }
     }
 
@@ -62,6 +64,8 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
             List<Cliente> clientes = new LinkedList<>();
             coleccion.find().into(clientes);
             return clientes;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar todos los clientes.", ex);
         }
     }
 
@@ -78,14 +82,9 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
                 throw new PersistenciaException("No existe ningun cliente con ese ID.");
             }
             return clienteEncontrado;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar cliente por pin.", ex);
         }
     }
-
-    @Override
-    public void actualizarMembresia(String idCliente, TipoMembresia nuevaMembresia) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
     
 }

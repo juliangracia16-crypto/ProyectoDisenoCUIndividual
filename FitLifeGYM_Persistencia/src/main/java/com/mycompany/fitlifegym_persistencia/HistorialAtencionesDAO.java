@@ -1,13 +1,13 @@
 
 package com.mycompany.fitlifegym_persistencia;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.InsertOneResult;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.dtos.FiltrosConsultaHistorialReportesDTO;
@@ -69,6 +69,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             resultados.into(reportes);
 
             return reportes;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar todos los reportes de atenciones.", ex);
         }
     }
 
@@ -108,6 +110,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
                 throw new PersistenciaException("No se encontro ningun reporte con ese folio.");
             }
             return reporteIncidente;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar el reporte de atencion por folio.", ex);
         }
     }
     
@@ -125,6 +129,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             }
             reporte.setId(resultado.getInsertedId().toString());
             return reporte;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al guardar el reporte de atencion.", ex);
         }
     }
 
@@ -196,6 +202,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             resultados.into(reportes);
 
             return reportes;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar todos los reportes de atencion con filtros.", ex);
         }
     }
  

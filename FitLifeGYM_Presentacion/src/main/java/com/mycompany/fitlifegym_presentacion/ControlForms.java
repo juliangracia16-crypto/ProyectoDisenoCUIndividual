@@ -3,12 +3,14 @@ package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.cuquejassugerencias.ICUQuejasSugerencias;
 import com.mycompany.cuquejassugerencias.fabricaSubsitema.FabricaSubsistema;
+import com.mycompany.fitlifegym_dtos.AdministradorLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.LoginAdminDTO;
 import com.mycompany.fitlifegym_dtos.LoginDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaCompradaDTO;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
@@ -147,6 +149,10 @@ public class ControlForms implements ICUQuejasSugerencias{
     
     public void navegarResolverReporteSeleccionado(ReporteIncidenteDTO reporte){
         mostrarPantalla(new ResolverReporteSeleccionadoFORM(this, reporte));
+    }
+    
+    public void navegarInicioSesionAdmin(){
+        mostrarPantalla(new InicioSesionAdminFORM(this));
     }
     
     //Dialogs
@@ -369,6 +375,11 @@ public class ControlForms implements ICUQuejasSugerencias{
     @Override
     public byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException {
         return quejasSugerenciasCU.generarReportePdf(generarReportePdf);
+    }
+
+    @Override
+    public AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO login) throws NegocioException {
+        return quejasSugerenciasCU.iniciarSesion(login);
     }
 
 }

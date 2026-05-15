@@ -7,6 +7,7 @@ import com.mycompany.fitlifegym_negocio.ICatalogosBO;
 import com.mycompany.fitlifegym_negocio.IGeneradorReportePDF;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.ILoginBO;
 import com.mycompany.fitlifegym_negocio.fabricaBO.FabricaBO;
 
 /**
@@ -20,7 +21,8 @@ public class FabricaSubsistema {
         IHistorialIncidentesBO historialIncidentesBO = FabricaBO.crearHistorialIncidenteBO();
         ICatalogosBO catalogosBO = FabricaBO.crearCatalogosBO();
         IGeneradorReportePDF generadorPDF = null;
+        ILoginBO loginBO = FabricaBO.crearLoginBO();
         
-        return new CUQuejasSugerencias(historialIncidentesBO, historialAtencionesBO, catalogosBO, generadorPDF);
+        return new CUQuejasSugerencias(historialIncidentesBO, historialAtencionesBO, catalogosBO, generadorPDF, loginBO);
     }
 }

@@ -2,12 +2,15 @@
 package com.mycompany.fitlifegym_negocio;
 
 import Adapter.DtosAEntidadesAdapter;
+import com.mycompany.fitlifegym_dtos.AdministradorLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoDTO;
+import com.mycompany.fitlifegym_dtos.LoginAdminDTO;
 import com.mycompany.fitlifegym_dtos.LoginDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
+import com.mycompany.fitlifegym_persistencia.entidades.Administrador;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
 
@@ -49,6 +52,21 @@ public class LoginBO implements ILoginBO {
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al iniciar sesion", ex);
         }
+    }
+
+    @Override
+    public AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO login) throws NegocioException {
+        try {
+            Administrador administrador = fachada.consultarAdministradorPorUsuario(login.usuario());
+            if (administrador == null) {
+                return null;
+            }
+            
+            return new AdministradorLogueadoDTO(administrador.getIdAdministrador(),administrador.getNombre(),administrador.getUsuario());
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al iniciar sesion como administrador",ex);
+        }
+        
     }
 
 }

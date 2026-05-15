@@ -1,6 +1,7 @@
 
 package com.mycompany.fitlifegym_persistencia.fabricaPersistencia;
 
+import com.mycompany.fitlifegym_persistencia.IAdministradorDAO;
 import com.mycompany.fitlifegym_persistencia.ICatalogosDAO;
 import com.mycompany.fitlifegym_persistencia.IClientesDAO;
 import com.mycompany.fitlifegym_persistencia.IHistorialAtencionesDAO;
@@ -23,7 +24,7 @@ public class FabricaFachada {
         IMembresiaDAO membresiaDAO = FabricaDAO.crearMembresiaDAO();
         IMembresiaCompradaDAO membresiaCompradaDAO = FabricaDAO.crearMembresiaCompradaDAO();
         IClientesDAO clientesDAO = FabricaDAO.crearClientesDAO();
-        
-        return  new PersistenciaFachada(historialAtenciones, historialIncidentes, catalogosDAO, clientesDAO, membresiaDAO, membresiaCompradaDAO);
+        IAdministradorDAO administradoresDAO = FabricaDAO.crearAdministradoresDAO();
+        return  new PersistenciaFachada(historialAtenciones, historialIncidentes, catalogosDAO, clientesDAO, membresiaDAO, membresiaCompradaDAO, administradoresDAO);
     }
 }

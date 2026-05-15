@@ -1,10 +1,12 @@
 
 package com.mycompany.fitlifegym_persistencia.fabricaPersistencia;
 
+import com.mycompany.fitlifegym_persistencia.AdministradorDAO;
 import com.mycompany.fitlifegym_persistencia.CatalogosDAO;
 import com.mycompany.fitlifegym_persistencia.ClientesDAO;
 import com.mycompany.fitlifegym_persistencia.HistorialAtencionesDAO;
 import com.mycompany.fitlifegym_persistencia.HistorialIncidentesDAO;
+import com.mycompany.fitlifegym_persistencia.IAdministradorDAO;
 import com.mycompany.fitlifegym_persistencia.ICatalogosDAO;
 import com.mycompany.fitlifegym_persistencia.IClientesDAO;
 import com.mycompany.fitlifegym_persistencia.IHistorialAtencionesDAO;
@@ -49,6 +51,10 @@ public class FabricaDAO {
     public static IClientesDAO crearClientesDAO(){
         IClientesDAO clientesDAO = new ClientesDAO();
         return clientesDAO;
+    }
+    public static IAdministradorDAO crearAdministradoresDAO(){
+        IAdministradorDAO administradoresDAO = new AdministradorDAO();
+        return administradoresDAO;
     }
     
 }
