@@ -14,17 +14,19 @@ public class Imagen {
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private byte[] imagen;
-
+    private String mimeType;
     public Imagen() {
     }
 
-    public Imagen(String id, byte[] imagen) {
+    public Imagen(String id, byte[] imagen, String mimeType) {
         this.id = id;
         this.imagen = imagen;
+        this.mimeType = mimeType;
     }
     
-    public Imagen(byte[] imagen) {
+    public Imagen(byte[] imagen, String mimeType) {
         this.imagen = imagen;
+        this.mimeType = mimeType;
     }
 
     public String getId() {
@@ -41,6 +43,14 @@ public class Imagen {
 
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
     
 }

@@ -15,5 +15,4 @@ public interface IHistorialAtencionesDAO {
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
     public abstract ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
-    public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;
 }

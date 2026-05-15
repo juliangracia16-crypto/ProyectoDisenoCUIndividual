@@ -45,7 +45,7 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
             
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
-            MongoCollection<ReporteAtencion> coleccion = this.obtenerColeccion(empresaBD);
+            MongoCollection<Document> coleccion = empresaBD.getCollection(NOMBRE_COLECCION);
             List<Bson> pipeline = Arrays.asList(
                     Aggregates.lookup(
                             "clientes",
@@ -59,22 +59,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
                             "_id",
                             "categoria"
                     ),
-                    Aggregates.lookup(
-                            "estados",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    ),
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    ),
                     Aggregates.unwind("$cliente"),
-                    Aggregates.unwind("$categoria"),
-                    Aggregates.unwind("$estado"),
-                    Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true))
+                    Aggregates.unwind("$categoria")
             );
             AggregateIterable<ReporteAtencionPersistenciaDTO> resultados = coleccion.aggregate(pipeline, ReporteAtencionPersistenciaDTO.class);
             List<ReporteAtencionPersistenciaDTO> reportes
@@ -114,26 +100,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
                             "categoria"
                     )
             );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "estados_reportes",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    )
-            );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    )
-            );
             pipeline.add(Aggregates.unwind("$cliente"));
             pipeline.add(Aggregates.unwind("$categoria"));
-            pipeline.add(Aggregates.unwind("$estado"));
-            pipeline.add(Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
             ReporteAtencionPersistenciaDTO reporteIncidente = coleccion.aggregate(pipeline, ReporteAtencionPersistenciaDTO.class).first();
             if (reporteIncidente == null) {
@@ -157,22 +125,6 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             }
             reporte.setId(resultado.getInsertedId().toString());
             return reporte;
-        }
-    }
-
-    @Override
-    public ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException {
-        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
-            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
-            MongoCollection<ReporteAtencion> coleccion = this.obtenerColeccion(empresaBD);
-            Document filtros = new Document().append(FOLIO_KEY,idReporte);
-            
-            ReporteAtencion reporteAtencion = coleccion.findOneAndDelete(filtros);
-            if(reporteAtencion == null){
-                throw new PersistenciaException("No se pudo eliminar el reporte de atencion correctamente.");
-            }
-            return reporteAtencion;
         }
     }
 
@@ -217,26 +169,8 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
                             "categoria"
                     )
             );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "estados_reportes",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    )
-            );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    )
-            );
             pipeline.add(Aggregates.unwind("$cliente"));
             pipeline.add(Aggregates.unwind("$categoria"));
-            pipeline.add(Aggregates.unwind("$estado"));
-            pipeline.add(Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true)));
             if (filtros.categoria() != null && filtros.categoria().getCategoria() != null && !filtros.categoria().getCategoria().isBlank()) {
                 pipeline.add(
                         Aggregates.match(
@@ -251,7 +185,7 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
                 pipeline.add(
                         Aggregates.match(
                                 Filters.eq(
-                                        "estado.nombre",
+                                        "estadoReporte.nombre",
                                         filtros.estado().getEstado()
                                 )
                         )

@@ -7,7 +7,6 @@ import com.mycompany.fitlifegym_persistencia.dtos.ReporteIncidentePersistenciaDT
 import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
-import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.Membresia;
 import com.mycompany.fitlifegym_persistencia.entidades.MembresiaComprada;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
@@ -20,21 +19,17 @@ import java.util.List;
  * @author Julian
  */
 public interface IPersistenciaFachada {
-    //Imagenes
-    public abstract Imagen consultarImagen(String idImagen) throws PersistenciaException;
-    public abstract Imagen guardarImagen(Imagen imagen) throws PersistenciaException;
     //Reportes de Incidentes
     public abstract List<ReporteIncidentePersistenciaDTO> consultarReportesIncidentes() throws PersistenciaException; 
     public abstract List<ReporteIncidentePersistenciaDTO> consultarReportesIncidentesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
     public abstract ReporteIncidentePersistenciaDTO consultarReporteIncidentePorFolio(String folio) throws PersistenciaException;
     public abstract ReporteIncidente generarReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException;
-    public abstract ReporteIncidente eliminarReporteIncidente(String idReporte) throws PersistenciaException;
+    public abstract ReporteIncidente actualizarEstadoReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException;
     //Reportes de atenciones
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException; 
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
     public abstract ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException;
     public abstract ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException;
-    public abstract ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException;
     //Catalogos
     public abstract List<EstadoReporte> consultarCatalogoEstados() throws PersistenciaException;
     public abstract List<Categoria> consultarCatalogoCategorias() throws PersistenciaException;

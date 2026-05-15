@@ -19,6 +19,7 @@ import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
+import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.CategoriaPersistenciaDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.ClientePersistenciaDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.EstadoReportePersistenciaDTO;
@@ -147,13 +148,15 @@ public class DtosAEntidadesAdapter {
     }
     
     public static ReporteAtencionGeneradoDTO adaptarReporteAtencionEntidad(ReporteAtencion reporteAtencion){
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteAtencion.getEstadoReporte());
+        ImagenDTO imagenDTO = adaptarImagenEntidad(reporteAtencion.getImagen());
         ReporteAtencionGeneradoDTO reporteAtencionDTO = new ReporteAtencionGeneradoDTO(
                 reporteAtencion.getFolio(),
                 reporteAtencion.getIdCategoria(),
-                reporteAtencion.getIdEstado(),
+                estadoDTO,
                 reporteAtencion.getFecha(),
                 reporteAtencion.getSolucion(),
-                reporteAtencion.getIdImagen(),
+                imagenDTO,
                 reporteAtencion.getIdCliente()
         );
         return reporteAtencionDTO;
@@ -161,7 +164,7 @@ public class DtosAEntidadesAdapter {
     
     public static ReporteAtencionDTO adaptarReporteAtencionEntidad(ReporteAtencionPersistenciaDTO reporteAtencion){
         CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporteAtencion.getCategoria());
-        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteAtencion.getEstado());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteAtencion.getEstadoReporte());
         ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporteAtencion.getCliente());
         ImagenDTO imagenDTO = adaptarImagenEntidad(reporteAtencion.getImagen());
         ReporteAtencionDTO reporteAtencionDTO = new ReporteAtencionDTO(
@@ -179,7 +182,6 @@ public class DtosAEntidadesAdapter {
     
     //Adapters de reportes de incidentes
     public static ReporteIncidente adaptarReporteIncidenteDTO(NuevoReporteIncidenteDTO reporteIncidenteDTO){
-        
         ReporteIncidente reporteIncidente = new ReporteIncidente(
                 reporteIncidenteDTO.asunto(),
                 reporteIncidenteDTO.descripcion(),
@@ -192,15 +194,34 @@ public class DtosAEntidadesAdapter {
         return reporteIncidente;
     }
     
+    public static ReporteIncidente adaptarReporteIncidenteDTO(ReporteIncidentePersistenciaDTO reporteIncidente){
+        ImagenDTO imagenDTO = adaptarImagenEntidad(reporteIncidente.getImagen());
+        Imagen imagen = adaptarImagenDTO(imagenDTO);
+        ReporteIncidente reporteIncidenteEntidad = new ReporteIncidente(
+                reporteIncidente.getId(),
+                reporteIncidente.getFolio(),
+                reporteIncidente.getAsunto(),
+                reporteIncidente.getDescripcion(),
+                reporteIncidente.getFecha(),
+                null,
+                reporteIncidente.getCategoria().getId(),
+                imagen,
+                reporteIncidente.getCliente().getId()
+        );
+        return reporteIncidenteEntidad;
+    }
+    
     public static ReporteIncidenteGeneradoDTO adaptarReporteIncidenteEntidad(ReporteIncidente reporteIncidente){
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteIncidente.getEstadoReporte());
+        ImagenDTO imagenDTO = adaptarImagenEntidad(reporteIncidente.getImagen());
         ReporteIncidenteGeneradoDTO reporteIncidenteDTO = new ReporteIncidenteGeneradoDTO(
                 reporteIncidente.getFolio(),
                 reporteIncidente.getIdCategoria(),
-                reporteIncidente.getIdEstado(),
+                estadoDTO,
                 reporteIncidente.getAsunto(),
                 reporteIncidente.getFecha(),
                 reporteIncidente.getDescripcion(),
-                reporteIncidente.getIdImagen(),
+                imagenDTO,
                 reporteIncidente.getIdCliente()
         );
         return reporteIncidenteDTO;
@@ -208,7 +229,7 @@ public class DtosAEntidadesAdapter {
     
     public static ReporteIncidenteDTO adaptarReporteIncidenteEntidad(ReporteIncidentePersistenciaDTO reporteIncidente){
         CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporteIncidente.getCategoria());
-        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteIncidente.getEstado());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporteIncidente.getEstadoReporte());
         ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporteIncidente.getCliente());
         ImagenDTO imagenDTO = adaptarImagenEntidad(reporteIncidente.getImagen());
         ReporteIncidenteDTO reporteIncidenteDTO = new ReporteIncidenteDTO(
@@ -226,10 +247,12 @@ public class DtosAEntidadesAdapter {
     //Adapter registros para mostrar en vista de admin
     public static RegistroReporteAdminDTO adaptarRegistrosReportesAdminDTO(ReporteIncidentePersistenciaDTO reporte){
         CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporte.getCategoria());
-        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporte.getEstado());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporte.getEstadoReporte());
         ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporte.getCliente());
+        TipoReporteDTO tipo = TipoReporteDTO.INCIDENTE;
         RegistroReporteAdminDTO registroAdmin = new RegistroReporteAdminDTO(
                 reporte.getFolio(),
+                tipo,
                 reporte.getAsunto(),
                 categoriaDTO,
                 estadoDTO,
@@ -240,10 +263,12 @@ public class DtosAEntidadesAdapter {
     }
     public static RegistroReporteAdminDTO adaptarRegistrosReportesAdminDTO(ReporteAtencionPersistenciaDTO reporte){
         CategoriaDTO categoriaDTO = adaptarCategoriaEntidad(reporte.getCategoria());
-        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporte.getEstado());
+        EstadoReporteDTO estadoDTO = adaptarEstadoReporteEntidad(reporte.getEstadoReporte());
         ClienteLogueadoDTO clienteDTO = adaptarClienteEntidad(reporte.getCliente());
+        TipoReporteDTO tipo = TipoReporteDTO.ATENCION;
         RegistroReporteAdminDTO registroAdmin = new RegistroReporteAdminDTO(
                 reporte.getFolio(),
+                tipo,
                 reporte.getAsunto(),
                 categoriaDTO,
                 estadoDTO,
@@ -273,7 +298,7 @@ public class DtosAEntidadesAdapter {
             return null;
         }
         ImagenDTO imagenDTO = new ImagenDTO(
-                imagen.getImagen(),imagen.getId()
+                imagen.getImagen(),imagen.getId(), imagen.getMimeType()
         );
         return imagenDTO;
     }
@@ -351,7 +376,7 @@ public class DtosAEntidadesAdapter {
         if(imagen == null){
             return null;
         }
-        Imagen imagenEntidad = new Imagen(imagen.id(),imagen.imagen());
+        Imagen imagenEntidad = new Imagen(imagen.imagen(), imagen.mimeType());
         return imagenEntidad;
     }
 
@@ -359,7 +384,7 @@ public class DtosAEntidadesAdapter {
         if(imagen == null){
             return null;
         }
-        ImagenDTO imagenDTO = new ImagenDTO(imagen.getImagen(),imagen.getId()); 
+        ImagenDTO imagenDTO = new ImagenDTO(imagen.getImagen(),imagen.getId(), imagen.getMimeType()); 
         return imagenDTO;
     }
 }

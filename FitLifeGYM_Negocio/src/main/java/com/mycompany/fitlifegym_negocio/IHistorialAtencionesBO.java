@@ -18,5 +18,4 @@ public interface IHistorialAtencionesBO {
     public abstract List<RegistroReporteAdminDTO> consultarTodosLosRegistrosReportes() throws NegocioException;
     public abstract ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException;
     public abstract ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException;
-    public abstract ReporteAtencionDTO eliminarReporteAtencion(String folio) throws NegocioException;
 }

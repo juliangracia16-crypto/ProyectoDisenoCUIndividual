@@ -16,6 +16,8 @@ import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
 import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
 import com.mycompany.fitlifegym_persistencia.entidades.Imagen;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
+import com.mycompany.fitlifegym_persistencia.entidades.ReporteIncidente;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import java.util.List;
 public class HistorialAtencionesBO implements IHistorialAtencionesBO{
     private final IPersistenciaFachada fachada;
     private final String ESTADO_REPORTE_RESUELTO = "RESUELTO";
+    private final String ESTADO_REPORTE_SIN_RESOLVER = "SIN RESOLVER";
 
     public HistorialAtencionesBO(IPersistenciaFachada fachada) {
         this.fachada = fachada;
@@ -51,21 +54,28 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
     public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporte) throws NegocioException {
         try {
             ReporteIncidentePersistenciaDTO reporteIncidente = fachada.consultarReporteIncidentePorFolio(reporte.folio());
+            ReporteIncidente reporteIncidenteEntidad = DtosAEntidadesAdapter.adaptarReporteIncidenteDTO(reporteIncidente);
             EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_REPORTE_RESUELTO);
-            Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
-            Imagen imagenGuardada = fachada.guardarImagen(imagen);
-            Categoria categoria = fachada.consultarCategoriaPorNombre(reporteIncidente.getCategoria().getNombre());
+            reporteIncidenteEntidad.setEstadoReporte(estado);
             
-            //TODO cambiarle el estado al reporte incidente tambien
+            Imagen imagen = null;
+            if(reporte.imagen() != null){
+                imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
+            }
+             
+            Categoria categoria = fachada.consultarCategoriaPorNombre(reporteIncidente.getCategoria().getNombre());
+            fachada.actualizarEstadoReporteIncidente(reporteIncidenteEntidad);
             
             ReporteAtencion reporteAtencion = DtosAEntidadesAdapter.adaptarReporteAtencionDTO(reporte);
             reporteAtencion.setIdCategoria(categoria.getId());
-            reporteAtencion.setIdEstado(estado.getId());
+            reporteAtencion.setEstadoReporte(estado);
             reporteAtencion.setFecha(reporteIncidente.getFecha());
-            if(imagenGuardada == null){
-                reporteAtencion.setIdImagen(null);
+            reporteAtencion.setIdCliente(reporteIncidente.getCliente().getId());
+            reporteAtencion.setAsunto(reporteIncidente.getAsunto());
+            if(imagen == null){
+                reporteAtencion.setImagen(null);
             }else{
-                reporteAtencion.setIdImagen(imagen.getId());
+                reporteAtencion.setImagen(imagen);
             }
             
             ReporteAtencion reporteAtendido = fachada.resolverReporte(reporteAtencion);
@@ -74,11 +84,6 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
         } catch (PersistenciaException ex) {
             throw new NegocioException("No se pudo atender el reporte de incidente correctamente.",ex);
         }
-    }
-
-    @Override
-    public ReporteAtencionDTO eliminarReporteAtencion(String folio) throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -101,7 +106,11 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
         try {
             List<RegistroReporteAdminDTO> registrosReportes = new LinkedList<>();
             List<ReporteAtencionPersistenciaDTO> reportesAtencion = fachada.consultarReportesAtencion();
-            List<ReporteIncidentePersistenciaDTO> reporteIncidentes = fachada.consultarReportesIncidentes();
+            //Solo los reportes que no hayan sido resueltos
+            EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_REPORTE_SIN_RESOLVER);
+            FiltrosConsultaHistorialReportesDTO filtros = new FiltrosConsultaHistorialReportesDTO(null, estado,null,null,null);
+            List<ReporteIncidentePersistenciaDTO> reporteIncidentes = fachada.consultarReportesIncidentesFiltros(filtros);
+            
             for(ReporteAtencionPersistenciaDTO reporte: reportesAtencion){
                 RegistroReporteAdminDTO reporteDTO = DtosAEntidadesAdapter.adaptarRegistrosReportesAdminDTO(reporte);
                 registrosReportes.add(reporteDTO);

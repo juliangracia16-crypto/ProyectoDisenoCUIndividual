@@ -16,5 +16,4 @@ public interface IHistorialIncidentesBO {
     public abstract List<ReporteIncidenteDTO> consultarReportesIncidentes() throws NegocioException;
     public abstract ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException;
     public abstract ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporte) throws NegocioException;
-    public abstract ReporteIncidenteDTO eliminarReporteIncidente(String folio) throws NegocioException;
 }

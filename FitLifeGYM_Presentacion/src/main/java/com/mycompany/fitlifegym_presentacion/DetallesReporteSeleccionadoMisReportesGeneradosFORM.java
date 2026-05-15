@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
@@ -90,7 +87,9 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
+        txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N

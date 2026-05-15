@@ -2,15 +2,21 @@
 package com.mycompany.fitlifegym_persistencia.dtos;
 
 import java.time.LocalDate;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
  * @author Julian
  */
 public class ReporteIncidentePersistenciaDTO {
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String id;
     private String folio;
     private CategoriaPersistenciaDTO categoria;
-    private EstadoReportePersistenciaDTO estado;
+    private EstadoReportePersistenciaDTO estadoReporte;
     private String asunto;
     private LocalDate fecha;
     private String descripcion;
@@ -19,11 +25,12 @@ public class ReporteIncidentePersistenciaDTO {
 
     public ReporteIncidentePersistenciaDTO() {
     }
-    
-    public ReporteIncidentePersistenciaDTO(String folio, CategoriaPersistenciaDTO categoria, EstadoReportePersistenciaDTO estado, String asunto, LocalDate fecha, String descripcion, ImagenPersistenciaDTO imagen, ClientePersistenciaDTO cliente) {
+
+    public ReporteIncidentePersistenciaDTO(String id, String folio, CategoriaPersistenciaDTO categoria, EstadoReportePersistenciaDTO estadoReporte, String asunto, LocalDate fecha, String descripcion, ImagenPersistenciaDTO imagen, ClientePersistenciaDTO cliente) {
+        this.id = id;
         this.folio = folio;
         this.categoria = categoria;
-        this.estado = estado;
+        this.estadoReporte = estadoReporte;
         this.asunto = asunto;
         this.fecha = fecha;
         this.descripcion = descripcion;
@@ -31,6 +38,14 @@ public class ReporteIncidentePersistenciaDTO {
         this.cliente = cliente;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getFolio() {
         return folio;
     }
@@ -39,8 +54,8 @@ public class ReporteIncidentePersistenciaDTO {
         return categoria;
     }
 
-    public EstadoReportePersistenciaDTO getEstado() {
-        return estado;
+    public EstadoReportePersistenciaDTO getEstadoReporte() {
+        return estadoReporte;
     }
 
     public String getAsunto() {
@@ -71,8 +86,8 @@ public class ReporteIncidentePersistenciaDTO {
         this.categoria = categoria;
     }
 
-    public void setEstado(EstadoReportePersistenciaDTO estado) {
-        this.estado = estado;
+    public void setEstadoReporte(EstadoReportePersistenciaDTO estadoReporte) {
+        this.estadoReporte = estadoReporte;
     }
 
     public void setAsunto(String asunto) {

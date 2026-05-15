@@ -81,7 +81,9 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
 
     @Override
     public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
-        validarImagen(reporteAtencion.imagen().imagen());
+        if(reporteAtencion.imagen() != null){
+            validarImagen(reporteAtencion.imagen().imagen());
+        }
         validarSolucionReporteAtencion(reporteAtencion.solucion());
         ReporteAtencionGeneradoDTO reporteIncidenteAtendido = historialAtencionesBO.atenderReporteIncidente(reporteAtencion);
         return reporteIncidenteAtendido;

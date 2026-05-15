@@ -28,7 +28,7 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     private IMembresiaDAO membresias;
     private IMembresiaCompradaDAO  membresiaComprada;
 
-    public PersistenciaFachada(IHistorialAtencionesDAO historialAtenciones, IHistorialIncidentesDAO historialIncidentes, IImagenesDAO imagenes, ICatalogosDAO catalogos,
+    public PersistenciaFachada(IHistorialAtencionesDAO historialAtenciones, IHistorialIncidentesDAO historialIncidentes, ICatalogosDAO catalogos,
         IClientesDAO clientes, IMembresiaDAO membresias, IMembresiaCompradaDAO membresiaComprada
     ) {
         this.historialAtenciones = historialAtenciones;
@@ -40,18 +40,6 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         this.membresiaComprada = membresiaComprada;
     }
     
-    //Imagenes
-    @Override
-    public Imagen consultarImagen(String idImagen) throws PersistenciaException {
-        Imagen imagen = imagenes.consultarImagen(idImagen);
-        return imagen;
-    }
-
-    @Override
-    public Imagen guardarImagen(Imagen imagen) throws PersistenciaException {
-        Imagen imagenGuardada = imagenes.guardarImagen(imagen);
-        return imagenGuardada;
-    }
     //Reportes de Incidentes
     @Override
     public List<ReporteIncidentePersistenciaDTO> consultarReportesIncidentes() throws PersistenciaException {
@@ -76,12 +64,13 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         ReporteIncidente reporteIncidenteGuardado = historialIncidentes.generarReporteIncidente(reporteIncidente);
         return reporteIncidenteGuardado;
     }
-
+    
     @Override
-    public ReporteIncidente eliminarReporteIncidente(String idReporte) throws PersistenciaException {
-        ReporteIncidente reporteIncidenteEliminado = historialIncidentes.eliminarReporteIncidente(idReporte);
-        return reporteIncidenteEliminado;
+    public ReporteIncidente actualizarEstadoReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException {
+        ReporteIncidente reporteIncidenteActualizado = historialIncidentes.actualizarEstadoReporteIncidente(reporteIncidente);
+        return reporteIncidenteActualizado;
     }
+    
     //Reportes de Atenciones
     @Override
     public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException {
@@ -107,11 +96,6 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         return reporteAtencion;
     }
 
-    @Override
-    public ReporteAtencion eliminarReporteAtencion(String idReporte) throws PersistenciaException {
-        ReporteAtencion reporteAtencionEliminado = historialAtenciones.eliminarReporteAtencion(idReporte);
-        return reporteAtencionEliminado;
-    }
     //Catalogod de Estados y Categorias de los Reportes
     @Override
     public List<EstadoReporte> consultarCatalogoEstados() throws PersistenciaException {
@@ -197,6 +181,5 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         
     }
 
-    
     
 }

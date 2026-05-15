@@ -1,14 +1,16 @@
 
 package com.mycompany.fitlifegym_persistencia;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UnwindOptions;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.dtos.FiltrosConsultaHistorialReportesDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.ReporteIncidentePersistenciaDTO;
@@ -60,28 +62,15 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
                             "_id",
                             "categoria"
                     ),
-                    Aggregates.lookup(
-                            "estados_reportes",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    ),
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    ),
                     Aggregates.unwind("$cliente"),
-                    Aggregates.unwind("$categoria"),
-                    Aggregates.unwind("$estado"),
-                    Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true))
+                    Aggregates.unwind("$categoria")
             );
-            
             AggregateIterable<ReporteIncidentePersistenciaDTO> resultados = coleccion.aggregate(pipeline, ReporteIncidentePersistenciaDTO.class);
             List<ReporteIncidentePersistenciaDTO> reportes = new ArrayList<>();
             resultados.into(reportes);
             return reportes;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar todos los reportes de incidentes.", ex);
         }
     }
 
@@ -113,33 +102,15 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
                             "categoria"
                     )
             );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "estados_reportes",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    )
-            );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    )
-            );
-
             pipeline.add(Aggregates.unwind("$cliente"));
             pipeline.add(Aggregates.unwind("$categoria"));
-            pipeline.add(Aggregates.unwind("$estado"));
-            pipeline.add(Aggregates.unwind("$imagen", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-
             ReporteIncidentePersistenciaDTO reporteIncidente = coleccion.aggregate(pipeline, ReporteIncidentePersistenciaDTO.class).first();
             if(reporteIncidente == null){
                 throw new PersistenciaException("No se encontro ningun reporte con ese folio.");
             }
             return reporteIncidente;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar el reportes de incidente por folio.", ex);
         }    
     }
 
@@ -154,26 +125,17 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
             if(!resultado.wasAcknowledged()){
                 throw new PersistenciaException("No se pudo registrar correctamente el reporte de incidente.");
             }
-            
-            reporteIncidente.setId(resultado.getInsertedId().asObjectId().getValue().toHexString());
-            return reporteIncidente;
-        }
-    }
-
-    @Override
-    public ReporteIncidente eliminarReporteIncidente(String idReporte) throws PersistenciaException {
-        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
-            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
-            MongoCollection<ReporteIncidente> coleccion = this.obtenerColeccion(empresaBD);
-            Document filtros = new Document().append(FOLIO_KEY,idReporte);
-            
-            ReporteIncidente reporteIncidente = coleccion.findOneAndDelete(filtros);
-            if(reporteIncidente == null){
-                throw new PersistenciaException("No se pudo eliminar el reporte de incidente correctamente.");
+            if (resultado.getInsertedId() != null) {
+                reporteIncidente.setId(
+                    resultado.getInsertedId()
+                    .asObjectId()
+                    .getValue()
+                    .toHexString()
+                );
             }
-            
             return reporteIncidente;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al guardar el reportes de incidente.", ex);
         }
     }
 
@@ -219,26 +181,9 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
                             "categoria"
                     )
             );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "estados_reportes",
-                            "idEstado",
-                            "_id",
-                            "estado"
-                    )
-            );
-            pipeline.add(
-                    Aggregates.lookup(
-                            "imagenes",
-                            "idImagen",
-                            "_id",
-                            "imagen"
-                    )
-            );
             pipeline.add(Aggregates.unwind("$cliente"));
             pipeline.add(Aggregates.unwind("$categoria"));
-            pipeline.add(Aggregates.unwind("$estado"));
-            pipeline.add(Aggregates.unwind("$imagen",new UnwindOptions().preserveNullAndEmptyArrays(true)));
+            
             if (filtros.categoria() != null && filtros.categoria().getCategoria() != null && !filtros.categoria().getCategoria().isBlank()) {
                 pipeline.add(
                         Aggregates.match(
@@ -249,12 +194,11 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
                         )
                 );
             }
-
             if (filtros.estado() != null && filtros.estado().getEstado() != null && !filtros.estado().getEstado().isBlank()) {
                 pipeline.add(
                         Aggregates.match(
                                 Filters.eq(
-                                        "estado.nombre",
+                                        "estadoReporte.nombre",
                                         filtros.estado().getEstado()
                                 )
                         )
@@ -266,6 +210,35 @@ public class HistorialIncidentesDAO implements IHistorialIncidentesDAO, IBaseMon
             resultados.into(reportes);
 
             return reportes;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al consultar reportes de incidentes por filtros.", ex);
+        }
+    }
+
+    @Override
+    public ReporteIncidente actualizarEstadoReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException {
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<ReporteIncidente> coleccion = this.obtenerColeccion(empresaBD);
+            UpdateResult resultado = coleccion.updateOne(
+                Filters.eq("_id",new ObjectId(reporteIncidente.getId())),
+                    Updates.set(
+                       "estadoReporte",
+                        reporteIncidente.getEstadoReporte()
+                    )
+            );
+
+            if (resultado.getMatchedCount() == 0) {
+                throw new PersistenciaException("No se encontró el reporte incidente.");
+            }
+
+            if (resultado.getModifiedCount() == 0) {
+                throw new PersistenciaException("El estado no se pudo actualizar.");
+            }
+            return reporteIncidente;
+        } catch (MongoException ex) {
+            throw new PersistenciaException("Error al guardar el reporte de incidente.", ex);
         }
     }
     

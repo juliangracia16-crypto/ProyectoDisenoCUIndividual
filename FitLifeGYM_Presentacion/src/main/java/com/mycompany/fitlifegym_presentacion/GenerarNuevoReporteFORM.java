@@ -29,6 +29,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GenerarNuevoReporteFORM.class.getName());
     private ControlForms control;
     private byte[] imagenSeleccionada;
+    private String mimeType;
     /**
      * Creates new form GenerarNuevoReporteFORM
      */
@@ -103,7 +104,9 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
+        txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -231,7 +234,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
             String descripcion = txtAreaDescripcion.getText();
             ImagenDTO imagen = null;
             if (this.imagenSeleccionada != null) {
-                imagen = new ImagenDTO(this.imagenSeleccionada,null);
+                imagen = new ImagenDTO(this.imagenSeleccionada,null,this.mimeType);
             }
             LocalDate fechaGenerado = LocalDate.now();
             NuevoReporteIncidenteDTO reporteIncidente = new NuevoReporteIncidenteDTO(
@@ -256,6 +259,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
             
                 File archivo = selector.getSelectedFile();
                 this.imagenSeleccionada = Files.readAllBytes(archivo.toPath());
+                this.mimeType = Files.probeContentType(archivo.toPath());
                 
                 ImageIcon icono = new ImageIcon(this.imagenSeleccionada);
                 Image imagenEscalada = icono.getImage().getScaledInstance(

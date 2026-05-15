@@ -20,38 +20,48 @@ public class ReporteIncidente {
     private String asunto;
     private String descripcion;
     private LocalDate fecha;
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idEstado;
+    private EstadoReporte estadoReporte;
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idCategoria;
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idImagen;
+    private Imagen imagen;
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idCliente;
 
     public ReporteIncidente() {
     }
-
-    public ReporteIncidente(String id, String asunto, String descripcion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
+    
+    public ReporteIncidente(String id, String asunto, String descripcion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
         this.id = id;
         this.folio = this.generarFolio();
         this.asunto = asunto;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.idEstado = idEstado;
+        this.estadoReporte = estadoReporte;
         this.idCategoria = idCategoria;
-        this.idImagen = idImagen;
+        this.imagen = imagen;
         this.idCliente = idCliente;
     }
 
-    public ReporteIncidente(String asunto, String descripcion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
+    public ReporteIncidente(String id, String folio, String asunto, String descripcion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
+        this.id = id;
+        this.folio = folio;
+        this.asunto = asunto;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.estadoReporte = estadoReporte;
+        this.idCategoria = idCategoria;
+        this.imagen = imagen;
+        this.idCliente = idCliente;
+    }
+    
+    public ReporteIncidente(String asunto, String descripcion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
         this.folio = this.generarFolio();
         this.asunto = asunto;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.idEstado = idEstado;
+        this.estadoReporte = estadoReporte;
         this.idCategoria = idCategoria;
-        this.idImagen = idImagen;
+        this.imagen = imagen;
         this.idCliente = idCliente;
     }
 
@@ -95,28 +105,28 @@ public class ReporteIncidente {
         this.fecha = fecha;
     }
 
-    public String getIdEstado() {
-        return idEstado;
+    public EstadoReporte getEstadoReporte() {
+        return estadoReporte;
     }
 
-    public void setIdEstado(String idEstado) {
-        this.idEstado = idEstado;
+    public void setEstadoReporte(EstadoReporte estadoReporte) {
+        this.estadoReporte = estadoReporte;
     }
 
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
+    }
+    
     public String getIdCategoria() {
         return idCategoria;
     }
 
     public void setIdCategoria(String idCategoria) {
         this.idCategoria = idCategoria;
-    }
-    
-    public String getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(String idImagen) {
-        this.idImagen = idImagen;
     }
 
     public String getIdCliente() {
@@ -151,7 +161,7 @@ public class ReporteIncidente {
 
     @Override
     public String toString() {
-        return "ReporteIncidente{" + "id=" + id + ", folio=" + folio + ", asunto=" + asunto + ", descripcion=" + descripcion + ", fecha=" + fecha + ", estado=" + idEstado + ", categoria=" + idCategoria + ", imagen=" + idImagen + ", cliente=" + idCliente + '}';
+        return "ReporteIncidente{" + "id=" + id + ", folio=" + folio + ", asunto=" + asunto + ", descripcion=" + descripcion + ", fecha=" + fecha + ", estadoReporte=" + estadoReporte + ", idCategoria=" + idCategoria + ", imagen=" + imagen + ", idCliente=" + idCliente + '}';
     }
     
     private String generarFolio(){

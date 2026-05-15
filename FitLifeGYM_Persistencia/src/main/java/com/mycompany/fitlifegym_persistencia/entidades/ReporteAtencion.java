@@ -16,39 +16,50 @@ public class ReporteAtencion {
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private String folio;
+    private String asunto;
     private String solucion;
     private LocalDate fecha;
-    @BsonId
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idEstado;
-    @BsonId
+    private EstadoReporte estadoReporte;
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idCategoria;
-    @BsonId
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idImagen;
-    @BsonId
+    private Imagen imagen;
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String idCliente;
 
-    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
+    public ReporteAtencion() {
+    }
+    
+    
+    public ReporteAtencion(String id, String folio, String solucion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
         this.id = id;
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
-        this.idEstado = idEstado;
+        this.estadoReporte = estadoReporte;
         this.idCategoria = idCategoria;
-        this.idImagen = idImagen;
+        this.imagen = imagen;
         this.idCliente = idCliente;
     }
-
-    public ReporteAtencion(String folio, String solucion, LocalDate fecha, String idEstado, String idCategoria, String idImagen, String idCliente) {
+    
+    public ReporteAtencion(String id, String folio, String asunto, String solucion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
+        this.id = id;
+        this.asunto = asunto;
         this.folio = folio;
         this.solucion = solucion;
         this.fecha = fecha;
-        this.idEstado = idEstado;
+        this.estadoReporte = estadoReporte;
         this.idCategoria = idCategoria;
-        this.idImagen = idImagen;
+        this.imagen = imagen;
+        this.idCliente = idCliente;
+    }
+    
+    public ReporteAtencion(String folio, String solucion, LocalDate fecha, EstadoReporte estadoReporte, String idCategoria, Imagen imagen, String idCliente) {
+        this.folio = folio;
+        this.solucion = solucion;
+        this.fecha = fecha;
+        this.estadoReporte = estadoReporte;
+        this.idCategoria = idCategoria;
+        this.imagen = imagen;
         this.idCliente = idCliente;
     }
 
@@ -68,8 +79,6 @@ public class ReporteAtencion {
         this.idCategoria = idCategoria;
     }
     
-    
-    
     public String getFolio() {
         return folio;
     }
@@ -78,6 +87,14 @@ public class ReporteAtencion {
         this.folio = folio;
     }
 
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+    
     public String getSolucion() {
         return solucion;
     }
@@ -94,22 +111,22 @@ public class ReporteAtencion {
         this.fecha = fecha;
     }
 
-    public String getIdEstado() {
-        return idEstado;
+    public EstadoReporte getEstadoReporte() {
+        return estadoReporte;
     }
 
-    public void setIdEstado(String idEstado) {
-        this.idEstado = idEstado;
+    public void setEstadoReporte(EstadoReporte estadoReporte) {
+        this.estadoReporte = estadoReporte;
     }
 
-    public String getIdImagen() {
-        return idImagen;
+    public Imagen getImagen() {
+        return imagen;
     }
 
-    public void setIdImagen(String idImagen) {
-        this.idImagen = idImagen;
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
     }
-
+    
     public String getIdCliente() {
         return idCliente;
     }
@@ -142,7 +159,7 @@ public class ReporteAtencion {
 
     @Override
     public String toString() {
-        return "ReporteAtencion{" + "id=" + id + ", folio=" + folio + ", solucion=" + solucion + ", fecha=" + fecha + ", estado=" + idEstado + ", imagen=" + idImagen + ", cliente=" + idCliente + '}';
+        return "ReporteAtencion{" + "id=" + id + ", folio=" + folio + ", solucion=" + solucion + ", fecha=" + fecha + ", estado=" + estadoReporte + ", idCategoria=" + idCategoria + ", imagen=" + imagen + ", idCliente=" + idCliente + '}';
     }
     
 }

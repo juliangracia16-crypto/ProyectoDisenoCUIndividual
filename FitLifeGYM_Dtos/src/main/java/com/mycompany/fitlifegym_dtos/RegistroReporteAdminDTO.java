@@ -9,6 +9,7 @@ import java.time.LocalDate;
  */
 public record RegistroReporteAdminDTO(
         String folio,
+        TipoReporteDTO tipo,
         String asunto,
         CategoriaDTO categoria,
         EstadoReporteDTO estado,

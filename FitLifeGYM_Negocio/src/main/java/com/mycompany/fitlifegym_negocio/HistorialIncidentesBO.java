@@ -50,21 +50,16 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
     public ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporte) throws NegocioException {
         try {
             Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
-            Imagen imagenGuardada = fachada.guardarImagen(imagen);
-//            Imagen imagenGuardada = null;
-//            if(imagenGuardada != null){
-//                imagenGuardada = fachada.guardarImagen(imagen);
-//            }
             EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_INICIAL_REPORTE);
             Categoria categoria = fachada.consultarCategoriaPorNombre(reporte.categoria().categoria());
             
             
             ReporteIncidente reporteIncidente = DtosAEntidadesAdapter.adaptarReporteIncidenteDTO(reporte);
-            reporteIncidente.setIdEstado(estado.getId());
-            if(imagenGuardada == null){
-                reporteIncidente.setIdImagen(null);
+            reporteIncidente.setEstadoReporte(estado);
+            if(imagen == null){
+                reporteIncidente.setImagen(null);
             }else{
-                reporteIncidente.setIdImagen(imagenGuardada.getId());
+                reporteIncidente.setImagen(imagen);
             }
             reporteIncidente.setIdCategoria(categoria.getId());
             reporteIncidente.setIdCliente(reporte.cliente().getIdCliente());
@@ -76,11 +71,6 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al generar reporte de incidente.",ex);
         }
-    }
-
-    @Override
-    public ReporteIncidenteDTO eliminarReporteIncidente(String folio) throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

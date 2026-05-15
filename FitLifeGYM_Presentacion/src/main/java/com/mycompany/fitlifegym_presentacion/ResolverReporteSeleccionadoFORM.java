@@ -4,6 +4,20 @@
  */
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
+import com.mycompany.fitlifegym_dtos.ImagenDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_negocio.NegocioException;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Julian
@@ -11,14 +25,26 @@ package com.mycompany.fitlifegym_presentacion;
 public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ResolverReporteSeleccionadoFORM.class.getName());
-
+    private ControlForms control;
+    private ReporteIncidenteDTO reporteIncidente;
+    private byte[] imagenSeleccionada;
+    private String mimeType;
+    
     /**
      * Creates new form DetallesReporteSeleccionadoFORM
      */
-    public ResolverReporteSeleccionadoFORM() {
+    public ResolverReporteSeleccionadoFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
     }
-
+    public ResolverReporteSeleccionadoFORM(ControlForms control, ReporteIncidenteDTO reporteIncidente) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        this.reporteIncidente = reporteIncidente;
+        llenarFolioForm();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,6 +76,7 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
         btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,19 +87,21 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
         jLabel1.setText("Folio: ");
 
         txtFolioReporte.setEditable(false);
-        txtFolioReporte.setBackground(new java.awt.Color(102, 102, 102));
+        txtFolioReporte.setBackground(new java.awt.Color(255, 255, 255));
         txtFolioReporte.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtFolioReporte.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setForeground(new java.awt.Color(0, 0, 0));
 
         lblSolucion.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblSolucion.setForeground(new java.awt.Color(255, 255, 255));
         lblSolucion.setText("Solución:");
 
-        txtAreaSolcuion.setEditable(false);
-        txtAreaSolcuion.setBackground(new java.awt.Color(102, 102, 102));
+        txtAreaSolcuion.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaSolcuion.setColumns(20);
-        txtAreaSolcuion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAreaSolcuion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtAreaSolcuion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaSolcuion.setLineWrap(true);
         txtAreaSolcuion.setRows(5);
+        txtAreaSolcuion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaSolcuion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -84,12 +113,14 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
         btnResolverReporte.setForeground(new java.awt.Color(255, 255, 255));
         btnResolverReporte.setText("Resolver Reporte");
         btnResolverReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnResolverReporte.addActionListener(this::btnResolverReporteActionPerformed);
 
         btnSeleccionarImagen.setBackground(new java.awt.Color(102, 102, 102));
         btnSeleccionarImagen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSeleccionarImagen.setForeground(new java.awt.Color(255, 255, 255));
         btnSeleccionarImagen.setText("Seleccionar Imagen");
         btnSeleccionarImagen.setToolTipText("");
+        btnSeleccionarImagen.addActionListener(this::btnSeleccionarImagenActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,29 +196,71 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+        control.navegarDetallesReporteSeleccionadoForm(reporteIncidente);
+        this.dispose();
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ResolverReporteSeleccionadoFORM().setVisible(true));
+    private void btnResolverReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverReporteActionPerformed
+        boolean generado = resolverReporteIncidente();
+        if(generado){
+           control.navegarReportesQuejasClientes();
+            this.dispose(); 
+        }
+    }//GEN-LAST:event_btnResolverReporteActionPerformed
+
+    private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
+        seleccionarImagen();
+    }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
+    
+    private void seleccionarImagen(){
+        try {
+            JFileChooser selector = new JFileChooser();
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes JPG y PNG", "jpg", "jpeg", "png");
+            selector.setFileFilter(filtro);
+            int resultado = selector.showOpenDialog(this);
+
+            if (resultado == JFileChooser.APPROVE_OPTION) {
+            
+                File archivo = selector.getSelectedFile();
+                this.imagenSeleccionada = Files.readAllBytes(archivo.toPath());
+                this.mimeType = Files.probeContentType(archivo.toPath());
+                
+                ImageIcon icono = new ImageIcon(this.imagenSeleccionada);
+                Image imagenEscalada = icono.getImage().getScaledInstance(
+                            lblLugarImagen.getWidth(),
+                            lblLugarImagen.getHeight(),
+                            Image.SCALE_SMOOTH
+                );
+
+                lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+            }
+        }catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al leer la imagen.");
+        }
+    }
+    
+    private boolean resolverReporteIncidente(){
+        try {
+            String folio = reporteIncidente.folio();
+            String solucion = txtAreaSolcuion.getText();
+            ImagenDTO imagen = null;
+            if (this.imagenSeleccionada != null) {
+                imagen = new ImagenDTO(this.imagenSeleccionada, null, this.mimeType);
+            }
+            AtenderReporteDTO reporteAtendido = new AtenderReporteDTO(
+                    folio, solucion, imagen
+            );
+            ReporteAtencionGeneradoDTO reporteGenerado = control.atenderReporteIncidente(reporteAtendido);
+            return reporteGenerado != null;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte de incidente. " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    private void llenarFolioForm(){
+        txtFolioReporte.setText(reporteIncidente.folio());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

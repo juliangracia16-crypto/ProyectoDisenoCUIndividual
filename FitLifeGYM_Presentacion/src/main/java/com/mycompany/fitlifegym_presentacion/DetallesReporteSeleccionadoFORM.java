@@ -1,8 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
+
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
+import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -11,12 +13,31 @@ package com.mycompany.fitlifegym_presentacion;
 public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DetallesReporteSeleccionadoFORM.class.getName());
-
+    ReporteIncidenteDTO reporteIncidenteSeleccionado;
+    ReporteAtencionDTO reporteAtencionSeleccionado;
+    private ControlForms control;
+    
     /**
      * Creates new form DetallesReporteSeleccionadoFORM
      */
-    public DetallesReporteSeleccionadoFORM() {
+    public DetallesReporteSeleccionadoFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+    }
+    public DetallesReporteSeleccionadoFORM(ControlForms control, ReporteIncidenteDTO reporteIncidenteSeleccionado) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        this.reporteIncidenteSeleccionado = reporteIncidenteSeleccionado;
+        mostrarDetallesReporteIncidente();
+    }
+    public DetallesReporteSeleccionadoFORM(ControlForms control, ReporteAtencionDTO reporteAtencionSeleccionado) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        this.reporteAtencionSeleccionado = reporteAtencionSeleccionado;
+        mostrarDetallesReporteAtencion();
     }
 
     /**
@@ -50,6 +71,7 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
         btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -64,19 +86,22 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
         jLabel1.setText("Folio: ");
 
         txtFolioReporte.setEditable(false);
-        txtFolioReporte.setBackground(new java.awt.Color(102, 102, 102));
+        txtFolioReporte.setBackground(new java.awt.Color(255, 255, 255));
         txtFolioReporte.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtFolioReporte.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setForeground(new java.awt.Color(0, 0, 0));
 
         lblDescripcionReporte.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDescripcionReporte.setForeground(new java.awt.Color(255, 255, 255));
         lblDescripcionReporte.setText("Descripción: ");
 
         txtAreaDescripcion.setEditable(false);
-        txtAreaDescripcion.setBackground(new java.awt.Color(102, 102, 102));
+        txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setColumns(20);
-        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
+        txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -88,6 +113,7 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
         btnResolverReporte.setForeground(new java.awt.Color(255, 255, 255));
         btnResolverReporte.setText("Resolver Reporte");
         btnResolverReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnResolverReporte.addActionListener(this::btnResolverReporteActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,15 +135,15 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtFolioReporte, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblSubtitulo)
-                        .addGap(45, 45, 45)))
-                .addGap(257, 257, 257))
+                        .addGap(75, 75, 75)))
+                .addGap(227, 227, 227))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnResolverReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,29 +193,50 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
+        control.navegarReportesQuejasClientes();
+        this.dispose();
+    }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DetallesReporteSeleccionadoFORM().setVisible(true));
+    private void btnResolverReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverReporteActionPerformed
+        control.navegarResolverReporteSeleccionado(reporteIncidenteSeleccionado);
+        this.dispose();
+    }//GEN-LAST:event_btnResolverReporteActionPerformed
+    
+    private void mostrarDetallesReporteIncidente(){
+        txtFolioReporte.setText(reporteIncidenteSeleccionado.asunto());
+        txtAreaDescripcion.setText(reporteIncidenteSeleccionado.descripcion());
+        if (reporteIncidenteSeleccionado.imagen() != null) {
+            ImageIcon icono = new ImageIcon(reporteIncidenteSeleccionado.imagen().imagen());
+            Image imagenEscalada = icono.getImage().getScaledInstance(
+                    lblLugarImagen.getWidth(),
+                    lblLugarImagen.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+
+            lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+        } else {
+            lblImagen.setText("REPORTE SIN IMAGEN");
+        }
+        
+    }
+    private void mostrarDetallesReporteAtencion(){
+        txtFolioReporte.setText(reporteAtencionSeleccionado.asunto());
+        txtAreaDescripcion.setText(reporteAtencionSeleccionado.solucion());
+        lblDescripcionReporte.setText("Solución: ");
+        if (reporteAtencionSeleccionado.imagen() != null) {
+            ImageIcon icono = new ImageIcon(reporteAtencionSeleccionado.imagen().imagen());
+            Image imagenEscalada = icono.getImage().getScaledInstance(
+                    lblLugarImagen.getWidth(),
+                    lblLugarImagen.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+
+            lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+        } else {
+            lblImagen.setText("REPORTE SIN IMAGEN");
+        } 
+        btnResolverReporte.setVisible(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

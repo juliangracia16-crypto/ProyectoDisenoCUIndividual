@@ -10,11 +10,11 @@ import java.time.LocalDate;
 public record ReporteIncidenteGeneradoDTO(
         String folio,
         String categoria,
-        String estado,
+        EstadoReporteDTO estado,
         String asunto,
         LocalDate fecha,
         String descripcion,
-        String imagen,
+        ImagenDTO imagen,
         String cliente
     ) {
 

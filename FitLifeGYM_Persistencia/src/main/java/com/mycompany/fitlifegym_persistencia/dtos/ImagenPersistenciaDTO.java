@@ -14,13 +14,15 @@ public class ImagenPersistenciaDTO {
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private byte[] imagen;
-
+    private String mimeType;
+    
     public ImagenPersistenciaDTO() {
     }
     
-    public ImagenPersistenciaDTO(String id, byte[] imagen) {
+    public ImagenPersistenciaDTO(String id, byte[] imagen, String mimeType) {
         this.id = id;
         this.imagen = imagen;
+        this.mimeType = mimeType;
     }
 
     public String getId() {
@@ -37,6 +39,14 @@ public class ImagenPersistenciaDTO {
 
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
     
 }

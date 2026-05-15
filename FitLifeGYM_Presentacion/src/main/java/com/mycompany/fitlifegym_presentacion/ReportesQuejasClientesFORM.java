@@ -5,6 +5,7 @@ import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
 import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.awt.Color;
 import java.util.List;
@@ -21,6 +22,8 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     private ControlForms control;
     private List<RegistroReporteAdminDTO> registrosReportes;
     private FiltrosConsultaHistorialReportesNegocioDTO filtros;
+    private ReporteAtencionDTO reporteAtencionSeleccionado;
+    private ReporteIncidenteDTO reporteIncidenteSeleccionado;
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
@@ -73,17 +76,17 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
 
         tblRegistrosReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha"
+                "Folio", "Asunto", "Categoría", "Estado Reporte", "Cliente", "Fecha", "Tipo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -95,6 +98,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         btnSeleccionarReporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSeleccionarReporte.setForeground(new java.awt.Color(255, 255, 255));
         btnSeleccionarReporte.setText("Seleccionar Reporte");
+        btnSeleccionarReporte.addActionListener(this::btnSeleccionarReporteActionPerformed);
 
         btnExportarPdf.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExportarPdf.setForeground(new java.awt.Color(255, 255, 255));
@@ -168,39 +172,30 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         control.navegarMenuPrincipalAdmin();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnSeleccionarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarReporteActionPerformed
+        seleccionarReporte();
+        this.dispose();
+    }//GEN-LAST:event_btnSeleccionarReporteActionPerformed
     
-    private ReporteIncidenteDTO seleccionarReporteIncidente() {
+    private void seleccionarReporte() {
         try {
-            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
+            int filaVista = tblRegistrosReportes.getSelectedRow();
+            int filaModelo = tblRegistrosReportes.convertRowIndexToModel(filaVista);
 
-            if (filaSeleccionada == -1) {
-                return null;
+            RegistroReporteAdminDTO reporte = registrosReportes.get(filaModelo);
+            if(reporte.tipo() == TipoReporteDTO.INCIDENTE){
+                String folio = tblRegistrosReportes.getValueAt(filaModelo, 0).toString();
+                this.reporteIncidenteSeleccionado = control.consultarReporteIncidentePorFolio(folio);
+                control.navegarDetallesReporteSeleccionadoForm(reporteIncidenteSeleccionado);
+            }else if(reporte.tipo() == TipoReporteDTO.ATENCION){
+                String folio = tblRegistrosReportes.getValueAt(filaModelo,0).toString();
+                this.reporteAtencionSeleccionado = control.consultarReporteAtencionPorFolio(folio);
+                control.navegarDetallesReporteSeleccionadoForm(reporteAtencionSeleccionado);
             }
-
-            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
-
-            ReporteIncidenteDTO reporte = control.consultarReporteIncidentePorFolio(folio);
-            return reporte;
+            
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los reportes.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-    }
-    private ReporteAtencionDTO seleccionarReporteAtencion() {
-        try {
-            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
-
-            if (filaSeleccionada == -1) {
-                return null;
-            }
-
-            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
-
-            ReporteAtencionDTO reporte = control.consultarReporteAtencionPorFolio(folio);
-            return reporte;
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los reportes.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
+            JOptionPane.showMessageDialog(this, "Error al cargar el reporte.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -232,7 +227,8 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
                     reporte.categoria().categoria(),
                     reporte.estado().estado(),
                     reporte.cliente().getNombreCompleto(),
-                    reporte.fecha().toString()
+                    reporte.fecha().toString(),
+                    reporte.tipo()
                 };
                 
                 modelo.addRow(fila);

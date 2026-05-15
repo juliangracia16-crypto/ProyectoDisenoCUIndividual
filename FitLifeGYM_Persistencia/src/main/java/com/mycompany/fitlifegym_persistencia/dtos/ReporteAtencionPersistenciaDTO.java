@@ -13,7 +13,7 @@ public class ReporteAtencionPersistenciaDTO {
     private String solucion;
     private CategoriaPersistenciaDTO categoria;
     private LocalDate fecha;
-    private EstadoReportePersistenciaDTO estado;
+    private EstadoReportePersistenciaDTO estadoReporte;
     private ImagenPersistenciaDTO imagen;
     private ClientePersistenciaDTO cliente;
 
@@ -26,11 +26,11 @@ public class ReporteAtencionPersistenciaDTO {
         this.solucion = solucion;
         this.categoria = categoria;
         this.fecha = fecha;
-        this.estado = estado;
+        this.estadoReporte = estado;
         this.imagen = imagen;
         this.cliente = cliente;
     }
-
+    
     public String getAsunto() {
         return asunto;
     }
@@ -55,8 +55,8 @@ public class ReporteAtencionPersistenciaDTO {
         return fecha;
     }
 
-    public EstadoReportePersistenciaDTO getEstado() {
-        return estado;
+    public EstadoReportePersistenciaDTO getEstadoReporte() {
+        return estadoReporte;
     }
 
     public ImagenPersistenciaDTO getImagen() {
@@ -83,8 +83,8 @@ public class ReporteAtencionPersistenciaDTO {
         this.fecha = fecha;
     }
 
-    public void setEstado(EstadoReportePersistenciaDTO estado) {
-        this.estado = estado;
+    public void setEstadoReporte(EstadoReportePersistenciaDTO estadoReporte) {
+        this.estadoReporte = estadoReporte;
     }
 
     public void setImagen(ImagenPersistenciaDTO imagen) {

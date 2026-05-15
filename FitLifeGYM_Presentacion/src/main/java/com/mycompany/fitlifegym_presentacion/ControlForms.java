@@ -83,6 +83,7 @@ public class ControlForms implements ICUQuejasSugerencias{
     public void navegarMetodosPago(TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
         mostrarPantalla(new SuscribirseFORM(this, membresia, cliente));
     }
+    
     //FORMS CU
     public void navegarInicioBuzonQuejas(){
         mostrarPantalla(new InicioBuzonQuejasFORM(this));
@@ -126,6 +127,26 @@ public class ControlForms implements ICUQuejasSugerencias{
     
     public void navegarReportesQuejasClientes(){
         mostrarPantalla(new ReportesQuejasClientesFORM(this));
+    }
+    
+    public void navegarDetallesReporteSeleccionadoForm(){
+        mostrarPantalla(new DetallesReporteSeleccionadoFORM(this));
+    }
+    
+    public void navegarDetallesReporteSeleccionadoForm(ReporteIncidenteDTO reporte){
+        mostrarPantalla(new DetallesReporteSeleccionadoFORM(this, reporte));
+    }
+    
+    public void navegarDetallesReporteSeleccionadoForm(ReporteAtencionDTO reporte){
+        mostrarPantalla(new DetallesReporteSeleccionadoFORM(this, reporte));
+    }
+    
+    public void navegarResolverReporteSeleccionado(){
+        mostrarPantalla(new ResolverReporteSeleccionadoFORM(this));
+    }
+    
+    public void navegarResolverReporteSeleccionado(ReporteIncidenteDTO reporte){
+        mostrarPantalla(new ResolverReporteSeleccionadoFORM(this, reporte));
     }
     
     //Dialogs
