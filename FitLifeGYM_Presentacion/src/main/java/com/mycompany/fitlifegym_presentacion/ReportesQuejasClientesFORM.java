@@ -8,7 +8,13 @@ import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -103,6 +109,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         btnExportarPdf.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExportarPdf.setForeground(new java.awt.Color(255, 255, 255));
         btnExportarPdf.setText("Exportar PDF");
+        btnExportarPdf.addActionListener(this::btnExportarPdfActionPerformed);
 
         btnMostrarTodos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMostrarTodos.setForeground(new java.awt.Color(255, 255, 255));
@@ -177,6 +184,33 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         seleccionarReporte();
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarReporteActionPerformed
+
+    private void btnExportarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPdfActionPerformed
+        generarReportePdf();
+    }//GEN-LAST:event_btnExportarPdfActionPerformed
+    
+    private void generarReportePdf(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF");
+        fileChooser.setSelectedFile(new File("ReporteDeRegistros.pdf"));
+        int resultado = fileChooser.showSaveDialog(this);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            try {
+                String ruta = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!ruta.endsWith(".pdf")) {
+                    ruta += ".pdf";
+                }
+                byte[] pdf = control.generarReportePdf(registrosReportes);
+                Files.write(Paths.get(ruta),pdf);
+
+                JOptionPane.showMessageDialog(this, "PDF generado exitosamente en:\n" + ruta, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo generar el pdf correctamente."+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo generar el pdf correctamente."+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     private void seleccionarReporte() {
         try {

@@ -13,6 +13,7 @@
         <module>../FuncionalidadIniciarSesionRenovarMembresia</module>
         <module>../FitLifeGYM_Dtos</module>
         <module>../CUQuejasSugerencias</module>
+        <module>../FitLifeGYM_Infraestructura</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

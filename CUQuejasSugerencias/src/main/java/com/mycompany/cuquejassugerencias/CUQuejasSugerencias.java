@@ -11,10 +11,15 @@ import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
+import com.mycompany.fitlifegym_dtos.ReportePdfDTO;
 import com.mycompany.fitlifegym_negocio.ICatalogosBO;
+import com.mycompany.fitlifegym_negocio.IGeneradorReportePDF;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.InfraestructuraException;
 import com.mycompany.fitlifegym_negocio.NegocioException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,11 +33,15 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     private IHistorialIncidentesBO historialIncidentesBO;
     private IHistorialAtencionesBO historialAtencionesBO;
     private ICatalogosBO catalogosBO;
+    private IGeneradorReportePDF generadorPdf;
+    private final String RUTA_LOGO_REPORTE_PDF = "/logo gym.jpg";
+    private final String TITULO_REPORTE_PDF = "REPORTE DE REGISTROS DE QUEJAS Y SUGERENCIAS";
 
-    public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, ICatalogosBO catalogosBO) {
+    public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, ICatalogosBO catalogosBO, IGeneradorReportePDF generadorPdf) {
         this.historialIncidentesBO = historialIncidentesBO;
         this.historialAtencionesBO = historialAtencionesBO;
         this.catalogosBO = catalogosBO;
+        this.generadorPdf = generadorPdf;
     }
     
     @Override
@@ -112,6 +121,25 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         return reportes;
     }
     
+    @Override
+    public byte[] generarReportePdf(List<RegistroReporteAdminDTO> registros) throws NegocioException {
+        String tituloReporte = TITULO_REPORTE_PDF;
+        InputStream input = getClass().getResourceAsStream(RUTA_LOGO_REPORTE_PDF);
+        byte[] logo;
+        try {
+            logo = input.readAllBytes();
+            ReportePdfDTO generarReportePdf = new ReportePdfDTO(
+                    registros, LocalDate.now(), tituloReporte,logo
+            );
+            byte[] reportePdf = generadorPdf.generarReportePDF(generarReportePdf);
+            return reportePdf;
+        }catch (IOException ex) {
+            throw new NegocioException("Error al cargar el logo de la imagen.");
+        } catch (InfraestructuraException ex) {
+            throw new NegocioException("No se pudo generar el reporte pdf correctamente.",ex);
+        }
+    }
+    
     private void validarDescripcionReporteIncidente(String descripcion) throws NegocioException{
         if(descripcion.isEmpty() || descripcion == null){
             throw new NegocioException("La descripcion del reporte de incidente no debe estar vacía.");
@@ -183,5 +211,5 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             throw new NegocioException("El asunto debe contener como minimo 5 caracteres.");
         }
     }
-    
+ 
 }

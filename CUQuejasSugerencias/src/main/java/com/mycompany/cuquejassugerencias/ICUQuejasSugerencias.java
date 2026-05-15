@@ -35,5 +35,5 @@ public interface ICUQuejasSugerencias {
     //Vista admin
     public abstract List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException;
     //TODO 
-    //Lo necesario para generar los reportes a pdf 
+        public abstract byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException;
 }

@@ -366,4 +366,9 @@ public class ControlForms implements ICUQuejasSugerencias{
         return quejasSugerenciasCU.consultarReporteAtencionPorFolio(folio);
     }
 
+    @Override
+    public byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException {
+        return quejasSugerenciasCU.generarReportePdf(generarReportePdf);
+    }
+
 }
