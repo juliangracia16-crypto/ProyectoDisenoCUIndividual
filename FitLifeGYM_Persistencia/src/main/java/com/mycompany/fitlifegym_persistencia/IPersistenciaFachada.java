@@ -26,6 +26,8 @@ public interface IPersistenciaFachada {
     public abstract ReporteIncidentePersistenciaDTO consultarReporteIncidentePorFolio(String folio) throws PersistenciaException;
     public abstract ReporteIncidente generarReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException;
     public abstract ReporteIncidente actualizarEstadoReporteIncidente(ReporteIncidente reporteIncidente) throws PersistenciaException;
+    public abstract List<ReporteIncidentePersistenciaDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
+
     //Reportes de atenciones
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException; 
     public abstract List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException;
@@ -38,7 +40,6 @@ public interface IPersistenciaFachada {
     public abstract EstadoReporte consultarEstadoPorNombre(String nombre) throws PersistenciaException;
     //Admin
     public abstract Administrador consultarAdministradorPorUsuario(String usuario) throws PersistenciaException;
-    public abstract List<Administrador> consultarAdministradores() throws PersistenciaException;
     public abstract Administrador consultarAdministradorPorId(String id) throws PersistenciaException;
     //CU BASE
     public abstract Membresia guardar(Membresia membresia) throws PersistenciaException;

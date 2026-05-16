@@ -12,10 +12,14 @@ import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaFachada;
 
 /**
- *
+ * Clase fabrica para crear una IPersistenciaFachada
  * @author Julian
  */
 public class FabricaFachada {
+    /**
+     * Metodo estatico que inicializa la fachada
+     * @return La interfaz IPersistenciaFachada
+     */
     public static IPersistenciaFachada crearPersistenciaFachada(){
         
         IHistorialIncidentesDAO historialIncidentes = FabricaDAO.crearHistorialIncidenteDAO();
@@ -25,6 +29,7 @@ public class FabricaFachada {
         IMembresiaCompradaDAO membresiaCompradaDAO = FabricaDAO.crearMembresiaCompradaDAO();
         IClientesDAO clientesDAO = FabricaDAO.crearClientesDAO();
         IAdministradorDAO administradoresDAO = FabricaDAO.crearAdministradoresDAO();
+        
         return  new PersistenciaFachada(historialAtenciones, historialIncidentes, catalogosDAO, clientesDAO, membresiaDAO, membresiaCompradaDAO, administradoresDAO);
     }
 }

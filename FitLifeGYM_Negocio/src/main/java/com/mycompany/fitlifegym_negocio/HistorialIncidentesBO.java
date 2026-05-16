@@ -99,5 +99,22 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
             throw new NegocioException("Error al cargar todos los reportes de incidentes.", ex);
         }
     }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        try {
+            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesAdapter.adaptarFiltrosDTO(filtros);
+            List<ReporteIncidentePersistenciaDTO> reportesIncidentes = fachada.consultarReportesIncidentesPorCliente(filtrosPersistencia);
+            List<ReporteIncidenteDTO> reportesIncidentesDTO = new LinkedList<>();
+
+            for (ReporteIncidentePersistenciaDTO reporte : reportesIncidentes) {
+                ReporteIncidenteDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporte);
+                reportesIncidentesDTO.add(reporteDTO);
+            }
+            return reportesIncidentesDTO;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar todos los reportes de incidentes.", ex);
+        }
+    }
     
 }

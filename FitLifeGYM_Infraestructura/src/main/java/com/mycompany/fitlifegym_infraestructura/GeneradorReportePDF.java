@@ -1,10 +1,16 @@
 
 package com.mycompany.fitlifegym_infraestructura;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
@@ -23,49 +29,113 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
     @Override
     public byte[] generarReportePDF(ReportePdfDTO generarReportePdf) throws InfraestructuraException{
         try {
-            Document documento = new Document();
+            // Documento horizontal
+            Document documento = new Document(PageSize.A4.rotate(), 20, 20, 20, 20);
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
             PdfWriter.getInstance(documento, salida);
             documento.open();
-            //Agregar Logo Imagen
+            // FUENTES
+            Font fuenteTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font fuenteSubtitulo = new Font(Font.FontFamily.HELVETICA, 11);
+            Font fuenteHeaders = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+            Font fuenteContenido = new Font(Font.FontFamily.HELVETICA, 10);
+            // LOGO
             Image logo = Image.getInstance(generarReportePdf.imagen());
-            logo.scaleToFit(50, 50);
+            logo.scaleToFit(80, 80);
+            logo.setAlignment(Element.ALIGN_CENTER);
             documento.add(logo);
-            //Agregar el titulo al reporte
-            Paragraph fecha = new Paragraph(
-                    "FECHA GENERADO: " + generarReportePdf.fechaPdfGenerado().toString()
-            );
-            documento.add(fecha);
-            //Agregar la tabla
-            Paragraph titulo = new Paragraph(
-                    generarReportePdf.tituloReporte()
-            );
+            // ESPACIO
+            documento.add(new Paragraph(" "));
+            // TITULO
+            Paragraph titulo = new Paragraph(generarReportePdf.tituloReporte(),fuenteTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
-            //Tabla donde iran los registros
+            // FECHA
+            Paragraph fecha = new Paragraph("FECHA GENERADO: "+ generarReportePdf.fechaPdfGenerado(),fuenteSubtitulo);
+            fecha.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(fecha);
+            documento.add(new Paragraph(" "));
+            // TABLA
             PdfPTable tabla = new PdfPTable(6);
-            tabla.addCell("FOLIO");
-            tabla.addCell("ASUNTO");
-            tabla.addCell("CATEGORIA");
-            tabla.addCell("ESTADO");
-            tabla.addCell("CLIENTE");
-            tabla.addCell("FECHA");
-            //LLenar tabla con los registros
+            tabla.setWidthPercentage(100);
+            // ANCHOS DE COLUMNAS
+            tabla.setWidths(new float[]{2f,7f,3f,3f,4f,3f });
+            tabla.setSpacingBefore(10f);
+
+            // HEADERS
+            agregarHeader(tabla, "FOLIO", fuenteHeaders);
+            agregarHeader(tabla, "ASUNTO", fuenteHeaders);
+            agregarHeader(tabla, "CATEGORIA", fuenteHeaders);
+            agregarHeader(tabla, "ESTADO", fuenteHeaders);
+            agregarHeader(tabla, "CLIENTE", fuenteHeaders);
+            agregarHeader(tabla, "FECHA", fuenteHeaders);
+
+            // REGISTROS
             for (RegistroReporteAdminDTO registro : generarReportePdf.registros()) {
 
-                tabla.addCell(registro.folio());
-                tabla.addCell(registro.asunto());
-                tabla.addCell(registro.categoria().categoria());
-                tabla.addCell(registro.estado().estado());
-                tabla.addCell(registro.cliente().getNombre());
-                tabla.addCell(registro.fecha().toString());
+                agregarCeldaCentro(tabla, registro.folio(), fuenteContenido);
+
+                agregarCeldaIzquierda(tabla, registro.asunto(), fuenteContenido);
+
+                agregarCeldaCentro(
+                        tabla,
+                        registro.categoria().categoria(),
+                        fuenteContenido
+                );
+
+                agregarCeldaCentro(
+                        tabla,
+                        registro.estado().estado(),
+                        fuenteContenido
+                );
+
+                agregarCeldaCentro(
+                        tabla,
+                        registro.cliente().getNombre(),
+                        fuenteContenido
+                );
+
+                agregarCeldaCentro(
+                        tabla,
+                        registro.fecha().toString(),
+                        fuenteContenido
+                );
             }
             documento.add(tabla);
-            //Retornar el pdf con toda la informacion
+            
             documento.close();
             return salida.toByteArray();
         } catch (DocumentException | IOException ex) {
             throw new InfraestructuraException("Error al guardar el reporte de registros a pdf");
         }
+        
+    }
+    private void agregarHeader(PdfPTable tabla,String texto,Font fuente) {
+
+        PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));
+        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celda.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celda.setPadding(8);
+        celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        tabla.addCell(celda);
+    }
+
+    private void agregarCeldaCentro(PdfPTable tabla,String texto,Font fuente) {
+        
+        PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));
+        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celda.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celda.setPadding(6);
+        tabla.addCell(celda);
+    }
+
+    private void agregarCeldaIzquierda(PdfPTable tabla,String texto,Font fuente) {
+        
+        PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));
+        celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+        celda.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celda.setPadding(6);
+        tabla.addCell(celda);
     }
     
 }

@@ -18,28 +18,45 @@ import java.util.Arrays;
 import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 
 /**
- *
+ * Clase que implementa los metodos de la interfaz IHistorialAtencionessDAO, y la
+ * interfaz IBaseMongoDAO para manejar los metodos de conexion a la BD.
+ * Utilizando MongoDB como motor para realizar operaciones.
  * @author Julian
  */
 public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMongoDAO{
     private static final String NOMBRE_COLECCION = "historial_atenciones"; 
     private static final String FOLIO_KEY = "folio";
     
+    /**
+     * Metodo que obtiene la base de datos
+     * @param cliente es la conexion para poder acceder a la base de datos
+     * @return la base de datos
+     */
     @Override
     public MongoDatabase obtenerBaseDatos(MongoClient cliente) {
         MongoDatabase empresaBD = cliente.getDatabase(ManejadorConexiones.BASE_DATOS).withCodecRegistry(obtenerCodecs());
         return empresaBD;
     }
-
+    
+    /**
+     * Metodo que obtiene la coleccion en la que trabajaremos ( Historial Atenciones )
+     * @param baseDatos donde trabajaremos
+     * @return la coleccion donde se trabajara
+     */
     @Override
     public MongoCollection obtenerColeccion(MongoDatabase baseDatos) {
         MongoCollection<ReporteAtencion> coleccion = baseDatos.getCollection(NOMBRE_COLECCION,ReporteAtencion.class);
         return coleccion;
     }
     
+    /**
+     * Metodo para consultar todos los reportes de atencion.
+     * Se utiliza en vista de administrador para ver los reportes ya resueltos.
+     * @return una lista con todos los reportes de atencion hasta el momento de la consulta
+     * @throws PersistenciaException si falla algo al momento de conexion a la base de datos
+     */
     @Override
     public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -73,7 +90,14 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             throw new PersistenciaException("Error al consultar todos los reportes de atenciones.", ex);
         }
     }
-
+    
+    /**
+     * Meetodo para consultar un reporte de atencion mediante su folio
+     * @param folio del reporte que buscamos
+     * @return el reporte atencion que se encuentre con ese folio
+     * @throws PersistenciaException si no se encuentra ningun reporte con ese folio
+     * o si falla algo al momento de la conexion a la base de datos
+     */
     @Override
     public ReporteAtencionPersistenciaDTO consultarReporteAtencionPorFolio(String folio) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -115,7 +139,13 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
         }
     }
     
-
+    /**
+     * Metodo para guardar un reporte de atencion, el cual representa un reporte incidente resuelto.
+     * @param reporte de atencion que se quiere guardar
+     * @return el reporte registrado con su ID generado en la base de datos
+     * @throws PersistenciaException si no se puede registrar el reporte de atencion o 
+     * si falla algo al momento de conexion a la base de datos
+     */
     @Override
     public ReporteAtencion resolverReporte(ReporteAtencion reporte) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -133,7 +163,13 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             throw new PersistenciaException("Error al guardar el reporte de atencion.", ex);
         }
     }
-
+    
+    /**
+     * Metodo para consultar los reportes de atencion mediante filtros 
+     * @param filtros por los que se buscara el reporte de atencion ( Por: nombre de cliente, fecha desde, fecha hasta, estado y categoria )
+     * @return una lista con los reportes que coincidan con los filtros
+     * @throws PersistenciaException si falla algo al momento de conexion a la base de datos
+     */
     @Override
     public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencionesFiltros(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -143,11 +179,6 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
 
             List<Bson> pipeline = new ArrayList<>();
             List<Bson> filtrosBusqueda = new ArrayList<>();
-
-            if (filtros.cliente() != null && !filtros.cliente().isBlank()) {
-                filtrosBusqueda.add(Filters.eq("idCliente", new ObjectId(filtros.cliente())));
-            }
-
             if (filtros.fechaDesde() != null) {
                 filtrosBusqueda.add(Filters.gte("fecha", filtros.fechaDesde()));
             }
@@ -177,6 +208,17 @@ public class HistorialAtencionesDAO implements IHistorialAtencionesDAO, IBaseMon
             );
             pipeline.add(Aggregates.unwind("$cliente"));
             pipeline.add(Aggregates.unwind("$categoria"));
+            if (filtros.cliente() != null && !filtros.cliente().isBlank()) {
+                pipeline.add(
+                        Aggregates.match(
+                                Filters.regex(
+                                        "cliente.nombre",
+                                        filtros.cliente(),
+                                        "i"
+                                )
+                        )
+                );
+            }
             if (filtros.categoria() != null && filtros.categoria().getCategoria() != null && !filtros.categoria().getCategoria().isBlank()) {
                 pipeline.add(
                         Aggregates.match(

@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface IHistorialIncidentesBO {
     public abstract List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException;
+    public abstract List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException;
     public abstract List<ReporteIncidenteDTO> consultarReportesIncidentes() throws NegocioException;
     public abstract ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException;
     public abstract ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporte) throws NegocioException;

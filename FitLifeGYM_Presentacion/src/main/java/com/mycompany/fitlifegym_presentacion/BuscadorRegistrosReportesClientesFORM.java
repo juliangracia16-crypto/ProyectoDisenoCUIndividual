@@ -1,8 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
+
+import com.mycompany.fitlifegym_dtos.CategoriaDTO;
+import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
+import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_negocio.NegocioException;
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,12 +16,16 @@ package com.mycompany.fitlifegym_presentacion;
 public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BuscadorRegistrosReportesClientesFORM.class.getName());
-
+    private ControlForms control;
     /**
      * Creates new form BuscadorRegistrosReportesClientesFORM
      */
-    public BuscadorRegistrosReportesClientesFORM() {
+    public BuscadorRegistrosReportesClientesFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        llenarComboCategorias();
+        llenarComboEstados();
     }
 
     /**
@@ -51,13 +60,13 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
 
+        lblTitulo.setText("GymFit- Buscador Registros Reportes");
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 26)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitulo.setText("GymFit- Buscador Registros Reportes");
 
+        btnVolcer.setText("Volver");
         btnVolcer.setBackground(new java.awt.Color(0, 0, 0));
         btnVolcer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnVolcer.setText("Volver");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -79,42 +88,49 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
+        lblFiltroNombre.setText("Cliente (Nombre):");
         lblFiltroNombre.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFiltroNombre.setForeground(new java.awt.Color(255, 255, 255));
-        lblFiltroNombre.setText("Cliente (Nombre):");
 
+        lblFiltroEstado.setText("Estado: ");
         lblFiltroEstado.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFiltroEstado.setForeground(new java.awt.Color(255, 255, 255));
-        lblFiltroEstado.setText("Estado: ");
 
+        txtFiltroNombre1.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltroNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtFiltroNombre1.setForeground(new java.awt.Color(255, 255, 255));
+        txtFiltroNombre1.setForeground(new java.awt.Color(0, 0, 0));
 
-        comboCategorias.setBackground(new java.awt.Color(40, 40, 40));
+        comboCategorias.setBackground(new java.awt.Color(255, 255, 255));
+        comboCategorias.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        comboCategorias.setForeground(new java.awt.Color(0, 0, 0));
 
+        lblFiltroCategoria.setText("Categoría:");
         lblFiltroCategoria.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFiltroCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        lblFiltroCategoria.setText("Categoría:");
 
+        lblFechaDesde.setText("Fecha Desde:");
         lblFechaDesde.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFechaDesde.setForeground(new java.awt.Color(255, 255, 255));
-        lblFechaDesde.setText("Fecha Desde:");
 
+        lblFechaHasta.setText("Fecha Hasta: ");
         lblFechaHasta.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFechaHasta.setForeground(new java.awt.Color(255, 255, 255));
-        lblFechaHasta.setText("Fecha Hasta: ");
 
-        comboEstados1.setBackground(new java.awt.Color(40, 40, 40));
+        comboEstados1.setBackground(new java.awt.Color(255, 255, 255));
+        comboEstados1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        comboEstados1.setForeground(new java.awt.Color(0, 0, 0));
 
         btnBuscar.setText("Buscar");
         btnBuscar.setBackground(new java.awt.Color(0, 0, 0));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
+        btnRestablecer.setText("Restablecer Filtros");
         btnRestablecer.setBackground(new java.awt.Color(0, 0, 0));
         btnRestablecer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRestablecer.setForeground(new java.awt.Color(255, 255, 255));
-        btnRestablecer.setText("Restablecer Filtros");
+        btnRestablecer.addActionListener(this::btnRestablecerActionPerformed);
 
         selectorFechaHasta.setBackground(new java.awt.Color(41, 41, 41));
 
@@ -200,37 +216,69 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
+        control.navegarReportesQuejasClientes(filtros);
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new BuscadorRegistrosReportesClientesFORM().setVisible(true));
+    private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
+        restablecerFiltros();
+    }//GEN-LAST:event_btnRestablecerActionPerformed
+    
+    private FiltrosConsultaHistorialReportesNegocioDTO filtros() {
+        String nombreCliente = txtFiltroNombre1.getText();
+        CategoriaDTO nombreCategoria = new CategoriaDTO(null, comboCategorias.getSelectedItem().toString());
+        EstadoReporteDTO nombreEstado = new EstadoReporteDTO(null, comboEstados1.getSelectedItem().toString());
+        LocalDate fechaDesde = selectorFechaDesde.getDate();
+        LocalDate fechaHasta = selectorFechaHasta.getDate();
+
+        FiltrosConsultaHistorialReportesNegocioDTO filtros = new FiltrosConsultaHistorialReportesNegocioDTO(
+                nombreCliente,
+                nombreEstado,
+                nombreCategoria,
+                fechaDesde,
+                fechaHasta
+        );
+        return filtros;
     }
+    
+    private void restablecerFiltros() {
+        txtFiltroNombre1.setText("");
+        selectorFechaDesde.setDate(null);
+        selectorFechaHasta.setDate(null);
+        comboCategorias.setSelectedIndex(0);
+        comboEstados1.setSelectedIndex(0);
+    }
+    private void llenarComboCategorias() {
+        try {
+            List<CategoriaDTO> categorias = control.cargarCatalogoCategorias();
+            for (CategoriaDTO c : categorias) {
+                comboCategorias.addItem(c);
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
+    }
+
+    private void llenarComboEstados() {
+        try {
+            List<EstadoReporteDTO> estados = control.cargarCatalogoEstados();
+            for (EstadoReporteDTO e : estados) {
+                comboEstados1.addItem(e);
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnRestablecer;
     private javax.swing.JButton btnVolcer;
-    private javax.swing.JComboBox<String> comboCategorias;
-    private javax.swing.JComboBox<String> comboEstados1;
+    private javax.swing.JComboBox<CategoriaDTO> comboCategorias;
+    private javax.swing.JComboBox<EstadoReporteDTO> comboEstados1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblFechaDesde;

@@ -41,6 +41,15 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         cargarTabla();
         colorBotones();
     }
+    public ReportesQuejasClientesFORM(ControlForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        ocultarFolioTabla();
+        this.control = control;
+        this.filtros = filtros;
+        cargarTablaFiltros();
+        colorBotones();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,6 +88,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         btnBuscadorReportes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnBuscadorReportes.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscadorReportes.setText("Buscador Reportes");
+        btnBuscadorReportes.addActionListener(this::btnBuscadorReportesActionPerformed);
 
         tblRegistrosReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -114,6 +124,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         btnMostrarTodos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMostrarTodos.setForeground(new java.awt.Color(255, 255, 255));
         btnMostrarTodos.setText("Mostrar Todos");
+        btnMostrarTodos.addActionListener(this::btnMostrarTodosActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,6 +199,15 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     private void btnExportarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPdfActionPerformed
         generarReportePdf();
     }//GEN-LAST:event_btnExportarPdfActionPerformed
+
+    private void btnMostrarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodosActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_btnMostrarTodosActionPerformed
+
+    private void btnBuscadorReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorReportesActionPerformed
+        control.navegarBuscadorAdmin();
+        this.dispose();
+    }//GEN-LAST:event_btnBuscadorReportesActionPerformed
     
     private void generarReportePdf(){
         JFileChooser fileChooser = new JFileChooser();
@@ -230,6 +250,21 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
             
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar el reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void cargarTablaFiltros(){
+        try {
+            List<RegistroReporteAdminDTO> reportes = control.consultarTodosLosReportesFiltrados(filtros);
+            llenarTablaReportes(reportes);
+        } catch (NegocioException ex) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al cargar los reportes.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
     

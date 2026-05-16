@@ -106,7 +106,6 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
         try {
             List<RegistroReporteAdminDTO> registrosReportes = new LinkedList<>();
             List<ReporteAtencionPersistenciaDTO> reportesAtencion = fachada.consultarReportesAtencion();
-            //Solo los reportes que no hayan sido resueltos
             EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_REPORTE_SIN_RESOLVER);
             FiltrosConsultaHistorialReportesDTO filtros = new FiltrosConsultaHistorialReportesDTO(null, estado,null,null,null);
             List<ReporteIncidentePersistenciaDTO> reporteIncidentes = fachada.consultarReportesIncidentesFiltros(filtros);
@@ -133,6 +132,28 @@ public class HistorialAtencionesBO implements IHistorialAtencionesBO{
             return reporteAtencionDTO;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al consultar el reporte de atencion por folio.");
+        }
+    }
+
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosRegistrosReportesFiltrado(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        try {
+            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesAdapter.adaptarFiltrosDTO(filtros);
+            List<RegistroReporteAdminDTO> registrosReportes = new LinkedList<>();
+            List<ReporteAtencionPersistenciaDTO> reportesAtencion = fachada.consultarReportesAtencionFiltros(filtrosPersistencia);
+            List<ReporteIncidentePersistenciaDTO> reporteIncidentes = fachada.consultarReportesIncidentesFiltros(filtrosPersistencia);
+
+            for (ReporteAtencionPersistenciaDTO reporte : reportesAtencion) {
+                RegistroReporteAdminDTO reporteDTO = DtosAEntidadesAdapter.adaptarRegistrosReportesAdminDTO(reporte);
+                registrosReportes.add(reporteDTO);
+            }
+            for (ReporteIncidentePersistenciaDTO reporte : reporteIncidentes) {
+                RegistroReporteAdminDTO reporteIncidenteDTO = DtosAEntidadesAdapter.adaptarRegistrosReportesAdminDTO(reporte);
+                registrosReportes.add(reporteIncidenteDTO);
+            }
+            return registrosReportes;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar todos los registros de los reportes.");
         }
     }
     

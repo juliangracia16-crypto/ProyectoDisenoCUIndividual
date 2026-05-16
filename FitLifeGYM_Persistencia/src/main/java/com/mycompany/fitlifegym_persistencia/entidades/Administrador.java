@@ -17,10 +17,10 @@ public class Administrador {
     String nombre;
     String usuario;
     String contrasenia;
-
+    
     public Administrador() {
     }
-
+    
     public Administrador(String idAdministrador, String nombre, String usuario, String contrasenia) {
         this.idAdministrador = idAdministrador;
         this.nombre = nombre;

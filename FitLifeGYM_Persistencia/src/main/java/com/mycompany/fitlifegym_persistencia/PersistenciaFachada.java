@@ -71,6 +71,12 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         return reporteIncidenteActualizado;
     }
     
+    @Override
+    public List<ReporteIncidentePersistenciaDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesDTO filtros) throws PersistenciaException {
+        List<ReporteIncidentePersistenciaDTO> reportesIncidentes = historialIncidentes.consultarReportesIncidentesPorCliente(filtros);
+        return reportesIncidentes;
+    }
+    
     //Reportes de Atenciones
     @Override
     public List<ReporteAtencionPersistenciaDTO> consultarReportesAtencion() throws PersistenciaException {
@@ -126,12 +132,6 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     public Administrador consultarAdministradorPorUsuario(String usuario) throws PersistenciaException {
         Administrador administrador = administradores.consultarAdministradorPorUsuario(usuario);
         return administrador;
-    }
-
-    @Override
-    public List<Administrador> consultarAdministradores() throws PersistenciaException {
-        List<Administrador> administradoresEncontrados = administradores.consultarAdministradores();
-        return administradoresEncontrados;
     }
 
     @Override

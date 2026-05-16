@@ -131,6 +131,10 @@ public class ControlForms implements ICUQuejasSugerencias{
         mostrarPantalla(new ReportesQuejasClientesFORM(this));
     }
     
+    public void navegarReportesQuejasClientes(FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+        mostrarPantalla(new ReportesQuejasClientesFORM(this, filtros));
+    }
+    
     public void navegarDetallesReporteSeleccionadoForm(){
         mostrarPantalla(new DetallesReporteSeleccionadoFORM(this));
     }
@@ -155,6 +159,9 @@ public class ControlForms implements ICUQuejasSugerencias{
         mostrarPantalla(new InicioSesionAdminFORM(this));
     }
     
+    public void navegarBuscadorAdmin(){
+        mostrarPantalla(new BuscadorRegistrosReportesClientesFORM(this));
+    }
     //Dialogs
     public void navegarRegistrarse() {
         mostrarDialogo(new RegistrarseFORM(this.frameActual, true, this));
@@ -380,6 +387,16 @@ public class ControlForms implements ICUQuejasSugerencias{
     @Override
     public AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO login) throws NegocioException {
         return quejasSugerenciasCU.iniciarSesion(login);
+    }
+
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosReportesFiltrados(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        return quejasSugerenciasCU.consultarTodosLosReportesFiltrados(filtros);
+    }
+
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        return quejasSugerenciasCU.consultarReportesIncidentesPorCliente(filtros);
     }
 
 }

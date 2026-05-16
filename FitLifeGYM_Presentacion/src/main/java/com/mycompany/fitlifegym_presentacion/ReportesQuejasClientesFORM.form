@@ -142,6 +142,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Buscador Reportes"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscadorReportesActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
@@ -202,6 +205,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Mostrar Todos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMostrarTodosActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

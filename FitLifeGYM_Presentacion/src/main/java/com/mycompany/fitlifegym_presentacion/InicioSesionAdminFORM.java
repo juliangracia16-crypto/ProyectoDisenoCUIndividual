@@ -19,6 +19,7 @@ public class InicioSesionAdminFORM extends javax.swing.JFrame {
      */
     public InicioSesionAdminFORM(ControlForms control) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.control = control;
     }
 

@@ -4,7 +4,12 @@ package com.mycompany.fitlifegym_persistencia.dtos;
 import java.time.LocalDate;
 
 /**
+ * DTO auxiliar utilizado para mapear resultados de consultas
+ * agregadas de MongoDB en la capa de persistencia.
  *
+ * Permite recibir información relacionada proveniente de
+ * operaciones lookup y proyecciones personalizadas.
+ * 
  * @author Julian
  */
 public class ReporteAtencionPersistenciaDTO {

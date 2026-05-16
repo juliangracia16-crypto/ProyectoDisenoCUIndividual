@@ -212,7 +212,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private void cargarTabla() {
         try {
-            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentes(
+            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentesPorCliente(
                 new FiltrosConsultaHistorialReportesNegocioDTO(SesionUsuario.getInstancia().getClienteActual().getIdCliente(),null,null,null,null)
             );
             llenarTablaReportes(reportes);
@@ -229,7 +229,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private void llenarTablaReportesFiltros(){
         try {
-            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentes(filtros);
+            List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentesPorCliente(filtros);
             DefaultTableModel modelo = (DefaultTableModel) tblRegistrosReportes.getModel();
             
             modelo.setRowCount(0);

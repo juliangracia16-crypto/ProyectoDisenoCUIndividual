@@ -6,7 +6,7 @@ import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
 import java.time.LocalDate;
 
 /**
- *
+ * DTO auxiliar utilizada para las consultas con filtros.
  * @author Julian
  */
 public record FiltrosConsultaHistorialReportesDTO(

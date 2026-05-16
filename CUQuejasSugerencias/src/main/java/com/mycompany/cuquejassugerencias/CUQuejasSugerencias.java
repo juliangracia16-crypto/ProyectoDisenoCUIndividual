@@ -75,6 +75,13 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes(filtros);
         return reportesIncidentes;
     }
+    
+    @Override
+    public List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        validarFechasFiltro(filtros.fechaDesde(), filtros.fechaHasta());
+        List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentesPorCliente(filtros);
+        return reportesIncidentes;
+    }
 
     @Override
     public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
@@ -125,6 +132,12 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     @Override
     public List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException {
         List<RegistroReporteAdminDTO> reportes = historialAtencionesBO.consultarTodosLosRegistrosReportes();
+        return reportes;
+    }
+    
+    @Override
+    public List<RegistroReporteAdminDTO> consultarTodosLosReportesFiltrados(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        List<RegistroReporteAdminDTO> reportes = historialAtencionesBO.consultarTodosLosRegistrosReportesFiltrado(filtros);
         return reportes;
     }
     

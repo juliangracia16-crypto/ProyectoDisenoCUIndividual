@@ -26,6 +26,7 @@ public interface ICUQuejasSugerencias {
     public abstract List<EstadoReporteDTO> cargarCatalogoEstados()throws NegocioException;
     //Reportes Incidentes
     public abstract List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException;
+    public abstract List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException;
     public abstract ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException;
     public abstract List<ReporteIncidenteDTO> consultarTodosLosReportesIncidentes() throws NegocioException;
     public abstract ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException;
@@ -36,6 +37,7 @@ public interface ICUQuejasSugerencias {
     public abstract ReporteAtencionDTO consultarReporteAtencionPorFolio(String folio) throws NegocioException;
     //Vista admin
     public abstract List<RegistroReporteAdminDTO> consultarTodosLosReportes() throws NegocioException;
+    public abstract List<RegistroReporteAdminDTO> consultarTodosLosReportesFiltrados(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException;
     public abstract AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO login) throws NegocioException;
     //Generar pdf
     public abstract byte[] generarReportePdf(List<RegistroReporteAdminDTO> generarReportePdf) throws NegocioException;

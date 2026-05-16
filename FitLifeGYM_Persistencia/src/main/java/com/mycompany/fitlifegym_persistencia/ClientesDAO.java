@@ -12,7 +12,9 @@ import java.util.List;
 import org.bson.Document;
 
 /**
- *
+ * Clase que implementa los metodos de la interfaz IClientesDAO, y la
+ * interfaz IBaseMongoDAO para manejar los metodos de conexion a la BD.
+ * Utilizando MongoDB como motor para realizar operaciones.
  * @author Julian
  */
 public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
@@ -20,12 +22,22 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
     private static final String ID_KEY = "_id";
     private static final String PIN_KEY = "pin";
     
+    /**
+     * Metodo que obtiene la base de datos
+     * @param cliente es la conexion para poder acceder a la base de datos
+     * @return la base de datos
+     */
     @Override
     public MongoDatabase obtenerBaseDatos(MongoClient cliente) {
         MongoDatabase empresaBD = cliente.getDatabase(ManejadorConexiones.BASE_DATOS).withCodecRegistry(obtenerCodecs());
         return empresaBD;
     }
-
+    
+    /**
+     * Metodo que obtiene la coleccion en la que trabajaremos ( Clientes )
+     * @param baseDatos donde trabajaremos
+     * @return la coleccion donde se trabajara 
+     */
     @Override
     public MongoCollection obtenerColeccion(MongoDatabase baseDatos) {
         MongoCollection<Cliente> coleccion = baseDatos.getCollection(NOMBRE_COLECCION,Cliente.class);
@@ -36,7 +48,14 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
     public Cliente registrarCliente(Cliente cliente) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
+    /**
+     * Metodo que consulta un cliente por su ID
+     * @param id del cliente que se quiere buscar
+     * @return el cliente encontrado con ese ID
+     * @throws PersistenciaException si falla algo en la conexion a la base de datos
+     * o si no se encuentra un cliente con ese ID.
+     */
     @Override
     public Cliente consultarClientePorId(String id) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -54,7 +73,12 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
             throw new PersistenciaException("Error al consultar el cliente por ID.", ex);
         }
     }
-
+    
+    /**
+     * Metodo para consultar todos los clientes dentro de la coleccion
+     * @return una lista con todos los clientes que hay al momento de consultar en la coleccion
+     * @throws PersistenciaException si falla algo al conectarse a la base de datos
+     */
     @Override
     public List<Cliente> consultarClientes() throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
@@ -69,6 +93,13 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
         }
     }
 
+    /**
+     * Metodo para consultar un cliente por su pin
+     * @param pin del cliente que buscaremos
+     * @return el cliente encontrado con ese pin
+     * @throws PersistenciaException si no se encuentra un cliente con ese pin
+     * o si falla algo al momento de conectarse a la base de datos
+     */
     @Override
     public Cliente buscarPorPin(String pin) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
