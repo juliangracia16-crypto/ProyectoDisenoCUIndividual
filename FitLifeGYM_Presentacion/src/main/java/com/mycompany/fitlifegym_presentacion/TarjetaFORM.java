@@ -12,13 +12,15 @@ import javax.swing.JOptionPane;
  */
 public class TarjetaFORM extends javax.swing.JDialog {
 
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
     private TipoMembresiaDTO membresia;
     private NuevoClienteDTO cliente;
+    private ControlSubsistemaCUBase control;
 
-    public TarjetaFORM(java.awt.Frame parent, boolean modal, ControlForms control, TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
+    public TarjetaFORM(java.awt.Frame parent, boolean modal, NavegacionForms navegacionForms, TipoMembresiaDTO membresia, NuevoClienteDTO cliente, ControlSubsistemaCUBase control) {
         super(parent, modal);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         this.membresia = membresia;
         this.cliente = cliente; 
         initComponents();
@@ -297,7 +299,7 @@ public class TarjetaFORM extends javax.swing.JDialog {
 
             //Solo navegar si todo salio bien
             this.dispose();
-            control.navegarMenuPrincipal();
+            navegacionForms.navegarMenuPrincipal();
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

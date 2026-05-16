@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
@@ -21,14 +18,19 @@ import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 public class BuscadorRegistrosReportesClientesIndividualFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BuscadorRegistrosReportesClientesIndividualFORM.class.getName());
-    private ControlForms control;
+    private ControlSubsistemaQuejasSugerencias control;
+    private NavegacionForms navegacionForms;
+    
     /**
      * Creates new form BuscadorRegistrosReportesClientesFORM
+     * @param navegacionForms
+     * @param control
      */
-    public BuscadorRegistrosReportesClientesIndividualFORM(ControlForms control) {
+    public BuscadorRegistrosReportesClientesIndividualFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         llenarComboCategorias();
         llenarComboEstados();
     }
@@ -213,12 +215,12 @@ public class BuscadorRegistrosReportesClientesIndividualFORM extends javax.swing
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
-        control.navegarMisReportesGenerados(filtros);
+        navegacionForms.navegarMisReportesGenerados(filtros);
         this.dispose();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolcerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolcerActionPerformed
-        control.navegarMisReportesGenerados();
+        navegacionForms.navegarMisReportesGenerados();
         this.dispose();
     }//GEN-LAST:event_btnVolcerActionPerformed
     

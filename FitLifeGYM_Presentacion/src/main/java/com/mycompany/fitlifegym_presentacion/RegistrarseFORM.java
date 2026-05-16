@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
@@ -16,14 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class RegistrarseFORM extends javax.swing.JDialog {
 
-    private ControlForms control;
-
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaCUBase control;
     /**
      * Creates new form RegistrarseFORM
      */
-    public RegistrarseFORM(java.awt.Frame parent, boolean modal, ControlForms control) {
+    public RegistrarseFORM(java.awt.Frame parent, boolean modal, NavegacionForms navegacionForms, ControlSubsistemaCUBase control) {
         super(parent, modal);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         initComponents();
@@ -300,7 +298,7 @@ public class RegistrarseFORM extends javax.swing.JDialog {
             
             JOptionPane.showMessageDialog(this, "Datos personales guardados");
            
-            control.navegarBenificios(clienteRegistrar);
+            navegacionForms.navegarBenificios(clienteRegistrar);
              
 
         } catch (DateTimeParseException ex) {
@@ -311,7 +309,7 @@ public class RegistrarseFORM extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        control.navegarIniciarSesion();
+        navegacionForms.navegarIniciarSesion();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void txtApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidosActionPerformed

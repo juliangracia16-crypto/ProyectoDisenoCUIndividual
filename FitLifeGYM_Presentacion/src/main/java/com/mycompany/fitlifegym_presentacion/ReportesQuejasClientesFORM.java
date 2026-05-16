@@ -9,7 +9,6 @@ import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.awt.Color;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,7 +24,8 @@ import javax.swing.table.DefaultTableModel;
 public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ReportesQuejasClientesFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaQuejasSugerencias control;
     private List<RegistroReporteAdminDTO> registrosReportes;
     private FiltrosConsultaHistorialReportesNegocioDTO filtros;
     private ReporteAtencionDTO reporteAtencionSeleccionado;
@@ -33,20 +33,22 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
-    public ReportesQuejasClientesFORM(ControlForms control) {
+    public ReportesQuejasClientesFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
         this.control = control;
+        this.navegacionForms = navegacionForms;
         cargarTabla();
         colorBotones();
     }
-    public ReportesQuejasClientesFORM(ControlForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+    public ReportesQuejasClientesFORM(NavegacionForms navegacionForms, FiltrosConsultaHistorialReportesNegocioDTO filtros, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
-        this.control = control;
+        this.navegacionForms = navegacionForms;
         this.filtros = filtros;
+        this.control = control;
         cargarTablaFiltros();
         colorBotones();
     }
@@ -187,7 +189,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        control.navegarMenuPrincipalAdmin();
+        navegacionForms.navegarMenuPrincipalAdmin();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -205,7 +207,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarTodosActionPerformed
 
     private void btnBuscadorReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorReportesActionPerformed
-        control.navegarBuscadorAdmin();
+        navegacionForms.navegarBuscadorAdmin();
         this.dispose();
     }//GEN-LAST:event_btnBuscadorReportesActionPerformed
     
@@ -241,11 +243,11 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
             if(reporte.tipo() == TipoReporteDTO.INCIDENTE){
                 String folio = tblRegistrosReportes.getValueAt(filaModelo, 0).toString();
                 this.reporteIncidenteSeleccionado = control.consultarReporteIncidentePorFolio(folio);
-                control.navegarDetallesReporteSeleccionadoForm(reporteIncidenteSeleccionado);
+                navegacionForms.navegarDetallesReporteSeleccionadoForm(reporteIncidenteSeleccionado);
             }else if(reporte.tipo() == TipoReporteDTO.ATENCION){
                 String folio = tblRegistrosReportes.getValueAt(filaModelo,0).toString();
                 this.reporteAtencionSeleccionado = control.consultarReporteAtencionPorFolio(folio);
-                control.navegarDetallesReporteSeleccionadoForm(reporteAtencionSeleccionado);
+                navegacionForms.navegarDetallesReporteSeleccionadoForm(reporteAtencionSeleccionado);
             }
             
         } catch (NegocioException ex) {

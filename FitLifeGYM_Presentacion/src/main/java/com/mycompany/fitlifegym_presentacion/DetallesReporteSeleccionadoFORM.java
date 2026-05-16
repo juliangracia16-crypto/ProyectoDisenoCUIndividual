@@ -15,24 +15,24 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DetallesReporteSeleccionadoFORM.class.getName());
     ReporteIncidenteDTO reporteIncidenteSeleccionado;
     ReporteAtencionDTO reporteAtencionSeleccionado;
-    private ControlForms control;
+    private NavegacionForms control;
     
     /**
      * Creates new form DetallesReporteSeleccionadoFORM
      */
-    public DetallesReporteSeleccionadoFORM(ControlForms control) {
+    public DetallesReporteSeleccionadoFORM(NavegacionForms control) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;
     }
-    public DetallesReporteSeleccionadoFORM(ControlForms control, ReporteIncidenteDTO reporteIncidenteSeleccionado) {
+    public DetallesReporteSeleccionadoFORM(NavegacionForms control, ReporteIncidenteDTO reporteIncidenteSeleccionado) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;
         this.reporteIncidenteSeleccionado = reporteIncidenteSeleccionado;
         mostrarDetallesReporteIncidente();
     }
-    public DetallesReporteSeleccionadoFORM(ControlForms control, ReporteAtencionDTO reporteAtencionSeleccionado) {
+    public DetallesReporteSeleccionadoFORM(NavegacionForms control, ReporteAtencionDTO reporteAtencionSeleccionado) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;

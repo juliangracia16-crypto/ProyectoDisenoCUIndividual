@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
@@ -18,11 +15,13 @@ public class IniciarSesionFORM extends javax.swing.JDialog {
 
     private static final Logger LOGGER = Logger.getLogger(IniciarSesionFORM.class.getName());
     
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaCUBase control;
 
-    public IniciarSesionFORM(java.awt.Frame parent, boolean modal, ControlForms control) {
+    public IniciarSesionFORM(java.awt.Frame parent, boolean modal, NavegacionForms navegacionForms, ControlSubsistemaCUBase control) {
         super(parent, modal);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         this.setResizable(false);
         initComponents();
         this.setLocationRelativeTo(null);
@@ -179,7 +178,7 @@ public class IniciarSesionFORM extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNIPActionPerformed
 
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        control.navegarSeleccionAdminCliente();
+        navegacionForms.navegarSeleccionAdminCliente();
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
@@ -196,7 +195,7 @@ public class IniciarSesionFORM extends javax.swing.JDialog {
             ClienteLogueadoDTO clienteSesion = new ClienteLogueadoDTO(cliente.getIdCliente(),cliente.getNombre(),cliente.getApellido(),cliente.getMembresiaActiva(),cliente.getEstadoMembresia());
             SesionUsuario.getInstancia().iniciarSesion(clienteSesion);
             dispose();
-            control.navegarBienvenida();
+            navegacionForms.navegarBienvenida();
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

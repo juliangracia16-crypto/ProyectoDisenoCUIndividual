@@ -27,15 +27,20 @@ import java.awt.Image;
 public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GenerarNuevoReporteFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaQuejasSugerencias control;
     private byte[] imagenSeleccionada;
     private String mimeType;
+    
     /**
      * Creates new form GenerarNuevoReporteFORM
+     * @param navegacionForms
+     * @param control
      */
-    public GenerarNuevoReporteFORM(ControlForms control) {
+    public GenerarNuevoReporteFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.navegacionForms = navegacionForms;
         this.control = control;
         llenarComboCategorias();
     }
@@ -213,7 +218,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         boolean generado = generarReporteIncidente();
         if(generado){
-           control.navegarReporteGenerado();
+           navegacionForms.navegarReporteGenerado();
             this.dispose(); 
         }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
@@ -223,7 +228,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
 
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        control.navegarInicioBuzonQuejas();
+        navegacionForms.navegarInicioBuzonQuejas();
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
     

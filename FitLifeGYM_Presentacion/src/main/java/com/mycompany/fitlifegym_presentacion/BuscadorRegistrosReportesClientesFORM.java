@@ -16,13 +16,18 @@ import javax.swing.JOptionPane;
 public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BuscadorRegistrosReportesClientesFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaQuejasSugerencias control;
+    
     /**
      * Creates new form BuscadorRegistrosReportesClientesFORM
+     * @param navegacionForms
+     * @param control
      */
-    public BuscadorRegistrosReportesClientesFORM(ControlForms control) {
+    public BuscadorRegistrosReportesClientesFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.navegacionForms = navegacionForms;
         this.control = control;
         llenarComboCategorias();
         llenarComboEstados();
@@ -218,7 +223,7 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
-        control.navegarReportesQuejasClientes(filtros);
+        navegacionForms.navegarReportesQuejasClientes(filtros);
         this.dispose();
     }//GEN-LAST:event_btnBuscarActionPerformed
 

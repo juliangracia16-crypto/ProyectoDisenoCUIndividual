@@ -12,16 +12,16 @@ import javax.swing.ImageIcon;
 public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DetallesReporteSeleccionadoMisReportesGeneradosFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms control;
     private ReporteIncidenteDTO reporteSeleccionado;
     
-    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(ControlForms control) {
+    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(NavegacionForms control) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;
     }
     
-    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(ControlForms control, ReporteIncidenteDTO reporteSeleccionado) {
+    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(NavegacionForms control, ReporteIncidenteDTO reporteSeleccionado) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;

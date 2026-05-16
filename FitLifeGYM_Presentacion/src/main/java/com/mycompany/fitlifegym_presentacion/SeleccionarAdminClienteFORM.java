@@ -11,11 +11,11 @@ package com.mycompany.fitlifegym_presentacion;
 public class SeleccionarAdminClienteFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SeleccionarAdminClienteFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms control;
     /**
      * Creates new form SeleccionarAdminClienteFORM
      */
-    public SeleccionarAdminClienteFORM(ControlForms control) {
+    public SeleccionarAdminClienteFORM(NavegacionForms control) {
         initComponents();
         this.control = control;
         this.setLocationRelativeTo(null);

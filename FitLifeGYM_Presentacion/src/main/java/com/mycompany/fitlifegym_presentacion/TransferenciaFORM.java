@@ -13,13 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class TransferenciaFORM extends javax.swing.JDialog {
 
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaCUBase control;
     private NuevoClienteDTO cliente;
     private TipoMembresiaDTO membresia;
     
-    public TransferenciaFORM(java.awt.Frame parent, boolean modal, ControlForms control, TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
+    public TransferenciaFORM(java.awt.Frame parent, boolean modal, NavegacionForms navegacionForms, TipoMembresiaDTO membresia, NuevoClienteDTO cliente, ControlSubsistemaCUBase control) {
         super(parent, modal);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         this.membresia = membresia;
         this.cliente = cliente;
         this.setLocationRelativeTo(null);
@@ -215,7 +217,7 @@ public class TransferenciaFORM extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "¡Transferencia recibida! Membresía activada.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();
-            control.navegarMenuPrincipal();
+            navegacionForms.navegarMenuPrincipal();
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

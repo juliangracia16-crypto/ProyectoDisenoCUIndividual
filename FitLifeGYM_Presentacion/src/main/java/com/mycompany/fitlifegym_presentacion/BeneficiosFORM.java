@@ -15,13 +15,15 @@ import javax.swing.JOptionPane;
  */
 public class BeneficiosFORM extends javax.swing.JFrame {
 
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaCUBase control;
     private NuevoClienteDTO cliente; 
     private List<NuevaMembresiaDTO> membresiasDisponibles;
 
-    public BeneficiosFORM(ControlForms control, NuevoClienteDTO cliente) {
-        this.control = control;
+    public BeneficiosFORM(NavegacionForms navegacionForms, NuevoClienteDTO cliente, ControlSubsistemaCUBase control) {
+        this.navegacionForms = navegacionForms;
         this.cliente = cliente; 
+        this.control = control;
         this.setTitle("Beneficios");
         initComponents();
         ComboBoxMembresia.setFocusable(false);
@@ -270,7 +272,7 @@ public class BeneficiosFORM extends javax.swing.JFrame {
     private void btnSuscribirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuscribirseActionPerformed
         String membresiaSeleccionado = (String) ComboBoxMembresia.getSelectedItem();
         TipoMembresiaDTO membresia = control.seleccionarMembresia(membresiaSeleccionado);
-        control.navegarMetodosPago(membresia, this.cliente);
+        navegacionForms.navegarMetodosPago(membresia, this.cliente);
     }//GEN-LAST:event_btnSuscribirseActionPerformed
 
     private void actualizarBeneficios() {

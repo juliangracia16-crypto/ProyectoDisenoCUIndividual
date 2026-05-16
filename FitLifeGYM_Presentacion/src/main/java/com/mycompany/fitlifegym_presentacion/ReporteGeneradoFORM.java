@@ -8,11 +8,11 @@ package com.mycompany.fitlifegym_presentacion;
 public class ReporteGeneradoFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ReporteGeneradoFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms control;
     /**
      * Creates new form ReporteGeneradoFORM
      */
-    public ReporteGeneradoFORM(ControlForms control) {
+    public ReporteGeneradoFORM(NavegacionForms control) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;

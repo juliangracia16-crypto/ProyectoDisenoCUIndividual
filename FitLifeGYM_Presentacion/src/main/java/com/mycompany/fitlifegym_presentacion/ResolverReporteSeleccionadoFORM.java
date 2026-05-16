@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.AtenderReporteDTO;
@@ -25,7 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ResolverReporteSeleccionadoFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaQuejasSugerencias control;
     private ReporteIncidenteDTO reporteIncidente;
     private byte[] imagenSeleccionada;
     private String mimeType;
@@ -33,14 +31,16 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
     /**
      * Creates new form DetallesReporteSeleccionadoFORM
      */
-    public ResolverReporteSeleccionadoFORM(ControlForms control) {
+    public ResolverReporteSeleccionadoFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.navegacionForms = navegacionForms;
         this.control = control;
     }
-    public ResolverReporteSeleccionadoFORM(ControlForms control, ReporteIncidenteDTO reporteIncidente) {
+    public ResolverReporteSeleccionadoFORM(NavegacionForms navegacionForms, ReporteIncidenteDTO reporteIncidente, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.navegacionForms =  navegacionForms;
         this.control = control;
         this.reporteIncidente = reporteIncidente;
         llenarFolioForm();
@@ -197,14 +197,14 @@ public class ResolverReporteSeleccionadoFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        control.navegarDetallesReporteSeleccionadoForm(reporteIncidente);
+        navegacionForms.navegarDetallesReporteSeleccionadoForm(reporteIncidente);
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
     private void btnResolverReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverReporteActionPerformed
         boolean generado = resolverReporteIncidente();
         if(generado){
-           control.navegarReportesQuejasClientes();
+           navegacionForms.navegarReportesQuejasClientes();
             this.dispose(); 
         }
     }//GEN-LAST:event_btnResolverReporteActionPerformed

@@ -11,12 +11,12 @@ package com.mycompany.fitlifegym_presentacion;
 public class InicioBuzonQuejasFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InicioBuzonQuejasFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms control;
     
     /**
      * Creates new form InicioBuzonQuejasFORM
      */
-    public InicioBuzonQuejasFORM(ControlForms control) {
+    public InicioBuzonQuejasFORM(NavegacionForms control) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.control = control;

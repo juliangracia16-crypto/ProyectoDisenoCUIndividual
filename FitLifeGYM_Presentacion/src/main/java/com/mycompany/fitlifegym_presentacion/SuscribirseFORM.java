@@ -13,11 +13,11 @@ import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
  */
 public class SuscribirseFORM extends javax.swing.JFrame {
     
-    private ControlForms control;
+    private NavegacionForms control;
     private TipoMembresiaDTO membresia;
     private NuevoClienteDTO cliente;
    
-    public SuscribirseFORM(ControlForms control, TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
+    public SuscribirseFORM(NavegacionForms control, TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
         this.control = control;
         this.membresia = membresia;
         this.cliente = cliente;

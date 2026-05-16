@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
@@ -21,9 +18,11 @@ import javax.swing.JOptionPane;
 //o algo asi
 public class BienvenidaFORM extends javax.swing.JFrame {
 
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaCUBase control;
 
-    public BienvenidaFORM(ControlForms control) {
+    public BienvenidaFORM(NavegacionForms navegacionForms, ControlSubsistemaCUBase control) {
+        this.navegacionForms = navegacionForms;
         this.control = control;
 
         this.setTitle("Bienvenida");
@@ -242,18 +241,18 @@ public class BienvenidaFORM extends javax.swing.JFrame {
         if (cliente.getEstadoMembresia() == EstadoDTO.ACTIVO) {
             JOptionPane.showMessageDialog(this, "Ya tienes una membresía activa.");
         } else {
-            control.navegarBenificios(new NuevoClienteDTO());
+            navegacionForms.navegarBenificios(new NuevoClienteDTO());
         }
     }//GEN-LAST:event_btnBeneficiosActionPerformed
 
     private void btnQuejaSugerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuejaSugerenciaActionPerformed
-        control.navegarInicioBuzonQuejas();
+        navegacionForms.navegarInicioBuzonQuejas();
         this.dispose();
     }//GEN-LAST:event_btnQuejaSugerenciaActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         SesionUsuario.getInstancia().cerrarSesion();
-        control.navegarSeleccionAdminCliente();
+        navegacionForms.navegarSeleccionAdminCliente();
         this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 

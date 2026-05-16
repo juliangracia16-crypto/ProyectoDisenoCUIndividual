@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
-import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.NuevoClienteDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
@@ -16,13 +12,15 @@ import javax.swing.JOptionPane;
  */
 public class IniciarSesionPaypalFORM extends javax.swing.JDialog {
 
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
     private NuevoClienteDTO cliente;
     private TipoMembresiaDTO membresia;
+    private ControlSubsistemaCUBase control;
        
-    public IniciarSesionPaypalFORM(java.awt.Frame parent, boolean modal, ControlForms control, TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {
+    public IniciarSesionPaypalFORM(java.awt.Frame parent, boolean modal, NavegacionForms navegacionForms, TipoMembresiaDTO membresia, NuevoClienteDTO cliente, ControlSubsistemaCUBase control) {
         super(parent, modal);
         this.control = control;
+        this.navegacionForms = navegacionForms;
         this.membresia = membresia;
         this.cliente = cliente;
         initComponents();
@@ -230,7 +228,7 @@ public class IniciarSesionPaypalFORM extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Pago con PayPal exitoso. Membresía activada.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();
-            control.navegarMenuPrincipal();
+            navegacionForms.navegarMenuPrincipal();
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -13,13 +13,15 @@ import javax.swing.JOptionPane;
 public class InicioSesionAdminFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InicioSesionAdminFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms; 
+;    private ControlSubsistemaQuejasSugerencias control;
     /**
      * Creates new form InicioSesionAdminFORM
      */
-    public InicioSesionAdminFORM(ControlForms control) {
+    public InicioSesionAdminFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.navegacionForms = navegacionForms;
         this.control = control;
     }
 
@@ -156,14 +158,14 @@ public class InicioSesionAdminFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        control.navegarSeleccionAdminCliente();
+        navegacionForms.navegarSeleccionAdminCliente();
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         boolean generado = iniciarSesion();
         if(generado){
-            control.navegarMenuPrincipalAdmin();
+            navegacionForms.navegarMenuPrincipalAdmin();
             this.dispose();
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed

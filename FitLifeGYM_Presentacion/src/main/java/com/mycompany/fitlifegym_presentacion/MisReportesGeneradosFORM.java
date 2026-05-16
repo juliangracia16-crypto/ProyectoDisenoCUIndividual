@@ -17,23 +17,25 @@ import javax.swing.table.DefaultTableModel;
 public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MisReportesGeneradosFORM.class.getName());
-    private ControlForms control;
+    private NavegacionForms navegacionForms;
+    private ControlSubsistemaQuejasSugerencias control;
     private FiltrosConsultaHistorialReportesNegocioDTO filtros;
     private List<ReporteIncidenteDTO> reportesIncidentes;
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
-    public MisReportesGeneradosFORM(ControlForms control) {
+    public MisReportesGeneradosFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         ocultarFolioTabla();
+        this.navegacionForms = navegacionForms;
         this.control = control;
         this.setLocationRelativeTo(null);
         cargarTabla();
         colorBotones();
     }
-    public MisReportesGeneradosFORM(ControlForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+    public MisReportesGeneradosFORM(NavegacionForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
         initComponents();
-        this.control = control;
+        this.navegacionForms = control;
         this.filtros = filtros;
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
@@ -169,12 +171,12 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        control.navegarInicioBuzonQuejas();
+        navegacionForms.navegarInicioBuzonQuejas();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnBuscadorReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorReportesActionPerformed
-        control.navegarBuscadorMisReportesCliente();
+        navegacionForms.navegarBuscadorMisReportesCliente();
         this.dispose();
     }//GEN-LAST:event_btnBuscadorReportesActionPerformed
 
@@ -188,7 +190,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Seleccione un reporte.");
             return;
         }
-        control.navegarDetallesReporteSeleccionadoCliente(reporteSeleccionado);
+        navegacionForms.navegarDetallesReporteSeleccionadoCliente(reporteSeleccionado);
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarReporteActionPerformed
     
