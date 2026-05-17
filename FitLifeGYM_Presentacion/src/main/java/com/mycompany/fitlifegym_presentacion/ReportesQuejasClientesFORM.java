@@ -8,13 +8,18 @@ import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,6 +40,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
      */
     public ReportesQuejasClientesFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
+        diseñoTabla();
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
         this.control = control;
@@ -44,6 +50,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     }
     public ReportesQuejasClientesFORM(NavegacionForms navegacionForms, FiltrosConsultaHistorialReportesNegocioDTO filtros, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
+        diseñoTabla();
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
         this.navegacionForms = navegacionForms;
@@ -317,6 +324,46 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
         tblRegistrosReportes.getColumnModel()
                 .getColumn(0)
                 .setWidth(0);
+    }
+    
+    private void diseñoTabla() {
+        tblRegistrosReportes.setRowHeight(30);
+        tblRegistrosReportes.setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.setGridColor(new java.awt.Color(225, 6, 0));
+        tblRegistrosReportes.getTableHeader().setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+        jScrollPane1.getViewport().setBackground(new java.awt.Color(30, 30, 30));
+        DefaultTableCellRenderer renderCentrado = new DefaultTableCellRenderer();
+        renderCentrado.setHorizontalAlignment(JLabel.CENTER);
+        tblRegistrosReportes.getColumnModel().getColumn(0).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(2).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(3).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(4).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(5).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(6).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(1)
+                .setCellRenderer(new DefaultTableCellRenderer() {
+
+                    private final JTextArea area = new JTextArea();
+
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                            boolean hasFocus, int row, int column) {
+                        area.setText(value == null ? "" : value.toString());
+                        area.setLineWrap(true);
+                        area.setWrapStyleWord(true);
+                        area.setForeground(Color.WHITE);
+                        area.setBackground(new Color(30, 30, 30));
+                        area.setFont(table.getFont());
+                        int altura = area.getPreferredSize().height;
+                        if (table.getRowHeight(row) != altura) {
+                            table.setRowHeight(row, altura);
+                        }
+                        return area;
+                    }
+                });
     }
     
     private void colorBotones(){

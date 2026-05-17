@@ -8,6 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.entidades.Administrador;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  * Clase que implementa los metodos de la interfaz IAdministradorDAO, y la interfaz
@@ -80,7 +81,7 @@ public class AdministradorDAO implements IAdministradorDAO, IBaseMongoDAO{
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Administrador> coleccion = this.obtenerColeccion(empresaBD);
 
-            Document filtros = new Document().append(ID_KEY, id);
+            Document filtros = new Document().append(ID_KEY, new ObjectId(id));
             Administrador administrador = coleccion.find(filtros).first();
             if (administrador == null) {
                 throw new PersistenciaException("No existe ningun administrador con ese ID.");

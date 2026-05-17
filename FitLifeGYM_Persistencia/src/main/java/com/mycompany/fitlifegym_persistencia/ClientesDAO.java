@@ -10,6 +10,7 @@ import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  * Clase que implementa los metodos de la interfaz IClientesDAO, y la
@@ -63,7 +64,7 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
             
-            Document filtros = new Document().append(ID_KEY,id);
+            Document filtros = new Document().append(ID_KEY,new ObjectId(id));
             Cliente clienteEncontrado = coleccion.find(filtros).first();
             if(clienteEncontrado == null){
                 throw new PersistenciaException("No existe ningun cliente con ese ID.");

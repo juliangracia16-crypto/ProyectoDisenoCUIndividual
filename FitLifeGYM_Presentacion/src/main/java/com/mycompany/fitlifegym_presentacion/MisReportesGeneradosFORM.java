@@ -6,8 +6,13 @@ import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import java.awt.Color;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,6 +32,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     public MisReportesGeneradosFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         ocultarFolioTabla();
+        diseñoTabla();
         this.navegacionForms = navegacionForms;
         this.control = control;
         this.setLocationRelativeTo(null);
@@ -35,6 +41,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     }
     public MisReportesGeneradosFORM(NavegacionForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
         initComponents();
+        diseñoTabla();
         this.navegacionForms = control;
         this.filtros = filtros;
         this.setLocationRelativeTo(null);
@@ -210,6 +217,44 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Error al cargar los reportes.", "Error",JOptionPane.ERROR_MESSAGE);
             return null;
         }
+    }
+    
+    private void diseñoTabla() {
+        tblRegistrosReportes.setRowHeight(30);
+        tblRegistrosReportes.setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.setGridColor(new java.awt.Color(225, 6, 0));
+        tblRegistrosReportes.getTableHeader().setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+        jScrollPane1.getViewport().setBackground(new java.awt.Color(30, 30, 30));
+        DefaultTableCellRenderer renderCentrado = new DefaultTableCellRenderer();
+        renderCentrado.setHorizontalAlignment(JLabel.CENTER);
+        tblRegistrosReportes.getColumnModel().getColumn(0).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(2).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(3).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(4).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(5).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(1)
+            .setCellRenderer(new DefaultTableCellRenderer() {
+
+                private final JTextArea area = new JTextArea();
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected,
+                    boolean hasFocus, int row, int column) {
+                        area.setText(value == null ? "" : value.toString());
+                        area.setLineWrap(true);
+                        area.setWrapStyleWord(true);
+                        area.setForeground(Color.WHITE);
+                        area.setBackground(new Color(30, 30, 30));
+                        area.setFont(table.getFont());
+                        int altura = area.getPreferredSize().height;
+                        if (table.getRowHeight(row) != altura) {
+                            table.setRowHeight(row, altura);
+                        }
+                        return area;
+                    }
+            });
     }
     
     private void cargarTabla() {
