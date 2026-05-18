@@ -39,11 +39,12 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         cargarTabla();
         colorBotones();
     }
-    public MisReportesGeneradosFORM(NavegacionForms control, FiltrosConsultaHistorialReportesNegocioDTO filtros) {
+    public MisReportesGeneradosFORM(NavegacionForms navegacionForms, FiltrosConsultaHistorialReportesNegocioDTO filtros,ControlSubsistemaQuejasSugerencias control ) {
         initComponents();
         diseñoTabla();
-        this.navegacionForms = control;
+        this.navegacionForms = navegacionForms;
         this.filtros = filtros;
+        this.control = control;
         this.setLocationRelativeTo(null);
         ocultarFolioTabla();
         llenarTablaReportesFiltros();
@@ -219,44 +220,6 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         }
     }
     
-    private void diseñoTabla() {
-        tblRegistrosReportes.setRowHeight(30);
-        tblRegistrosReportes.setBackground(new java.awt.Color(30, 30, 30));
-        tblRegistrosReportes.setForeground(java.awt.Color.WHITE);
-        tblRegistrosReportes.setGridColor(new java.awt.Color(225, 6, 0));
-        tblRegistrosReportes.getTableHeader().setBackground(new java.awt.Color(30, 30, 30));
-        tblRegistrosReportes.getTableHeader().setForeground(java.awt.Color.WHITE);
-        tblRegistrosReportes.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
-        jScrollPane1.getViewport().setBackground(new java.awt.Color(30, 30, 30));
-        DefaultTableCellRenderer renderCentrado = new DefaultTableCellRenderer();
-        renderCentrado.setHorizontalAlignment(JLabel.CENTER);
-        tblRegistrosReportes.getColumnModel().getColumn(0).setCellRenderer(renderCentrado);
-        tblRegistrosReportes.getColumnModel().getColumn(2).setCellRenderer(renderCentrado);
-        tblRegistrosReportes.getColumnModel().getColumn(3).setCellRenderer(renderCentrado);
-        tblRegistrosReportes.getColumnModel().getColumn(4).setCellRenderer(renderCentrado);
-        tblRegistrosReportes.getColumnModel().getColumn(5).setCellRenderer(renderCentrado);
-        tblRegistrosReportes.getColumnModel().getColumn(1)
-            .setCellRenderer(new DefaultTableCellRenderer() {
-
-                private final JTextArea area = new JTextArea();
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                        area.setText(value == null ? "" : value.toString());
-                        area.setLineWrap(true);
-                        area.setWrapStyleWord(true);
-                        area.setForeground(Color.WHITE);
-                        area.setBackground(new Color(30, 30, 30));
-                        area.setFont(table.getFont());
-                        int altura = area.getPreferredSize().height;
-                        if (table.getRowHeight(row) != altura) {
-                            table.setRowHeight(row, altura);
-                        }
-                        return area;
-                    }
-            });
-    }
-    
     private void cargarTabla() {
         try {
             List<ReporteIncidenteDTO> reportes = control.consultarReportesIncidentesPorCliente(
@@ -264,13 +227,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
             );
             llenarTablaReportes(reportes);
         } catch (NegocioException ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al cargar los reportes.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog( this, "Error al cargar los reportes de incidentes. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -319,6 +276,7 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
                 modelo.addRow(fila);
             }
     }
+    
     private void ocultarFolioTabla(){
         tblRegistrosReportes.getColumnModel()
                 .getColumn(0)
@@ -332,6 +290,46 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
                 .getColumn(0)
                 .setWidth(0);
     }
+    
+    private void diseñoTabla() {
+        tblRegistrosReportes.setRowHeight(30);
+        tblRegistrosReportes.setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.setGridColor(new java.awt.Color(225, 6, 0));
+        tblRegistrosReportes.getTableHeader().setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.getTableHeader().setForeground(java.awt.Color.WHITE);
+        tblRegistrosReportes.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+        jScrollPane1.getViewport().setBackground(new java.awt.Color(30, 30, 30));
+        DefaultTableCellRenderer renderCentrado = new DefaultTableCellRenderer();
+        renderCentrado.setHorizontalAlignment(JLabel.CENTER);
+        tblRegistrosReportes.getColumnModel().getColumn(0).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(2).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(3).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(4).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(5).setCellRenderer(renderCentrado);
+        tblRegistrosReportes.getColumnModel().getColumn(1)
+                .setCellRenderer(new DefaultTableCellRenderer() {
+
+                    private final JTextArea area = new JTextArea();
+
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                            boolean hasFocus, int row, int column) {
+                        area.setText(value == null ? "" : value.toString());
+                        area.setLineWrap(true);
+                        area.setWrapStyleWord(true);
+                        area.setForeground(Color.WHITE);
+                        area.setBackground(new Color(30, 30, 30));
+                        area.setFont(table.getFont());
+                        int altura = area.getPreferredSize().height;
+                        if (table.getRowHeight(row) != altura) {
+                            table.setRowHeight(row, altura);
+                        }
+                        return area;
+                    }
+                });
+    }
+    
     private void colorBotones(){
         btnBuscadorReportes.setBackground(new Color(86,86,86));
         btnBuscadorReportes.setForeground(Color.WHITE);

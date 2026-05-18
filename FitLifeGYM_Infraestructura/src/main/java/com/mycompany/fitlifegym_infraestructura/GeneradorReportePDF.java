@@ -13,10 +13,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
-import com.mycompany.fitlifegym_dtos.ReportePdfDTO;
-import com.mycompany.fitlifegym_negocio.IGeneradorReportePDF;
-import com.mycompany.fitlifegym_negocio.InfraestructuraException;
+import com.mycompany.fitlifegym_infraestructura.dtos.RegistroReporteAdminDTOInfraestructura;
+import com.mycompany.fitlifegym_infraestructura.dtos.ReportePdfDTOInfraestructura;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -27,7 +25,7 @@ import java.io.IOException;
 public class GeneradorReportePDF implements IGeneradorReportePDF{
 
     @Override
-    public byte[] generarReportePDF(ReportePdfDTO generarReportePdf) throws InfraestructuraException{
+    public byte[] generarReportePDF(ReportePdfDTOInfraestructura generarReportePdf) throws InfraestructuraException{
         try {
             // Documento horizontal
             Document documento = new Document(PageSize.A4.rotate(), 20, 20, 20, 20);
@@ -40,18 +38,18 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
             Font fuenteHeaders = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
             Font fuenteContenido = new Font(Font.FontFamily.HELVETICA, 10);
             // LOGO
-            Image logo = Image.getInstance(generarReportePdf.imagen());
+            Image logo = Image.getInstance(generarReportePdf.getImagen());
             logo.scaleToFit(80, 80);
             logo.setAlignment(Element.ALIGN_CENTER);
             documento.add(logo);
             // ESPACIO
             documento.add(new Paragraph(" "));
             // TITULO
-            Paragraph titulo = new Paragraph(generarReportePdf.tituloReporte(),fuenteTitulo);
+            Paragraph titulo = new Paragraph(generarReportePdf.getTituloReporte(),fuenteTitulo);
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
             // FECHA
-            Paragraph fecha = new Paragraph("FECHA GENERADO: "+ generarReportePdf.fechaPdfGenerado(),fuenteSubtitulo);
+            Paragraph fecha = new Paragraph("FECHA GENERADO: "+ generarReportePdf.getFechaPdfGenerado(),fuenteSubtitulo);
             fecha.setAlignment(Element.ALIGN_RIGHT);
             documento.add(fecha);
             documento.add(new Paragraph(" "));
@@ -71,7 +69,7 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
             agregarHeader(tabla, "FECHA", fuenteHeaders);
 
             // REGISTROS
-            for (RegistroReporteAdminDTO registro : generarReportePdf.registros()) {
+            for (RegistroReporteAdminDTOInfraestructura registro : generarReportePdf.getRegistros()) {
 
                 agregarCeldaCentro(tabla, registro.folio(), fuenteContenido);
 
@@ -79,19 +77,19 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
 
                 agregarCeldaCentro(
                         tabla,
-                        registro.categoria().categoria(),
+                        registro.nombreCategoria(),
                         fuenteContenido
                 );
 
                 agregarCeldaCentro(
                         tabla,
-                        registro.estado().estado(),
+                        registro.nombreEstado(),
                         fuenteContenido
                 );
 
                 agregarCeldaCentro(
                         tabla,
-                        registro.cliente().getNombre(),
+                        registro.nombreCliente(),
                         fuenteContenido
                 );
 

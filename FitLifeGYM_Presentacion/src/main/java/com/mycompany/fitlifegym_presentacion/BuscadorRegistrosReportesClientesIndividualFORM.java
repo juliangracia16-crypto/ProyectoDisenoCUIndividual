@@ -214,9 +214,14 @@ public class BuscadorRegistrosReportesClientesIndividualFORM extends javax.swing
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
-        navegacionForms.navegarMisReportesGenerados(filtros);
-        this.dispose();
+        try {
+            FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
+            control.consultarReportesIncidentesPorCliente(filtros);
+            navegacionForms.navegarMisReportesGenerados(filtros);
+            this.dispose();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this,"Filtros con parametros incorrectos. "+ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolcerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolcerActionPerformed

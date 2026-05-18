@@ -15,11 +15,10 @@ import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReportePdfDTO;
 import com.mycompany.fitlifegym_negocio.ICatalogosBO;
-import com.mycompany.fitlifegym_negocio.IGeneradorReportePDF;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.IHistorialesReportesGeneralBO;
 import com.mycompany.fitlifegym_negocio.ILoginBO;
-import com.mycompany.fitlifegym_negocio.InfraestructuraException;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,19 +35,19 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     private IHistorialIncidentesBO historialIncidentesBO;
     private IHistorialAtencionesBO historialAtencionesBO;
     private ICatalogosBO catalogosBO;
-    private IGeneradorReportePDF generadorPdf;
     private ILoginBO login;
+    private IHistorialesReportesGeneralBO reportesGeneralesBO;
     private final String RUTA_LOGO_REPORTE_PDF = "/logo gym.jpg";
     private final String TITULO_REPORTE_PDF = "REPORTE DE REGISTROS DE QUEJAS Y SUGERENCIAS";
 
     public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, 
-        ICatalogosBO catalogosBO, IGeneradorReportePDF generadorPdf, ILoginBO login) 
+        ICatalogosBO catalogosBO, ILoginBO login, IHistorialesReportesGeneralBO reportesGeneralesBO) 
     {
         this.historialIncidentesBO = historialIncidentesBO;
         this.historialAtencionesBO = historialAtencionesBO;
         this.catalogosBO = catalogosBO;
-        this.generadorPdf = generadorPdf;
         this.login = login;
+        this.reportesGeneralesBO = reportesGeneralesBO;
     }
     
     @Override
@@ -71,6 +70,7 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        validarNombreFiltro(filtros.cliente());
         validarFechasFiltro(filtros.fechaDesde(),filtros.fechaHasta());
         List<ReporteIncidenteDTO> reportesIncidentes = historialIncidentesBO.consultarReportesIncidentes(filtros);
         return reportesIncidentes;
@@ -85,29 +85,29 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
 
     @Override
     public List<ReporteAtencionDTO> consultarReportesAtenciones(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
-        validarFechasFiltro(filtros.fechaDesde(),filtros.fechaHasta());
         validarNombreFiltro(filtros.cliente());
+        validarFechasFiltro(filtros.fechaDesde(),filtros.fechaHasta());
         List<ReporteAtencionDTO> reportesAtenciones = historialAtencionesBO.consultarReportesAtenciones(filtros);
         return reportesAtenciones;
     }
 
     @Override
     public ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporteIncidente) throws NegocioException {
+        validarAsuntoReporteIncidente(reporteIncidente.asunto());
         validarDescripcionReporteIncidente(reporteIncidente.descripcion());
         if(reporteIncidente.imagen() != null){
             validarImagen(reporteIncidente.imagen().imagen());
         }
-        validarAsuntoReporteIncidente(reporteIncidente.asunto());
         ReporteIncidenteGeneradoDTO reporteIncidenteGenerado = historialIncidentesBO.generarReporteIncidente(reporteIncidente);
         return reporteIncidenteGenerado;
     }
 
     @Override
     public ReporteAtencionGeneradoDTO atenderReporteIncidente(AtenderReporteDTO reporteAtencion) throws NegocioException {
+        validarSolucionReporteAtencion(reporteAtencion.solucion());
         if(reporteAtencion.imagen() != null){
             validarImagen(reporteAtencion.imagen().imagen());
         }
-        validarSolucionReporteAtencion(reporteAtencion.solucion());
         ReporteAtencionGeneradoDTO reporteIncidenteAtendido = historialAtencionesBO.atenderReporteIncidente(reporteAtencion);
         return reporteIncidenteAtendido;
     }
@@ -137,6 +137,7 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     
     @Override
     public List<RegistroReporteAdminDTO> consultarTodosLosReportesFiltrados(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        validarFechasFiltro(filtros.fechaDesde(), filtros.fechaHasta());
         List<RegistroReporteAdminDTO> reportes = historialAtencionesBO.consultarTodosLosRegistrosReportesFiltrado(filtros);
         return reportes;
     }
@@ -151,11 +152,11 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             ReportePdfDTO generarReportePdf = new ReportePdfDTO(
                     registros, LocalDate.now(), tituloReporte,logo
             );
-            byte[] reportePdf = generadorPdf.generarReportePDF(generarReportePdf);
+            byte[] reportePdf = reportesGeneralesBO.generarReportePdf(generarReportePdf);
             return reportePdf;
         }catch (IOException ex) {
             throw new NegocioException("Error al cargar el logo de la imagen.");
-        } catch (InfraestructuraException ex) {
+        } catch (NegocioException ex) {
             throw new NegocioException("No se pudo generar el reporte pdf correctamente.",ex);
         }
     }
@@ -206,7 +207,10 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             return;
         }
         if(fechaDesde.isAfter(LocalDate.now()) || fechaHasta.isAfter(LocalDate.now())){
-            throw new NegocioException("La fecha no puede ser posterior a la fecha actual."); 
+            throw new NegocioException("Las fecha ingresadas no pueden ser posterior a la fecha actual."); 
+        }
+        if (fechaDesde.isAfter(fechaHasta)) {
+            throw new NegocioException("La fecha desde no puede ser posterior a la fecha hasta.");
         }
     }
     private void validarSolucionReporteAtencion(String solucion) throws NegocioException{
@@ -221,8 +225,8 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         }
     }
     private void validarNombreFiltro(String nombre) throws NegocioException{
-        if(nombre.trim().length() > 50){
-            throw new NegocioException("El campo para filtrar por nombre debe tener maximo 50 caracteres.");
+        if(nombre.trim().length() > 30){
+            throw new NegocioException("El campo para filtrar por nombre debe tener maximo 30 caracteres.");
         }
     }
     private void validarAsuntoReporteIncidente(String asunto) throws NegocioException{

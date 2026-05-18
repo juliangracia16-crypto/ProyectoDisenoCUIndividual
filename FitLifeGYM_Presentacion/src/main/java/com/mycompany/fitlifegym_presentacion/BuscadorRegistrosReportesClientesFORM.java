@@ -72,6 +72,7 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
         btnVolcer.setText("Volver");
         btnVolcer.setBackground(new java.awt.Color(0, 0, 0));
         btnVolcer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnVolcer.addActionListener(this::btnVolcerActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -222,14 +223,24 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
-        navegacionForms.navegarReportesQuejasClientes(filtros);
-        this.dispose();
+        try {
+            FiltrosConsultaHistorialReportesNegocioDTO filtros = filtros();
+            control.consultarTodosLosReportesFiltrados(filtros);
+            navegacionForms.navegarReportesQuejasClientes(filtros);
+            this.dispose();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this,"Filtros con parametros incorrectos. "+ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
         restablecerFiltros();
     }//GEN-LAST:event_btnRestablecerActionPerformed
+
+    private void btnVolcerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolcerActionPerformed
+        navegacionForms.navegarReportesQuejasClientes();
+        this.dispose();
+    }//GEN-LAST:event_btnVolcerActionPerformed
     
     private FiltrosConsultaHistorialReportesNegocioDTO filtros() {
         String nombreCliente = txtFiltroNombre1.getText();

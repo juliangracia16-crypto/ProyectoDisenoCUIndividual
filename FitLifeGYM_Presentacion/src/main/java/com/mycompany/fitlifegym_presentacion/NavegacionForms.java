@@ -72,7 +72,7 @@ public class NavegacionForms {
     }
     
     public void navegarMisReportesGenerados(FiltrosConsultaHistorialReportesNegocioDTO filtros){
-        mostrarPantalla(new MisReportesGeneradosFORM(this,filtros));
+        mostrarPantalla(new MisReportesGeneradosFORM(this,filtros,controlQuejas));
     }
     
     public void navegarDetallesReporteSeleccionadoCliente(ReporteIncidenteDTO reporteIncidente){

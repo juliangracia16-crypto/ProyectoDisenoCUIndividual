@@ -18,6 +18,7 @@ import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteAtencionGeneradoDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteGeneradoDTO;
+import com.mycompany.fitlifegym_dtos.ReportePdfDTO;
 import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_dtos.TipoReporteDTO;
 import com.mycompany.fitlifegym_persistencia.dtos.CategoriaPersistenciaDTO;
@@ -36,6 +37,9 @@ import com.mycompany.fitlifegym_persistencia.entidades.MembresiaComprada;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteAtencion;
 import com.mycompany.fitlifegym_persistencia.entidades.ReporteIncidente;
 import com.mycompany.fitlifegym_persistencia.entidades.TipoMembresia;
+import com.mycompany.fitlifegym_infraestructura.dtos.RegistroReporteAdminDTOInfraestructura;
+import com.mycompany.fitlifegym_infraestructura.dtos.ReportePdfDTOInfraestructura;
+
 import java.time.LocalDate;
 
 /**
@@ -276,6 +280,30 @@ public class DtosAEntidadesAdapter {
                 clienteDTO
         );
         return registroAdmin;
+    }
+    
+    //Adapters de DTOS para pdf (Convertir dto a dtoInfraestructura)
+    public static RegistroReporteAdminDTOInfraestructura adaptarRegistroReportesAdminDTOAInfraestructura(RegistroReporteAdminDTO dto){
+        RegistroReporteAdminDTOInfraestructura registroInfraestructura = new RegistroReporteAdminDTOInfraestructura(
+                dto.folio(),
+                dto.tipo().toString(),
+                dto.asunto(),
+                dto.categoria().categoria(),
+                dto.estado().estado(),
+                dto.fecha(),
+                dto.cliente().getNombre()
+        );
+        return registroInfraestructura;
+    }
+    
+    public static ReportePdfDTOInfraestructura adaptarDatosReportePdfAInfraestructura(ReportePdfDTO dto){
+        ReportePdfDTOInfraestructura datosPdf = new ReportePdfDTOInfraestructura(
+                null,
+                dto.fechaPdfGenerado(),
+                dto.tituloReporte(),
+                dto.imagen()
+        );
+        return datosPdf;
     }
     
     //Adapters de las entidades solas

@@ -1,14 +1,17 @@
 
 package com.mycompany.fitlifegym_negocio.fabricaBO;
 
+import com.mycompany.fitlifegym_infraestructura.singletonGeneradorPdf.SingletonGenerarReportePdf;
 import com.mycompany.fitlifegym_negocio.CatalogosBO;
 import com.mycompany.fitlifegym_negocio.ClientesBO;
 import com.mycompany.fitlifegym_negocio.HistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.HistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.HistorialesReportesGeneralBO;
 import com.mycompany.fitlifegym_negocio.ICatalogosBO;
 import com.mycompany.fitlifegym_negocio.IClientesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialAtencionesBO;
 import com.mycompany.fitlifegym_negocio.IHistorialIncidentesBO;
+import com.mycompany.fitlifegym_negocio.IHistorialesReportesGeneralBO;
 import com.mycompany.fitlifegym_negocio.ILoginBO;
 import com.mycompany.fitlifegym_negocio.IMembresiaBO;
 import com.mycompany.fitlifegym_negocio.IMembresiaCompradaBO;
@@ -48,5 +51,8 @@ public class FabricaBO {
     }
     public static IRenovarMembresiaBO crearRenovarMembresiaBO(){
         return new RenovarMembresiaBO( FabricaFachada.crearPersistenciaFachada());
+    }
+    public static IHistorialesReportesGeneralBO crearReportesGeneralesBO(){
+        return new HistorialesReportesGeneralBO(SingletonGenerarReportePdf.getInstancia());
     }
 }

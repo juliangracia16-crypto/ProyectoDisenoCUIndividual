@@ -9,6 +9,7 @@ package com.mycompany.fitlifegym_presentacion;
 public class FitLifeGYM_Presentacion {
 
     public static void main(String[] args) {
+        
         NavegacionForms control = new NavegacionForms();
         
         control.navegarSeleccionAdminCliente();

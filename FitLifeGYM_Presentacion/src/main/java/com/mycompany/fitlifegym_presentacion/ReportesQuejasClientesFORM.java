@@ -233,10 +233,8 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
                 Files.write(Paths.get(ruta),pdf);
 
                 JOptionPane.showMessageDialog(this, "PDF generado exitosamente en:\n" + ruta, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (NegocioException ex) {
-                JOptionPane.showMessageDialog(this, "No se pudo generar el pdf correctamente."+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "No se pudo generar el pdf correctamente."+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NegocioException | IOException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo generar el pdf correctamente. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -258,7 +256,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
             }
             
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar el reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al cargar el reporte. "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -267,13 +265,8 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
             List<RegistroReporteAdminDTO> reportes = control.consultarTodosLosReportesFiltrados(filtros);
             llenarTablaReportes(reportes);
         } catch (NegocioException ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al cargar los reportes.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Error al cargar los reportes. "+ ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            
         }
     }
     
@@ -282,13 +275,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
             List<RegistroReporteAdminDTO> reportes = control.consultarTodosLosReportes();
             llenarTablaReportes(reportes);
         } catch (NegocioException ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al cargar los reportes.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Error al cargar los reportes. "+ ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
         }
     }
     private void llenarTablaReportes(List<RegistroReporteAdminDTO> reportes) {
