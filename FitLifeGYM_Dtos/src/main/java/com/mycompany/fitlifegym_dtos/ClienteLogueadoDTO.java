@@ -2,7 +2,8 @@
 package com.mycompany.fitlifegym_dtos;
 
 /**
- *
+ * Representa los datos extraidos 
+ * del cliente cuando inicia sesion.
  * @author PC GAMER MASTER RACE
  */
 public class ClienteLogueadoDTO {

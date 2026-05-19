@@ -2,7 +2,8 @@
 package com.mycompany.fitlifegym_infraestructura;
 
 /**
- *
+ * Excepcion personalizada para manejar los errores
+ * que puedan ocurrir al generar un reporte pdf
  * @author Julian
  */
 public class InfraestructuraException extends Exception{

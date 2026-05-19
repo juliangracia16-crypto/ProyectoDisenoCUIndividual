@@ -2,7 +2,8 @@
 package com.mycompany.fitlifegym_dtos;
 
 /**
- *
+ * Datos que representan las credenciales de un
+ * cliente al intentar iniciar sesion
  * @author PC GAMER MASTER RACE
  */
 public class LoginDTO {

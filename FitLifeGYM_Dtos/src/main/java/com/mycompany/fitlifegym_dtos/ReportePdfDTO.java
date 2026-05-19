@@ -5,7 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- *
+ * Datos necesarios para que el reporte pdf sea generado
+ * correctamente
  * @author Julian
  */
 public record ReportePdfDTO(

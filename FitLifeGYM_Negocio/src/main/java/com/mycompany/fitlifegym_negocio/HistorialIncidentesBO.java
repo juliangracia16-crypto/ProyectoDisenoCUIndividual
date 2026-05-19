@@ -29,6 +29,16 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         this.fachada = fachada;
     }
     
+    /**
+     * Metodo para consultar todos los reportes de incidentes
+     * utilizando filtros
+     * @param filtros por los que se consultara los reportes
+     * Por: nombre cliente, estado reporte, categoria reporte, fecha desde, fecha hasta
+     * @return una lista con los reportes que coincidan con los filtros o
+     * todos los reportes si los filtros van vacios
+     * @throws NegocioException si ocurre un error al consultar o si los
+     * filtros no cumplen las validaciones establecidas
+     */
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         try {
@@ -46,6 +56,13 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         }
     }
 
+    /**
+     * Metodo para generar un reporte de incidente
+     * @param reporte objeto con los datos necesarios
+     * para generar un nuevo reporte de incidente
+     * @return el reporte de incidente generado correctamente
+     * @throws NegocioException si ocurre un error al generar el reporte
+     */
     @Override
     public ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporte) throws NegocioException {
         try {
@@ -72,7 +89,12 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
             throw new NegocioException("Error al generar reporte de incidente.",ex);
         }
     }
-
+    
+    /**
+     * Metodo para consultar todos los reportes de incidentes
+     * @return una lista con todos los reportes 
+     * @throws NegocioException si ocurre un error al consultar
+     */
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentes() throws NegocioException {
         try {
@@ -89,6 +111,13 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         }
     }
     
+    /**
+     * Metodo para consultar un reporte de incidente por folio
+     * @param folio por el que se consultara el reporte
+     * @return el reporte de incidente que coincida con el folio
+     * @throws NegocioException si ocurre un error al consultar o 
+     * si no se encuentra ningun reporte relacionado a ese folio
+     */
     @Override
     public ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException {
         try {
@@ -100,6 +129,16 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
         }
     }
 
+    /**
+     * Metodo para consultar todos los reportes de incidentes generados por un cliente
+     * utilizando filtros
+     * @param filtros por los que se consultara los reportes
+     * Por: estado reporte, categoria reporte, fecha desde, fecha hasta
+     * @return una lista con los reportes del cliente que coincidan con los filtros o
+     * todos los reportes del cliente si los filtros van vacios
+     * @throws NegocioException si ocurre un error al consultar o si los
+     * filtros no cumplen las validaciones establecidas
+     */
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         try {

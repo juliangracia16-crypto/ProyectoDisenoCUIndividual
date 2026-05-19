@@ -5,7 +5,8 @@ import com.mycompany.fitlifegym_infraestructura.GeneradorReportePDF;
 import com.mycompany.fitlifegym_infraestructura.IGeneradorReportePDF;
 
 /**
- * 
+ * Clase singleton para obtener la instancia 
+ * de la interfaz IGeneradorReportePDF
  * @author Julian
  */
 public class SingletonGenerarReportePdf {

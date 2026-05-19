@@ -4,7 +4,8 @@ package com.mycompany.fitlifegym_dtos;
 import java.time.LocalDate;
 
 /**
- *
+ * Datos que representa un reporte de incidente 
+ * cuando se utiliza para consultar/lectura
  * @author Julian
  */
 public record ReporteIncidenteDTO(

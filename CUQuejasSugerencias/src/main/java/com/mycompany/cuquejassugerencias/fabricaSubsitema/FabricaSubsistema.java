@@ -15,6 +15,12 @@ import com.mycompany.fitlifegym_negocio.fabricaBO.FabricaBO;
  * @author Julian
  */
 public class FabricaSubsistema {
+    
+    /**
+     * Metodo que incializa los objetos BO necesarios para el funcionamiento
+     * del subsistema
+     * @return ICUQuejasSugerencias inicializado
+     */
     public static ICUQuejasSugerencias crearSubsistema(){
         
         IHistorialAtencionesBO historialAtencionesBO = FabricaBO.crearHistorialAtencionBO();

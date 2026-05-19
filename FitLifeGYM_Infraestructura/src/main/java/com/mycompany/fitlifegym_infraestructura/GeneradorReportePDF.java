@@ -19,11 +19,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- *
+ * Clase que implementa la interfaz IGeneradorReportePDF
+ * para generar el reporte pdf.
+ * Se genera utilizando la libreria itextpdf
  * @author Julian
  */
 public class GeneradorReportePDF implements IGeneradorReportePDF{
-
+    
+    /**
+     * Metodo que genera el reporte pdf.
+     * @param generarReportePdf los datos con los que se generara el reporte
+     * @return el reporte pdf generado en un arreglo de bytes
+     * @throws InfraestructuraException si ocurre un error al generar el reporte
+     */
     @Override
     public byte[] generarReportePDF(ReportePdfDTOInfraestructura generarReportePdf) throws InfraestructuraException{
         try {
@@ -108,6 +116,14 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
         }
         
     }
+    
+    /**
+     * Metodo para agregar a la celda de la tabla donde ira el titulo
+     * que vaya centrado, alineado y con buen tamaño de letra.
+     * @param tabla donde se agregara el header
+     * @param texto que se le agregara al header
+     * @param fuente que tendra el header que agregaremos
+     */
     private void agregarHeader(PdfPTable tabla,String texto,Font fuente) {
 
         PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));
@@ -118,6 +134,13 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
         tabla.addCell(celda);
     }
 
+    /**
+     * Metodo para alinear el texto que se 
+     * mostrara en la tabla al centro
+     * @param tabla donde se agregara
+     * @param texto que se agregara a la celda de la tabla
+     * @param fuente que tendra el texto que agregaremos
+     */
     private void agregarCeldaCentro(PdfPTable tabla,String texto,Font fuente) {
         
         PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));
@@ -127,6 +150,14 @@ public class GeneradorReportePDF implements IGeneradorReportePDF{
         tabla.addCell(celda);
     }
 
+    /**
+     * Metodo para alinear el texto que se mostrara 
+     * en la tabla a la izquierda
+     * @param tabla donde se alineara el texto
+     * @param texto que se alineara
+     * @param fuente que tendra el texto que aliniemos y
+     * agreguemos
+     */
     private void agregarCeldaIzquierda(PdfPTable tabla,String texto,Font fuente) {
         
         PdfPCell celda = new PdfPCell(new Phrase(texto, fuente));

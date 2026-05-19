@@ -28,30 +28,74 @@ import com.mycompany.fitlifegym_persistencia.fabricaPersistencia.FabricaFachada;
  */
 public class FabricaBO {
     
+    /**
+     * Metodo para inicializar IHistorialIncidentesBO
+     * @return IHistorialIncidentesBO inicializada
+     */
     public static IHistorialIncidentesBO crearHistorialIncidenteBO(){
         return new HistorialIncidentesBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IHistorialAtencionesBO
+     * @return IHistorialAtencionesBO inicializada
+     */
     public static IHistorialAtencionesBO crearHistorialAtencionBO(){
         return new HistorialAtencionesBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar ICatalogosBO
+     * @return ICatalogosBO inicializada
+     */
     public static ICatalogosBO crearCatalogosBO(){
         return new CatalogosBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IMembresiaBO
+     * @return IMembresiaBO inicializada
+     */
     public static IMembresiaBO crearMembresiaBO(){
         return new MembresiaBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IMembresiaCompradaBO
+     * @return IMembresiaCompradaBO inicializada
+     */
     public static IMembresiaCompradaBO crearMembresiaCompradaBO(){
         return new MembresiaCompradaBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IClientesBO
+     * @return IClientesBO inicializada
+     */
     public static IClientesBO crearClientesBO(){
         return new ClientesBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar ILoginBO
+     * @return ILoginBO inicializada
+     */
     public static ILoginBO crearLoginBO(){
         return new LoginBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IRenovarMembresiaBO
+     * @return IRenovarMembresiaBO inicializada
+     */
     public static IRenovarMembresiaBO crearRenovarMembresiaBO(){
         return new RenovarMembresiaBO( FabricaFachada.crearPersistenciaFachada());
     }
+    
+    /**
+     * Metodo para inicializar IHistorialesReportesGeneralBO
+     * @return IHistorialesReportesGeneralBO inicializada
+     */
     public static IHistorialesReportesGeneralBO crearReportesGeneralesBO(){
         return new HistorialesReportesGeneralBO(SingletonGenerarReportePdf.getInstancia());
     }

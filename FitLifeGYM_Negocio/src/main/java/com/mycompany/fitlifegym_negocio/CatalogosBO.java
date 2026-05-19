@@ -23,6 +23,11 @@ public class CatalogosBO implements ICatalogosBO{
         this.fachada = fachada;
     }
     
+    /**
+     * Metodo que consulta todas las categorias
+     * @return una lista con las categorias 
+     * @throws NegocioException si ocurre un error al consultar
+     */
     @Override
     public List<CategoriaDTO> consultarCatalogoCategorias() throws NegocioException {
         try {
@@ -38,6 +43,11 @@ public class CatalogosBO implements ICatalogosBO{
         }
     }
 
+    /**
+     * Metodo que consulta todos los estados de los reportes
+     * @return una lista con todos los estados
+     * @throws NegocioException si ocurre un error al consultar 
+     */
     @Override
     public List<EstadoReporteDTO> consultarCatalogoEstados() throws NegocioException {
         try {

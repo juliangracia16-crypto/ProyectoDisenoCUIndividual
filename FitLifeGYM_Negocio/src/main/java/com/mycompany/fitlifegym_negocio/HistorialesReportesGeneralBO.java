@@ -12,16 +12,28 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Clase que implementa la interfaz IHistorialesReportesGeneralBO
+ * y sobreescribe sus metods
  * @author Julian
  */
 public class HistorialesReportesGeneralBO implements IHistorialesReportesGeneralBO{
     private final IGeneradorReportePDF generadorPdf;
 
+    /**
+     * Constructor que recibe e inicializa como parametro la interfaz de infraestructura
+     * la cual nos generara el pdf
+     * @param generadorPdf interfaz generadora del pdf
+     */
     public HistorialesReportesGeneralBO(IGeneradorReportePDF generadorPdf) {
         this.generadorPdf = generadorPdf;
     }
     
+    /**
+     * Metodo para generar reporte pdf del historial de los registros
+     * @param reportePdfDTO datos necesarios para generar el reporte pdf
+     * @return arreglo de byte que representan el pdf generado correctamente
+     * @throws NegocioException si ocurre un error al generar el reporte pdf
+     */
     @Override
     public byte[] generarReportePdf(ReportePdfDTO reportePdfDTO) throws NegocioException {
         try {

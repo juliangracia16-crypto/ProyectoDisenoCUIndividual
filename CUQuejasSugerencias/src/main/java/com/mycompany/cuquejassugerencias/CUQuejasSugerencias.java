@@ -39,7 +39,16 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     private final IHistorialesReportesGeneralBO reportesGeneralesBO;
     private final String RUTA_LOGO_REPORTE_PDF = "/logo gym.jpg";
     private final String TITULO_REPORTE_PDF = "REPORTE DE REGISTROS DE QUEJAS Y SUGERENCIAS";
-
+    
+    /**
+     * Constructor que recibe e inicializa las BO necesarias para que el subsistema funcione correctamente
+     * @param historialIncidentesBO la BO para manejar lo relacionado a los reportes de incidentes
+     * @param historialAtencionesBO la BO para manejar lo relacionado a los reportes de atenciones
+     * @param catalogosBO la BO para manejar lo relacionado con los estados y categorias de los reportes
+     * @param login la BO para manejar el login como administrador
+     * @param reportesGeneralesBO la BO para manejar lo realcionado a generar el reporte general de historial
+     * de reportes
+     */
     public CUQuejasSugerencias(IHistorialIncidentesBO historialIncidentesBO, IHistorialAtencionesBO historialAtencionesBO, 
         ICatalogosBO catalogosBO, ILoginBO login, IHistorialesReportesGeneralBO reportesGeneralesBO) 
     {

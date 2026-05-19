@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.fitlifegym_negocio;
 
 import Adapter.DtosAEntidadesAdapter;
@@ -25,6 +22,12 @@ public class ClientesBO implements IClientesBO {
         this.fachada = fachada;
     }
 
+    /**
+     * Metodo para registrar un nuevo cliente al gimnasio
+     * @param clienteDTO datos del cliente nuevo a registrar
+     * @return dto con el cliente registrado 
+     * @throws NegocioException si ocurre un error al registrarlo
+     */
     @Override
     public ClienteLogueadoDTO registrarCliente(NuevoClienteDTO clienteDTO) throws NegocioException{
         Cliente cliente = DtosAEntidadesAdapter.adaptarClienteDTO(clienteDTO);      
@@ -37,6 +40,13 @@ public class ClientesBO implements IClientesBO {
         }
     }
 
+    /**
+     * Metodo para buscar un cliente por su ID
+     * @param id por el cual buscaremos al cliente
+     * @return cliente encontrado con ese ID
+     * @throws NegocioException si ocurre un error al consultar
+     * o si no se encuentra ningun cliente con ese ID
+     */
     @Override
     public ClienteLogueadoDTO buscarClientePorId(String id) throws NegocioException{
         try {
@@ -48,6 +58,11 @@ public class ClientesBO implements IClientesBO {
         }
     }
 
+    /**
+     * Metodo para consultar todos los clientes
+     * @return una lista con todos los clientes
+     * @throws NegocioException si ocurre un error al consultar
+     */
     @Override
     public List<ClienteLogueadoDTO> consultarClientes() throws NegocioException{
         try {
