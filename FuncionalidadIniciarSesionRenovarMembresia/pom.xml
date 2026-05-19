@@ -18,6 +18,10 @@
             <exclusions>
                 <exclusion>
                     <groupId>com.mycompany</groupId>
+                    <artifactId>FitLifeGYM_Infraestructura</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.mycompany</groupId>
                     <artifactId>FitLifeGYM_Persistencia</artifactId>
                 </exclusion>
             </exclusions>
