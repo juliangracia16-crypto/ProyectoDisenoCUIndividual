@@ -91,10 +91,6 @@ public class NavegacionForms {
         mostrarPantalla(new ReporteGeneradoFORM(this));
     }
     
-    public void navegarSeleccionAdminCliente(){
-        mostrarPantalla(new SeleccionarAdminClienteFORM(this));
-    }
-    
     public void navegarBuscadorMisReportesCliente(){
         mostrarPantalla(new BuscadorRegistrosReportesClientesIndividualFORM(this,controlQuejas));
     }
