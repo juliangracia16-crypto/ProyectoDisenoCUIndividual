@@ -190,8 +190,8 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     }
 
     @Override
-    public Cliente buscarPorPin(String pin) throws PersistenciaException {
-        Cliente cliente = clientes.buscarPorPin(pin);
+    public Cliente buscarPorCorreo(String correo) throws PersistenciaException {
+        Cliente cliente = clientes.buscarPorCorreo(correo);
         return cliente;
     }
 

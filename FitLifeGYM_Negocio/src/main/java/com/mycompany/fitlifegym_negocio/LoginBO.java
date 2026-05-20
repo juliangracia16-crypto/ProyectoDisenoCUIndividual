@@ -37,9 +37,12 @@ public class LoginBO implements ILoginBO {
     @Override
     public ClienteLogueadoDTO iniciarSesion(LoginDTO login) throws NegocioException {
         try {
-            Cliente cliente = fachada.buscarPorPin(login.getPin());
-
+            Cliente cliente = fachada.buscarPorCorreo(login.getCorreo());
+            
             if (cliente == null) {
+                return null;
+            }
+            if(!(login.getContrasenia().equals(cliente.getContrasenia()))){
                 return null;
             }
 
@@ -58,7 +61,7 @@ public class LoginBO implements ILoginBO {
 
             return new ClienteLogueadoDTO(cliente.getIdCliente(), cliente.getNombre(), cliente.getApellidos(), tipoDTO,estadoDTO);
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al iniciar sesion", ex);
+            throw new NegocioException("Error al iniciar sesion. Credenciales invalidas", ex);
         }
     }
 

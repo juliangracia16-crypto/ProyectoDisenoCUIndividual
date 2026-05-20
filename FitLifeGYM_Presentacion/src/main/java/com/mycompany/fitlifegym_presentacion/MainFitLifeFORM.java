@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.fitlifegym_presentacion;
 
 /**
@@ -10,10 +7,10 @@ package com.mycompany.fitlifegym_presentacion;
  */
 public class MainFitLifeFORM extends javax.swing.JFrame {
 
-    private NavegacionForms control;
+    private NavegacionForms navegacionForms;
             
-    public MainFitLifeFORM(NavegacionForms control) {
-        this.control = control;
+    public MainFitLifeFORM(NavegacionForms navegacionForms) {
+        this.navegacionForms = navegacionForms;
         this.setTitle("Main Fit Life");
         initComponents();
         this.setLocationRelativeTo(null);
@@ -37,6 +34,7 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         btnIniciarSesion = new javax.swing.JButton();
         lblTitulo3 = new javax.swing.JLabel();
+        comboSeleccionAdminCliente = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
 
         popupMenu1.setLabel("popupMenu1");
@@ -79,6 +77,12 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
         lblTitulo3.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo3.setText("Fit Life GYM");
 
+        comboSeleccionAdminCliente.setBackground(new java.awt.Color(153, 153, 153));
+        comboSeleccionAdminCliente.setFont(new java.awt.Font("Segoe UI", 3, 28)); // NOI18N
+        comboSeleccionAdminCliente.setForeground(new java.awt.Color(0, 0, 0));
+        comboSeleccionAdminCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "ADMINISTRADOR" }));
+        comboSeleccionAdminCliente.addActionListener(this::comboSeleccionAdminClienteActionPerformed);
+
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
@@ -100,6 +104,10 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboSeleccionAdminCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelLayout.createSequentialGroup()
                     .addGap(10, 10, 10)
@@ -109,7 +117,9 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addContainerGap()
+                .addComponent(comboSeleccionAdminCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
@@ -164,18 +174,34 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-       control.navegarRegistrarse();
+       navegacionForms.navegarRegistrarse();
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        control.navegarIniciarSesion();
+        if(comboSeleccionAdminCliente.getSelectedItem().equals("CLIENTE")){
+            navegacionForms.navegarIniciarSesion();
+            this.dispose();
+        }else{
+            navegacionForms.navegarInicioSesionAdmin();
+            this.dispose();
+        }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void comboSeleccionAdminClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSeleccionAdminClienteActionPerformed
+        String tipoUsuario = (String) comboSeleccionAdminCliente.getSelectedItem();
+        if (tipoUsuario.equals("CLIENTE")) {
+            btnRegistrarse.setEnabled(true);
+        } else {
+            btnRegistrarse.setEnabled(false);
+        }
+    }//GEN-LAST:event_comboSeleccionAdminClienteActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JComboBox<String> comboSeleccionAdminCliente;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;

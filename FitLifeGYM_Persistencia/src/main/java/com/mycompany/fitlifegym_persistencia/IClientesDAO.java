@@ -39,12 +39,12 @@ public interface IClientesDAO {
     public abstract List<Cliente> consultarClientes()throws PersistenciaException;
     
     /**
-     * Metodo para consultar un cliente por su Pin
-     * @param pin del cliente que se consultara
-     * @return el cliente correspondiente a ese Pin
+     * Metodo para consultar un cliente por su correo
+     * @param correo del cliente que se consultara
+     * @return el cliente correspondiente a ese correo
      * @throws PersistenciaException si ocurre un error al consultar al cliente o
      * si no se encuentra ningun cliente con ese Pin
      */
-    public abstract Cliente buscarPorPin(String pin)throws PersistenciaException;
+    public abstract Cliente buscarPorCorreo(String correo)throws PersistenciaException;
    
 }

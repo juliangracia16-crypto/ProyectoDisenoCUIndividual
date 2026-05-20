@@ -21,7 +21,7 @@ import org.bson.types.ObjectId;
 public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
     private static final String NOMBRE_COLECCION = "clientes";
     private static final String ID_KEY = "_id";
-    private static final String PIN_KEY = "pin";
+    private static final String CORREO_KEY = "correo";
     
     /**
      * Metodo que obtiene la base de datos
@@ -95,20 +95,20 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
     }
 
     /**
-     * Metodo para consultar un cliente por su pin
-     * @param pin del cliente que buscaremos
-     * @return el cliente encontrado con ese pin
-     * @throws PersistenciaException si no se encuentra un cliente con ese pin
+     * Metodo para consultar un cliente por su correo
+     * @param correo del cliente que buscaremos
+     * @return el cliente encontrado con ese correo
+     * @throws PersistenciaException si no se encuentra un cliente con ese correo
      * o si falla algo al momento de conectarse a la base de datos
      */
     @Override
-    public Cliente buscarPorPin(String pin) throws PersistenciaException {
+    public Cliente buscarPorCorreo(String correo) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
             
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
             
-            Document filtros = new Document().append(PIN_KEY,pin);
+            Document filtros = new Document().append(CORREO_KEY,correo);
             Cliente clienteEncontrado = coleccion.find(filtros).first();
             if(clienteEncontrado == null){
                 throw new PersistenciaException("No existe ningun cliente con ese ID.");

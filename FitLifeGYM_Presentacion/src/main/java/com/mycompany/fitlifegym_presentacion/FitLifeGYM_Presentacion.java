@@ -12,6 +12,6 @@ public class FitLifeGYM_Presentacion {
         
         NavegacionForms control = new NavegacionForms();
         
-        control.navegarSeleccionAdminCliente();
+        control.navegarMenuPrincipal();
     }
 }

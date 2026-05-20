@@ -50,6 +50,6 @@ public interface IPersistenciaFachada {
     public abstract Cliente registrarCliente(Cliente cliente) throws PersistenciaException;
     public abstract Cliente consultarClientePorId(String id) throws PersistenciaException;
     public abstract List<Cliente> consultarClientes() throws PersistenciaException;
-    public abstract Cliente buscarPorPin(String pin) throws PersistenciaException;
+    public abstract Cliente buscarPorCorreo(String correo) throws PersistenciaException;
     public abstract void actualizarMembresia(String idCliente, TipoMembresia nuevaMembresia) throws PersistenciaException;
 }

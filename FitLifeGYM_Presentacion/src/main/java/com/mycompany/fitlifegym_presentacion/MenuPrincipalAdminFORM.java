@@ -128,7 +128,7 @@ public class MenuPrincipalAdminFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        control.navegarSeleccionAdminCliente();
+        control.navegarMenuPrincipal();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

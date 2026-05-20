@@ -144,8 +144,8 @@ public class ControlSubsistemaCUBase {
     }
 
     //Modificado
-    public ClienteLogueadoDTO iniciarSesion(String pin, String contrasenia) throws NegocioException {
-        LoginDTO loginDTO = new LoginDTO(pin, contrasenia);
+    public ClienteLogueadoDTO iniciarSesion(String correo, String contrasenia) throws NegocioException {
+        LoginDTO loginDTO = new LoginDTO(correo, contrasenia);
         ClienteLogueadoDTO cliente = funcionalidadIniciarSesion.iniciarSesion(loginDTO);
         return cliente;
     }

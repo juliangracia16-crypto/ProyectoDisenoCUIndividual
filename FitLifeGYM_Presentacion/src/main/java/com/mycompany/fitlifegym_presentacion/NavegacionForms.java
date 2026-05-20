@@ -58,6 +58,10 @@ public class NavegacionForms {
         mostrarPantalla(new SuscribirseFORM(this, membresia, cliente));
     }
     
+    public void navegarIniciarSesion() {
+        mostrarPantalla(new IniciarSesionFORM(this,controlCUBase));
+    }
+    
     //FORMS CU
     public void navegarInicioBuzonQuejas(){
         mostrarPantalla(new InicioBuzonQuejasFORM(this));
@@ -138,10 +142,6 @@ public class NavegacionForms {
     //Dialogs CU BASE
     public void navegarRegistrarse() {
         mostrarDialogo(new RegistrarseFORM(this.frameActual, true, this,controlCUBase));
-    }
-
-    public void navegarIniciarSesion() {
-        mostrarDialogo(new IniciarSesionFORM(this.frameActual, true, this,controlCUBase));
     }
 
     public void navegarTransferenciaMetodo(TipoMembresiaDTO membresia, NuevoClienteDTO cliente) {

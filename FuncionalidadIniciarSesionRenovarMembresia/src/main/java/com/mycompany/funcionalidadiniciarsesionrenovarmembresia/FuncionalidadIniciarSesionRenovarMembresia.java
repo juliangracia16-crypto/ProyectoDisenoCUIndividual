@@ -23,6 +23,7 @@ public class FuncionalidadIniciarSesionRenovarMembresia implements IFuncionalida
     private final ILoginBO loginBO;
     private final IMembresiaBO membresiaBO;
     private final IRenovarMembresiaBO renovarMembresiaBO;
+    private final String regexCorreo = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
     public FuncionalidadIniciarSesionRenovarMembresia(ILoginBO loginBO, IMembresiaBO membresiaBO, IRenovarMembresiaBO renovarMembresiaBO) {
         this.loginBO = loginBO;
@@ -36,19 +37,23 @@ public class FuncionalidadIniciarSesionRenovarMembresia implements IFuncionalida
             throw new NegocioException("Los datos de inicio de sesion no pueden ser nulos.");
         }
 
-        if (login.getPin() == null || login.getPin().isBlank()) {
-            throw new NegocioException("El PIN no puede estar vacio.");
+        if (login.getCorreo() == null || login.getCorreo().isBlank()) {
+            throw new NegocioException("El correo no puede estar vacio.");
         }
-
-        if (!login.getPin().matches("\\d{4}")) {
-            throw new NegocioException("El PIN debe ser de 4 digitos numericos.");
+        
+        if(!login.getCorreo().matches(regexCorreo)){
+            throw new NegocioException("Formato de correo invalido.");
         }
-
+        
         if (login.getContrasenia() == null || login.getContrasenia().isBlank()) {
             throw new NegocioException("La contraseña no puede estar vacia.");
         }
-
-        return loginBO.iniciarSesion(login);
+        
+        ClienteLogueadoDTO cliente = loginBO.iniciarSesion(login);
+        if(cliente == null){
+            throw new NegocioException("Credenciales invalidas.");
+        }
+        return cliente;
     }
 
     @Override
