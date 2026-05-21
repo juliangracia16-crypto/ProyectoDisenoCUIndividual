@@ -67,11 +67,11 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         lblNombreCompleto.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreCompleto.setText("Nombre(s):");
 
+        btnSiguiente.setText("Finalizar Registro");
         btnSiguiente.setBackground(new java.awt.Color(255, 0, 51));
+        btnSiguiente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSiguiente.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
-        btnSiguiente.setText("Siguiente");
-        btnSiguiente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSiguiente.addActionListener(this::btnSiguienteActionPerformed);
 
         jSeparator1.setBackground(new java.awt.Color(225, 6, 0));
@@ -310,7 +310,7 @@ public class RegistrarseFORM extends javax.swing.JDialog {
             
             JOptionPane.showMessageDialog(this, "Datos personales guardados");
            
-            navegacionForms.navegarBenificios(clienteRegistrar);
+            navegacionForms.navegarMenuPrincipal();
              
 
         }catch (NegocioException ex) {

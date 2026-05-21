@@ -137,5 +137,5 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
             throw new PersistenciaException("Error al consultar cliente por pin.", ex);
         }
     }
-    
+        
 }

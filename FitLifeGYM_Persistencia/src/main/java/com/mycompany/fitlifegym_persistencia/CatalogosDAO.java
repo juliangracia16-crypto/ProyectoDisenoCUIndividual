@@ -11,6 +11,7 @@ import com.mycompany.fitlifegym_persistencia.entidades.Categoria;
 import com.mycompany.fitlifegym_persistencia.entidades.EstadoReporte;
 import java.util.LinkedList;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  * Clase que implementa los metodos de la interfaz ICatalogosDAO
@@ -61,7 +62,7 @@ public class CatalogosDAO implements ICatalogosDAO{
     @Override
     public List<EstadoReporte> consultarCatalogoEstados() throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
+            precargarEstados();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<EstadoReporte> coleccion = this.obtenerColeccionEstados(empresaBD);
             
@@ -82,7 +83,7 @@ public class CatalogosDAO implements ICatalogosDAO{
     @Override
     public List<Categoria> consultarCatalogoCategorias() throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
+            precargarCategorias();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Categoria> coleccion = this.obtenerColeccionCategorias(empresaBD);
             
@@ -104,7 +105,7 @@ public class CatalogosDAO implements ICatalogosDAO{
     @Override
     public Categoria consultarCategoriaPorNombre(String nombre) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
+            precargarCategorias();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Categoria> coleccion = this.obtenerColeccionCategorias(empresaBD);
             
@@ -124,7 +125,7 @@ public class CatalogosDAO implements ICatalogosDAO{
     @Override
     public EstadoReporte consultarEstadoPorNombre(String nombre) throws PersistenciaException {
         try(MongoClient cliente = ManejadorConexiones.crearConexion()){
-            
+            precargarEstados();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<EstadoReporte> coleccion = this.obtenerColeccionEstados(empresaBD);
             
@@ -135,4 +136,43 @@ public class CatalogosDAO implements ICatalogosDAO{
         }
     }
     
+    /**
+     * Metodo para precargar los estados de los reportes
+     * a la base de datos al momento de ejecutarse el programa.
+     */
+    private void precargarEstados() {
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<EstadoReporte> coleccion = this.obtenerColeccionEstados(empresaBD);
+
+            if (coleccion.countDocuments() == 0) {
+
+                List<EstadoReporte> estados = List.of(
+                    new EstadoReporte(new ObjectId().toHexString(),"SIN RESOLVER"),
+                    new EstadoReporte(new ObjectId().toHexString(),"RESUELTO")
+                );
+                coleccion.insertMany(estados);
+            }
+        }      
+    }
+    
+    /**
+     * Metodo para precargar las categorias de los reportes
+     * a la base de datos al momento de ejecutarse el programa.
+     */
+    private void precargarCategorias() {
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Categoria> coleccion = this.obtenerColeccionCategorias(empresaBD);
+
+            if (coleccion.countDocuments() == 0) {
+
+                List<Categoria> categorias = List.of(
+                    new Categoria(new ObjectId().toHexString(),"QUEJA"),
+                    new Categoria(new ObjectId().toHexString(),"SUGERENCIA")
+                );
+                coleccion.insertMany(categorias);
+            }
+        }      
+    }
 }

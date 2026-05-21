@@ -52,7 +52,7 @@ public class AdministradorDAO implements IAdministradorDAO, IBaseMongoDAO{
     @Override
     public Administrador consultarAdministradorPorUsuario(String usuario) throws PersistenciaException {
         try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
-
+            precargarAdministrador();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Administrador> coleccion = this.obtenerColeccion(empresaBD);
 
@@ -77,7 +77,7 @@ public class AdministradorDAO implements IAdministradorDAO, IBaseMongoDAO{
     @Override
     public Administrador consultarAdministradorPorId(String id) throws PersistenciaException {
         try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
-
+            precargarAdministrador();
             MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
             MongoCollection<Administrador> coleccion = this.obtenerColeccion(empresaBD);
 
@@ -89,6 +89,28 @@ public class AdministradorDAO implements IAdministradorDAO, IBaseMongoDAO{
             return administrador;
         }catch (MongoException ex) {
             throw new PersistenciaException("Error al consultar el administrador por id.", ex);
+        }
+    }
+    
+    /**
+     * Metodo para precargar al administrador del sistema a la base de datos
+     * al momento de ejecutarse el programa.
+     */
+    private void precargarAdministrador() {
+        try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Administrador> coleccion = this.obtenerColeccion(empresaBD);
+
+            if (coleccion.countDocuments() == 0) {
+
+                Administrador administrador = new Administrador(
+                        new ObjectId().toHexString(),
+                        "Administrador",
+                        "admin",
+                        "admin123"
+                );
+                coleccion.insertOne(administrador);
+            }
         }
     }
     
