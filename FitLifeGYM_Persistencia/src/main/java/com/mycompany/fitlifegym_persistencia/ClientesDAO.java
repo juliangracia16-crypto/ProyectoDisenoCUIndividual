@@ -5,6 +5,7 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 import static com.mycompany.fitlifegym_persistencia.ManejadorConexiones.obtenerCodecs;
 import com.mycompany.fitlifegym_persistencia.entidades.Cliente;
 import java.util.LinkedList;
@@ -46,8 +47,26 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO{
     }
 
     @Override
-    public Cliente registrarCliente(Cliente cliente) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Cliente registrarCliente(Cliente clienteNuevo) throws PersistenciaException {
+        try(MongoClient cliente = ManejadorConexiones.crearConexion()){
+            
+            MongoDatabase empresaBD = this.obtenerBaseDatos(cliente);
+            MongoCollection<Cliente> coleccion = this.obtenerColeccion(empresaBD);
+            
+            InsertOneResult resultado = coleccion.insertOne(clienteNuevo);
+            if(!resultado.wasAcknowledged()){
+                throw new PersistenciaException("No se pudo registrar el cliente correctamente.");
+            }
+            clienteNuevo.setIdCliente(
+                    resultado.getInsertedId()
+                    .asObjectId()
+                    .getValue()
+                    .toHexString()
+            );
+            return clienteNuevo;
+        }catch (MongoException ex) {
+            throw new PersistenciaException("Error al registrar el cliente nuevo.", ex);
+        }
     }
     
     /**

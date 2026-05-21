@@ -3,8 +3,10 @@ package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -86,27 +88,36 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
         jLabel1.setText("Folio: ");
 
         txtFolioReporte.setEditable(false);
-        txtFolioReporte.setBackground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setBackground(java.awt.Color.darkGray);
         txtFolioReporte.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtFolioReporte.setForeground(new java.awt.Color(0, 0, 0));
+        txtFolioReporte.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+        txtFolioReporte.setPreferredSize(new java.awt.Dimension(330, 39));
 
         lblDescripcionReporte.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDescripcionReporte.setForeground(new java.awt.Color(255, 255, 255));
         lblDescripcionReporte.setText("Descripción: ");
 
         txtAreaDescripcion.setEditable(false);
-        txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        txtAreaDescripcion.setBackground(java.awt.Color.darkGray);
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaDescripcion.setForeground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setWrapStyleWord(true);
+        txtAreaDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+        txtAreaDescripcion.setPreferredSize(new java.awt.Dimension(330, 161));
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblImagen.setForeground(new java.awt.Color(255, 255, 255));
         lblImagen.setText("Imagen: ");
+
+        lblLugarImagen.setBackground(new java.awt.Color(153, 153, 153));
+        lblLugarImagen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblLugarImagen.setForeground(new java.awt.Color(255, 255, 255));
+        lblLugarImagen.setPreferredSize(new java.awt.Dimension(130, 330));
 
         btnResolverReporte.setBackground(new java.awt.Color(255, 0, 51));
         btnResolverReporte.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -125,29 +136,26 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
                 .addComponent(lblTitulo)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(188, 188, 188)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDescripcionReporte)
-                            .addComponent(jLabel1)
-                            .addComponent(lblImagen))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFolioReporte, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblSubtitulo)
-                        .addGap(75, 75, 75)))
+                    .addComponent(lblDescripcionReporte)
+                    .addComponent(jLabel1)
+                    .addComponent(lblImagen))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFolioReporte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(227, 227, 227))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnResolverReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(324, 324, 324))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblSubtitulo)
+                        .addGap(271, 271, 271))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnResolverReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(314, 314, 314))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,24 +163,27 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnVolverAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(lblSubtitulo)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFolioReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtFolioReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDescripcionReporte)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(10, 10, 10)
                         .addComponent(lblImagen))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(btnResolverReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -204,9 +215,12 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResolverReporteActionPerformed
     
     private void mostrarDetallesReporteIncidente(){
-        txtFolioReporte.setText(reporteIncidenteSeleccionado.asunto());
+        txtFolioReporte.setText(reporteIncidenteSeleccionado.folio());
         txtAreaDescripcion.setText(reporteIncidenteSeleccionado.descripcion());
+        jScrollPane1.setBorder(null);
+
         if (reporteIncidenteSeleccionado.imagen() != null) {
+            lblLugarImagen.setText("");
             ImageIcon icono = new ImageIcon(reporteIncidenteSeleccionado.imagen().imagen());
             Image imagenEscalada = icono.getImage().getScaledInstance(
                     lblLugarImagen.getWidth(),
@@ -216,15 +230,19 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
 
             lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
         } else {
-            lblImagen.setText("REPORTE SIN IMAGEN");
+            lblLugarImagen.setIcon(null);
+            lblLugarImagen.setHorizontalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setVerticalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setText("REPORTE SIN IMAGEN");
         }
-        
     }
     private void mostrarDetallesReporteAtencion(){
-        txtFolioReporte.setText(reporteAtencionSeleccionado.asunto());
+        txtFolioReporte.setText(reporteAtencionSeleccionado.folio());
         txtAreaDescripcion.setText(reporteAtencionSeleccionado.solucion());
+        jScrollPane1.setBorder(null);
         lblDescripcionReporte.setText("Solución: ");
         if (reporteAtencionSeleccionado.imagen() != null) {
+            lblLugarImagen.setText("");
             ImageIcon icono = new ImageIcon(reporteAtencionSeleccionado.imagen().imagen());
             Image imagenEscalada = icono.getImage().getScaledInstance(
                     lblLugarImagen.getWidth(),
@@ -234,9 +252,13 @@ public class DetallesReporteSeleccionadoFORM extends javax.swing.JFrame {
 
             lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
         } else {
-            lblImagen.setText("REPORTE SIN IMAGEN");
+            lblLugarImagen.setIcon(null);
+            lblLugarImagen.setHorizontalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setVerticalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setText("REPORTE SIN IMAGEN");
         } 
-        btnResolverReporte.setVisible(false);
+        btnResolverReporte.setEnabled(false);
+        btnResolverReporte.setText("Reporte resuelto");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

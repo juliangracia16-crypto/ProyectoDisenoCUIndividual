@@ -281,6 +281,9 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
     public AdministradorLogueadoDTO iniciarSesion(LoginAdminDTO loginDTO) throws NegocioException {
         validarInicioSesion(loginDTO);
         AdministradorLogueadoDTO administrador = login.iniciarSesion(loginDTO);
+        if(administrador == null){
+            throw new NegocioException("Credenciales de administrador invalidas.");
+        }
         return administrador;
     }
     
@@ -389,8 +392,8 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
      * @throws NegocioException si no cumple con las validaciones establecidas
      */
     private void validarNombreFiltro(String nombre) throws NegocioException{
-        if(nombre.trim().length() > 30){
-            throw new NegocioException("El campo para filtrar por nombre debe tener maximo 30 caracteres.");
+        if(nombre.trim().length() > 20){
+            throw new NegocioException("El campo para filtrar por nombre debe tener maximo 20 caracteres.");
         }
     }
     
@@ -407,7 +410,7 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
             throw new NegocioException("El asunto del reporte es obligatorio.");
         }
         if(asunto.trim().length()>80){
-            throw new NegocioException("El asunto debe contener como maximo 100 caracteres.");
+            throw new NegocioException("El asunto debe contener como maximo 80 caracteres.");
         }
         if(asunto.trim().length() < 5){
             throw new NegocioException("El asunto debe contener como minimo 5 caracteres.");
@@ -436,8 +439,11 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
         if(login.usuario().isBlank() || login.usuario() == null){
             throw new NegocioException("El usuario es obligatorio.");
         }
-        if(login.usuario().length() > 30){
-            throw new NegocioException("El usuario debe de tener maximo 30 caracteres.");
+        if(login.usuario().length() > 20){
+            throw new NegocioException("El usuario debe de tener maximo 20 caracteres.");
+        }
+        if(login.usuario().length() < 5){
+            throw new NegocioException("El usuario debe de tener minimo 5 caracteres.");
         }
     }
  

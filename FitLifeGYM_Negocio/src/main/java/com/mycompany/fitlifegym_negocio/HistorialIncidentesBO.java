@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
 import com.mycompany.fitlifegym_dtos.NuevoReporteIncidenteDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
@@ -42,12 +42,12 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentes(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         try {
-            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesAdapter.adaptarFiltrosDTO(filtros);
+            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesYViceversaAdapter.adaptarFiltrosDTO(filtros);
             List<ReporteIncidentePersistenciaDTO> reportesIncidentes = fachada.consultarReportesIncidentesFiltros(filtrosPersistencia);
             List<ReporteIncidenteDTO> reportesIncidentesDTO = new LinkedList<>();
 
             for (ReporteIncidentePersistenciaDTO reporte : reportesIncidentes) {
-                ReporteIncidenteDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporte);
+                ReporteIncidenteDTO reporteDTO = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteEntidad(reporte);
                 reportesIncidentesDTO.add(reporteDTO);
             }
             return reportesIncidentesDTO;
@@ -66,12 +66,12 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
     @Override
     public ReporteIncidenteGeneradoDTO generarReporteIncidente(NuevoReporteIncidenteDTO reporte) throws NegocioException {
         try {
-            Imagen imagen = DtosAEntidadesAdapter.adaptarImagenDTO(reporte.imagen());
+            Imagen imagen = DtosAEntidadesYViceversaAdapter.adaptarImagenDTO(reporte.imagen());
             EstadoReporte estado = fachada.consultarEstadoPorNombre(ESTADO_INICIAL_REPORTE);
             Categoria categoria = fachada.consultarCategoriaPorNombre(reporte.categoria().categoria());
             
             
-            ReporteIncidente reporteIncidente = DtosAEntidadesAdapter.adaptarReporteIncidenteDTO(reporte);
+            ReporteIncidente reporteIncidente = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteDTO(reporte);
             reporteIncidente.setEstadoReporte(estado);
             if(imagen == null){
                 reporteIncidente.setImagen(null);
@@ -82,7 +82,7 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
             reporteIncidente.setIdCliente(reporte.cliente().getIdCliente());
             
             ReporteIncidente reporteIncidenteGenerado = fachada.generarReporteIncidente(reporteIncidente);
-            ReporteIncidenteGeneradoDTO reporteIncidenteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporteIncidenteGenerado);
+            ReporteIncidenteGeneradoDTO reporteIncidenteDTO = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteEntidad(reporteIncidenteGenerado);
             return reporteIncidenteDTO;
             
         } catch (PersistenciaException ex) {
@@ -102,7 +102,7 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
             List<ReporteIncidenteDTO> reportesIncidentesDTO = new LinkedList<>();
             
             for(ReporteIncidentePersistenciaDTO reporte: reportesIncidentes){
-                ReporteIncidenteDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporte);
+                ReporteIncidenteDTO reporteDTO = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteEntidad(reporte);
                 reportesIncidentesDTO.add(reporteDTO);
             }
             return reportesIncidentesDTO;
@@ -122,7 +122,7 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
     public ReporteIncidenteDTO consultarReporteIncidentePorFolio(String folio) throws NegocioException {
         try {
             ReporteIncidentePersistenciaDTO reportesIncidentes = fachada.consultarReporteIncidentePorFolio(folio);
-            ReporteIncidenteDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reportesIncidentes);
+            ReporteIncidenteDTO reporteDTO = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteEntidad(reportesIncidentes);
             return reporteDTO;
         }catch (PersistenciaException ex) {
             throw new NegocioException("Error al cargar todos los reportes de incidentes.", ex);
@@ -142,12 +142,12 @@ public class HistorialIncidentesBO implements IHistorialIncidentesBO{
     @Override
     public List<ReporteIncidenteDTO> consultarReportesIncidentesPorCliente(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
         try {
-            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesAdapter.adaptarFiltrosDTO(filtros);
+            FiltrosConsultaHistorialReportesDTO filtrosPersistencia = DtosAEntidadesYViceversaAdapter.adaptarFiltrosDTO(filtros);
             List<ReporteIncidentePersistenciaDTO> reportesIncidentes = fachada.consultarReportesIncidentesPorCliente(filtrosPersistencia);
             List<ReporteIncidenteDTO> reportesIncidentesDTO = new LinkedList<>();
 
             for (ReporteIncidentePersistenciaDTO reporte : reportesIncidentes) {
-                ReporteIncidenteDTO reporteDTO = DtosAEntidadesAdapter.adaptarReporteIncidenteEntidad(reporte);
+                ReporteIncidenteDTO reporteDTO = DtosAEntidadesYViceversaAdapter.adaptarReporteIncidenteEntidad(reporte);
                 reportesIncidentesDTO.add(reporteDTO);
             }
             return reportesIncidentesDTO;

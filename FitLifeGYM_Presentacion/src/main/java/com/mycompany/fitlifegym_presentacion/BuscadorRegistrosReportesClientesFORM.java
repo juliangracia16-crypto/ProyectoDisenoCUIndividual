@@ -72,6 +72,7 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
         btnVolcer.setText("Volver");
         btnVolcer.setBackground(new java.awt.Color(0, 0, 0));
         btnVolcer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnVolcer.setForeground(new java.awt.Color(255, 255, 255));
         btnVolcer.addActionListener(this::btnVolcerActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -102,8 +103,8 @@ public class BuscadorRegistrosReportesClientesFORM extends javax.swing.JFrame {
         lblFiltroEstado.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFiltroEstado.setForeground(new java.awt.Color(255, 255, 255));
 
-        txtFiltroNombre1.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltroNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtFiltroNombre1.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltroNombre1.setForeground(new java.awt.Color(0, 0, 0));
 
         comboCategorias.setBackground(new java.awt.Color(255, 255, 255));

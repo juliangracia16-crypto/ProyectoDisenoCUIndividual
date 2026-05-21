@@ -217,7 +217,7 @@ public class TransferenciaFORM extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "¡Transferencia recibida! Membresía activada.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();
-            navegacionForms.navegarMenuPrincipal();
+            navegacionForms.navegarBienvenida();
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

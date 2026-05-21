@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
@@ -41,7 +41,7 @@ public class MembresiaBO implements IMembresiaBO {
         if(membresiaDTO.getVigencia().isBefore(LocalDate.now())){
             throw new NegocioException("La vigencia no puede ser una fecha pasada.");
         }
-        Membresia membresia = DtosAEntidadesAdapter.adaptarMembresia(membresiaDTO);
+        Membresia membresia = DtosAEntidadesYViceversaAdapter.adaptarMembresia(membresiaDTO);
         try {
             fachada.guardar(membresia);
         } catch (PersistenciaException ex) {
@@ -55,7 +55,7 @@ public class MembresiaBO implements IMembresiaBO {
             List<Membresia> membresias =  fachada.obtenerTodas();
             List<NuevaMembresiaDTO> membresiasDTO = new LinkedList<>();
             for(Membresia m: membresias){
-                NuevaMembresiaDTO membresiaDTO = DtosAEntidadesAdapter.adaptarMembresiaEntidad(m);
+                NuevaMembresiaDTO membresiaDTO = DtosAEntidadesYViceversaAdapter.adaptarMembresiaEntidad(m);
                 membresiasDTO.add(membresiaDTO);
             }
             return membresiasDTO;
@@ -68,7 +68,7 @@ public class MembresiaBO implements IMembresiaBO {
     public NuevaMembresiaDTO obtenerPorId(Long id) throws NegocioException{
         try {
             Membresia membresiaEntidad = fachada.obtenerPorId(id);
-            NuevaMembresiaDTO membresia = DtosAEntidadesAdapter.adaptarMembresiaEntidad(membresiaEntidad);
+            NuevaMembresiaDTO membresia = DtosAEntidadesYViceversaAdapter.adaptarMembresiaEntidad(membresiaEntidad);
             return membresia;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al obtener membresia por ID.",ex);

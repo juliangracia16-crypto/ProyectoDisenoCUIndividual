@@ -4,6 +4,7 @@ package com.mycompany.fitlifegym_presentacion;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -74,55 +75,60 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         jLabel1.setText("Folio: ");
 
         txtFolioReporte.setEditable(false);
-        txtFolioReporte.setBackground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setBackground(java.awt.Color.darkGray);
         txtFolioReporte.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtFolioReporte.setForeground(new java.awt.Color(0, 0, 0));
+        txtFolioReporte.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolioReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
 
         lblDescripcionReporte.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDescripcionReporte.setForeground(new java.awt.Color(255, 255, 255));
         lblDescripcionReporte.setText("Descripción: ");
 
         txtAreaDescripcion.setEditable(false);
-        txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        txtAreaDescripcion.setBackground(java.awt.Color.darkGray);
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txtAreaDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtAreaDescripcion.setForeground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setWrapStyleWord(true);
+        txtAreaDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtAreaDescripcion.setPreferredSize(new java.awt.Dimension(330, 135));
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblImagen.setForeground(new java.awt.Color(255, 255, 255));
         lblImagen.setText("Imagen: ");
 
+        lblLugarImagen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblLugarImagen.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnVolverAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121)
-                .addComponent(lblTitulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(188, 188, 188)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDescripcionReporte)
-                    .addComponent(jLabel1)
-                    .addComponent(lblImagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFolioReporte, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(257, 257, 257))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblSubtitulo)
                 .addGap(286, 286, 286))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnVolverAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121)
+                        .addComponent(lblTitulo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(188, 188, 188)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblDescripcionReporte)
+                            .addComponent(jLabel1)
+                            .addComponent(lblImagen))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFolioReporte))))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,21 +138,25 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
                     .addComponent(btnVolverAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(lblSubtitulo)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFolioReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 17, Short.MAX_VALUE))
+                    .addComponent(txtFolioReporte))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDescripcionReporte)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblImagen)
-                        .addGap(69, 69, 69)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                        .addGap(101, 101, 101))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,9 +181,11 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
     
     private void mostrarDetallesReporte(){
-        txtFolioReporte.setText(reporteSeleccionado.asunto());
+        txtFolioReporte.setText(reporteSeleccionado.folio());
         txtAreaDescripcion.setText(reporteSeleccionado.descripcion());
+        jScrollPane1.setBorder(null);
         if (reporteSeleccionado.imagen() != null) {
+            lblLugarImagen.setText("");
             ImageIcon icono = new ImageIcon(reporteSeleccionado.imagen().imagen());
             Image imagenEscalada = icono.getImage().getScaledInstance(
                     lblLugarImagen.getWidth(),
@@ -183,7 +195,10 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
 
             lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
         } else {
-            lblImagen.setText("REPORTE SIN IMAGEN");
+            lblLugarImagen.setIcon(null);
+            lblLugarImagen.setHorizontalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setVerticalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setText("REPORTE SIN IMAGEN");
         }
         
     }

@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.RegistroReporteAdminDTO;
 import com.mycompany.fitlifegym_dtos.ReportePdfDTO;
 import com.mycompany.fitlifegym_infraestructura.IGeneradorReportePDF;
@@ -37,13 +37,13 @@ public class HistorialesReportesGeneralBO implements IHistorialesReportesGeneral
     @Override
     public byte[] generarReportePdf(ReportePdfDTO reportePdfDTO) throws NegocioException {
         try {
-            ReportePdfDTOInfraestructura datosPdf = DtosAEntidadesAdapter.adaptarDatosReportePdfAInfraestructura(reportePdfDTO);
+            ReportePdfDTOInfraestructura datosPdf = DtosAEntidadesYViceversaAdapter.adaptarDatosReportePdfAInfraestructura(reportePdfDTO);
             
             List<RegistroReporteAdminDTO> registros = reportePdfDTO.registros();
             List<RegistroReporteAdminDTOInfraestructura> registrosInfraestructura = new LinkedList<>();
             
             for(RegistroReporteAdminDTO r: registros){
-                RegistroReporteAdminDTOInfraestructura reporte = DtosAEntidadesAdapter.adaptarRegistroReportesAdminDTOAInfraestructura(r);
+                RegistroReporteAdminDTOInfraestructura reporte = DtosAEntidadesYViceversaAdapter.adaptarRegistroReportesAdminDTOAInfraestructura(r);
                 registrosInfraestructura.add(reporte);
             }
             datosPdf.setRegistros(registrosInfraestructura);

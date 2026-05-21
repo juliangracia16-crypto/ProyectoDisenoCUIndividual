@@ -9,11 +9,11 @@
         <module>../FitLifeGYM_Negocio</module>
         <module>../FitLifeGYM_Persistencia</module>
         <module>../FitLifeGYM_Presentacion</module>
-        <module>../FuncionalidadComprarMembresiaUsuarioNoRegistrado</module>
         <module>../FuncionalidadIniciarSesionRenovarMembresia</module>
         <module>../FitLifeGYM_Dtos</module>
         <module>../CUQuejasSugerencias</module>
         <module>../FitLifeGYM_Infraestructura</module>
+        <module>../CUComprarMembresia</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -7,6 +7,8 @@ import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -295,11 +298,19 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
         tblRegistrosReportes.setRowHeight(30);
         tblRegistrosReportes.setBackground(new java.awt.Color(30, 30, 30));
         tblRegistrosReportes.setForeground(java.awt.Color.WHITE);
-        tblRegistrosReportes.setGridColor(new java.awt.Color(225, 6, 0));
-        tblRegistrosReportes.getTableHeader().setBackground(new java.awt.Color(30, 30, 30));
-        tblRegistrosReportes.getTableHeader().setForeground(java.awt.Color.WHITE);
-        tblRegistrosReportes.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
-        jScrollPane1.getViewport().setBackground(new java.awt.Color(30, 30, 30));
+        tblRegistrosReportes.setGridColor(new Color(60, 60, 60));
+        tblRegistrosReportes.setShowGrid(true);
+        tblRegistrosReportes.setIntercellSpacing(new Dimension(1, 1));
+        tblRegistrosReportes.setBorder(null);
+        tblRegistrosReportes.setSelectionBackground(new Color(50, 50, 50));
+        tblRegistrosReportes.setSelectionForeground(Color.WHITE);
+
+        JTableHeader header = tblRegistrosReportes.getTableHeader();
+        header.setBackground(new Color(20, 20, 20));
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Arial", Font.BOLD, 16));
+        jScrollPane1.getViewport().setBackground(new Color(30, 30, 30));
+
         DefaultTableCellRenderer renderCentrado = new DefaultTableCellRenderer();
         renderCentrado.setHorizontalAlignment(JLabel.CENTER);
         tblRegistrosReportes.getColumnModel().getColumn(0).setCellRenderer(renderCentrado);
@@ -313,14 +324,14 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
                     private final JTextArea area = new JTextArea();
 
                     @Override
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                            boolean hasFocus, int row, int column) {
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                         area.setText(value == null ? "" : value.toString());
                         area.setLineWrap(true);
                         area.setWrapStyleWord(true);
                         area.setForeground(Color.WHITE);
                         area.setBackground(new Color(30, 30, 30));
                         area.setFont(table.getFont());
+                        area.setSize(table.getColumnModel().getColumn(column).getWidth(), Short.MAX_VALUE);
                         int altura = area.getPreferredSize().height;
                         if (table.getRowHeight(row) != altura) {
                             table.setRowHeight(row, altura);

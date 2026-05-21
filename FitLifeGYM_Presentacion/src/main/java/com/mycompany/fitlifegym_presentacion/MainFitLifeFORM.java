@@ -1,18 +1,25 @@
 
 package com.mycompany.fitlifegym_presentacion;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Diego
  */
 public class MainFitLifeFORM extends javax.swing.JFrame {
-
+        private final String RUTA_IMAGEN_MENU_PRINCIPAL = "/imagenMenuPrincipal.png";
     private NavegacionForms navegacionForms;
             
     public MainFitLifeFORM(NavegacionForms navegacionForms) {
         this.navegacionForms = navegacionForms;
         this.setTitle("Main Fit Life");
         initComponents();
+        colocarImagenMenuPrincipal();
         this.setLocationRelativeTo(null);
     }
 
@@ -35,6 +42,7 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
         btnIniciarSesion = new javax.swing.JButton();
         lblTitulo3 = new javax.swing.JLabel();
         comboSeleccionAdminCliente = new javax.swing.JComboBox<>();
+        lblLugarImagen = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
         popupMenu1.setLabel("popupMenu1");
@@ -81,7 +89,10 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
         comboSeleccionAdminCliente.setFont(new java.awt.Font("Segoe UI", 3, 28)); // NOI18N
         comboSeleccionAdminCliente.setForeground(new java.awt.Color(0, 0, 0));
         comboSeleccionAdminCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "ADMINISTRADOR" }));
+        comboSeleccionAdminCliente.setFocusable(false);
         comboSeleccionAdminCliente.addActionListener(this::comboSeleccionAdminClienteActionPerformed);
+
+        lblLugarImagen.setPreferredSize(new java.awt.Dimension(280, 175));
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -89,7 +100,9 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(jPanelLayout.createSequentialGroup()
-                .addGap(373, 373, 373)
+                .addGap(38, 38, 38)
+                .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,6 +148,10 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
                     .addGroup(jPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator3))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
             .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelLayout.createSequentialGroup()
                     .addGap(10, 10, 10)
@@ -195,7 +212,23 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
             btnRegistrarse.setEnabled(false);
         }
     }//GEN-LAST:event_comboSeleccionAdminClienteActionPerformed
+    
+    private void colocarImagenMenuPrincipal(){
+        try {
+            InputStream input = getClass().getResourceAsStream(RUTA_IMAGEN_MENU_PRINCIPAL);
+            byte[] logo = input.readAllBytes();
+            ImageIcon icono = new ImageIcon(logo);
+            Image imagenEscalada = icono.getImage().getScaledInstance(
+                    lblLugarImagen.getWidth(),
+                    lblLugarImagen.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
 
+            lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this,"Error al cargar la imagen del Menú Principal.", "Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -207,6 +240,7 @@ public class MainFitLifeFORM extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel lblLugarImagen;
     private javax.swing.JLabel lblTitulo2;
     private javax.swing.JLabel lblTitulo3;
     private java.awt.PopupMenu popupMenu1;

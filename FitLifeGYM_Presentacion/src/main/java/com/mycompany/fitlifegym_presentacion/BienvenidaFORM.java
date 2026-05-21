@@ -236,7 +236,7 @@ public class BienvenidaFORM extends javax.swing.JFrame {
 
     private void btnBeneficiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeneficiosActionPerformed
 
-        ClienteLogueadoDTO cliente = control.getClienteActual();
+        ClienteLogueadoDTO cliente = SesionUsuario.getInstancia().getClienteActual();
         
         if (cliente.getEstadoMembresia() == EstadoDTO.ACTIVO) {
             JOptionPane.showMessageDialog(this, "Ya tienes una membresía activa.");

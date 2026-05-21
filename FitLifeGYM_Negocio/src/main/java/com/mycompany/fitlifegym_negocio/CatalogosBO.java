@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.CategoriaDTO;
 import com.mycompany.fitlifegym_dtos.EstadoReporteDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
@@ -34,7 +34,7 @@ public class CatalogosBO implements ICatalogosBO{
             List<Categoria> categorias = fachada.consultarCatalogoCategorias();
             List<CategoriaDTO> categoriasDTO = new LinkedList<>();
             for(Categoria c: categorias){
-                CategoriaDTO categoriaDTO = DtosAEntidadesAdapter.adaptarCategoriaEntidad(c);
+                CategoriaDTO categoriaDTO = DtosAEntidadesYViceversaAdapter.adaptarCategoriaEntidad(c);
                 categoriasDTO.add(categoriaDTO);
             }
             return categoriasDTO;
@@ -54,7 +54,7 @@ public class CatalogosBO implements ICatalogosBO{
             List<EstadoReporte> estados = fachada.consultarCatalogoEstados();
             List<EstadoReporteDTO> estadosDTO = new LinkedList<>();
             for(EstadoReporte e: estados){
-                EstadoReporteDTO estadoDTO = DtosAEntidadesAdapter.adaptarEstadoReporteEntidad(e);
+                EstadoReporteDTO estadoDTO = DtosAEntidadesYViceversaAdapter.adaptarEstadoReporteEntidad(e);
                 estadosDTO.add(estadoDTO);
             }
             return estadosDTO;

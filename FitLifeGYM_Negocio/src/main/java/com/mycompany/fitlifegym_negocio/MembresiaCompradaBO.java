@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.NuevaMembresiaCompradaDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
@@ -46,7 +46,7 @@ public class MembresiaCompradaBO implements IMembresiaCompradaBO {
         if(membresiaCompradaDTO.getEstado() == null){
             throw new NegocioException("El estado de la membresía no puede ser nula.");
         }
-        MembresiaComprada mebresiaComprada = DtosAEntidadesAdapter.adaptarMembresiaCompradaDTO(membresiaCompradaDTO);
+        MembresiaComprada mebresiaComprada = DtosAEntidadesYViceversaAdapter.adaptarMembresiaCompradaDTO(membresiaCompradaDTO);
 
         try {
             return fachada.guardar(mebresiaComprada);

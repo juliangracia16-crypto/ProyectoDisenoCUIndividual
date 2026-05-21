@@ -51,12 +51,12 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         txtApellidos = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtNombreCompleto = new javax.swing.JTextField();
-        txtFechaNacimiento = new javax.swing.JTextField();
         txtPIN = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JTextField();
         btnVolverAtras = new javax.swing.JButton();
         lblApellidos = new javax.swing.JLabel();
         txtCorreoElectronico = new javax.swing.JTextField();
+        selectorFecha = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -119,17 +119,25 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         lblTitulo1.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo1.setText("Creación de la Cuenta");
 
-        txtApellidos.addActionListener(this::txtApellidosActionPerformed);
+        txtApellidos.setBackground(new java.awt.Color(255, 255, 255));
+        txtApellidos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtApellidos.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtTelefono.addActionListener(this::txtTelefonoActionPerformed);
+        txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
+        txtTelefono.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtNombreCompleto.addActionListener(this::txtNombreCompletoActionPerformed);
+        txtNombreCompleto.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombreCompleto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtFechaNacimiento.addActionListener(this::txtFechaNacimientoActionPerformed);
+        txtPIN.setBackground(new java.awt.Color(255, 255, 255));
+        txtPIN.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPIN.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtPIN.addActionListener(this::txtPINActionPerformed);
-
-        txtContrasenia.addActionListener(this::txtContraseniaActionPerformed);
+        txtContrasenia.setBackground(new java.awt.Color(255, 255, 255));
+        txtContrasenia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtContrasenia.setForeground(new java.awt.Color(0, 0, 0));
 
         btnVolverAtras.setBackground(new java.awt.Color(255, 0, 51));
         btnVolverAtras.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -143,7 +151,13 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         lblApellidos.setForeground(new java.awt.Color(255, 255, 255));
         lblApellidos.setText("Apellidos");
 
-        txtCorreoElectronico.addActionListener(this::txtCorreoElectronicoActionPerformed);
+        txtCorreoElectronico.setBackground(new java.awt.Color(255, 255, 255));
+        txtCorreoElectronico.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCorreoElectronico.setForeground(new java.awt.Color(0, 0, 0));
+
+        selectorFecha.setBackground(new java.awt.Color(40, 40, 40));
+        selectorFecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        selectorFecha.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -181,11 +195,15 @@ public class RegistrarseFORM extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(371, 371, 371))
+                    .addGroup(jPanelLayout.createSequentialGroup()
+                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(selectorFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(txtPIN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(txtApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(178, 178, 178)
@@ -199,12 +217,7 @@ public class RegistrarseFORM extends javax.swing.JDialog {
                                         .addContainerGap())
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(39, 39, 39))))))
-                    .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(371, 371, 371))))
+                                        .addGap(39, 39, 39))))))))
             .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                     .addContainerGap(197, Short.MAX_VALUE)
@@ -248,8 +261,8 @@ public class RegistrarseFORM extends javax.swing.JDialog {
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectorFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
@@ -286,12 +299,11 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         String apellidos = txtApellidos.getText();
         String correo = txtCorreoElectronico.getText();
         String telefono = txtTelefono.getText();
-        String fechaString = txtFechaNacimiento.getText();
         String contrasenia = txtContrasenia.getText();
         String pin = txtPIN.getText();
 
         try {
-            LocalDate fechaNacimiento = LocalDate.parse(fechaString);
+            LocalDate fechaNacimiento = selectorFecha.getDate();
 
             NuevoClienteDTO clienteRegistrar = new NuevoClienteDTO(nombre, apellidos, correo, telefono, contrasenia, fechaNacimiento, pin);
             control.registrarCliente(clienteRegistrar);
@@ -301,8 +313,6 @@ public class RegistrarseFORM extends javax.swing.JDialog {
             navegacionForms.navegarBenificios(clienteRegistrar);
              
 
-        } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "La fecha debe tener el formato AAAA-MM-DD ");
         }catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
         }
@@ -312,37 +322,9 @@ public class RegistrarseFORM extends javax.swing.JDialog {
         navegacionForms.navegarIniciarSesion();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
-    private void txtApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidosActionPerformed
-
-    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefonoActionPerformed
-
-    private void txtNombreCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCompletoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCompletoActionPerformed
-
-    private void txtFechaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaNacimientoActionPerformed
-
-    private void txtPINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPINActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPINActionPerformed
-
-    private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtContraseniaActionPerformed
-
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
         dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
-
-    private void txtCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoElectronicoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoElectronicoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -360,10 +342,10 @@ public class RegistrarseFORM extends javax.swing.JDialog {
     private javax.swing.JLabel lblTelefono1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo1;
+    private com.github.lgooddatepicker.components.DatePicker selectorFecha;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtCorreoElectronico;
-    private javax.swing.JTextField txtFechaNacimiento;
     private javax.swing.JTextField txtNombreCompleto;
     private javax.swing.JTextField txtPIN;
     private javax.swing.JTextField txtTelefono;

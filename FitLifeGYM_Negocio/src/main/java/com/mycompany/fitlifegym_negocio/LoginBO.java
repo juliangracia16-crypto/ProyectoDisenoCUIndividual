@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.AdministradorLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.ClienteLogueadoDTO;
 import com.mycompany.fitlifegym_dtos.EstadoDTO;
@@ -50,11 +50,11 @@ public class LoginBO implements ILoginBO {
             EstadoDTO estadoDTO = EstadoDTO.INACTIVO;
 
             if (cliente.getMembresíaComprada() != null) {
-                estadoDTO = DtosAEntidadesAdapter.adaptarEstadoDTO(cliente.getMembresíaComprada().getEstado());
+                estadoDTO = DtosAEntidadesYViceversaAdapter.adaptarEstadoDTO(cliente.getMembresíaComprada().getEstado());
                 if (cliente.getMembresíaComprada().getMembresia() != null) {
                     TipoMembresia tipo = cliente.getMembresíaComprada().getMembresia().getTipoMembresia();
                     if (tipo != null) {
-                        tipoDTO = DtosAEntidadesAdapter.adaptarTipoMembresiaDTO(tipo);
+                        tipoDTO = DtosAEntidadesYViceversaAdapter.adaptarTipoMembresiaDTO(tipo);
                     }
                 }
             }
@@ -80,10 +80,12 @@ public class LoginBO implements ILoginBO {
             if (administrador == null) {
                 return null;
             }
-            
+            if(!administrador.getContrasenia().equals(login.contrasenia())){
+                return null;
+            }
             return new AdministradorLogueadoDTO(administrador.getIdAdministrador(),administrador.getNombre(),administrador.getUsuario());
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al iniciar sesion como administrador",ex);
+            throw new NegocioException("Error al iniciar sesion como administrador. Credenciales invalidas.",ex);
         }
         
     }

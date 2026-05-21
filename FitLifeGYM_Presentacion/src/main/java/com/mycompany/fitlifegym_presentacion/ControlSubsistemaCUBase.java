@@ -12,9 +12,9 @@ import com.mycompany.fitlifegym_dtos.TipoMembresiaDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
 import com.mycompany.funcionalidadcomprarmembresiausuarionoregistrado.IFuncionalidadRegistrarUsuario;
-import com.mycompany.funcionalidadcomprarmembresiausuarionoregistrado.presentacion.FabricaSubsistemaRegistroUsuario;
+import FabricaSubsistemaFuncionalidadUsuarioNoRegistrado.FabricaSubsistemaRegistroUsuario;
 import com.mycompany.funcionalidadiniciarsesionrenovarmembresia.IFuncionalidadIniciarSesionRenovarMembresia;
-import com.mycompany.funcionalidadiniciarsesionrenovarmembresia.fabricaSubsistema.FabricaSubsistemaIniciarSesion;
+import com.mycompany.fabricaCUaIniciarSesion.FabricaSubsistemaIniciarSesion;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -63,8 +63,8 @@ public class ControlSubsistemaCUBase {
         cliente.setMembresíaComprada(membresiaCompradaDTO);
     }
 
-    public void registrarCliente(NuevoClienteDTO clienteDTO) throws NegocioException { //debiar de llamarse Validar datos cliente
-        funcionalidadRegistrarUsuario.validarDatosUsuario(clienteDTO);
+    public void registrarCliente(NuevoClienteDTO clienteDTO) throws NegocioException {
+        funcionalidadRegistrarUsuario.RegistrarUsuario(clienteDTO);
     }
 
     public void procesarPagoTarjeta(NuevoClienteDTO cliente, String numeroTarjeta, String cvv, String fechaVencimiento,String nombreTitular) throws NegocioException {
@@ -86,8 +86,6 @@ public class ControlSubsistemaCUBase {
         if (cliente.getMembresíaComprada() == null) {
             throw new NegocioException("No se ha seleccionado ninguna membresia.");
         }
-
-        funcionalidadRegistrarUsuario.RegistrarUsuario(cliente);
     }
     
     public void procesarPagoPaypal(NuevoClienteDTO cliente, String correo, String contrasenia) throws NegocioException {
@@ -109,8 +107,6 @@ public class ControlSubsistemaCUBase {
         if (cliente.getMembresíaComprada() == null) {
             throw new NegocioException("No se ha seleccionado ninguna membresia.");
         }
-
-        funcionalidadRegistrarUsuario.RegistrarUsuario(cliente);
     }
     
     public void procesarPagoTransferencia(NuevoClienteDTO cliente) throws NegocioException {
@@ -131,8 +127,6 @@ public class ControlSubsistemaCUBase {
         if (cliente.getMembresíaComprada() == null) {
             throw new NegocioException("No se ha seleccionado ninguna membresia.");
         }
-
-        funcionalidadRegistrarUsuario.RegistrarUsuario(cliente);
     }
 
     public ClienteLogueadoDTO getClienteActual() {

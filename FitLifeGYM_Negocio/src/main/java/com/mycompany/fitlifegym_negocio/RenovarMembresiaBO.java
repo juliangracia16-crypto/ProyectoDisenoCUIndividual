@@ -1,7 +1,7 @@
 
 package com.mycompany.fitlifegym_negocio;
 
-import Adapter.DtosAEntidadesAdapter;
+import Adapter.DtosAEntidadesYViceversaAdapter;
 import com.mycompany.fitlifegym_dtos.RenovarMembresiaDTO;
 import com.mycompany.fitlifegym_persistencia.IPersistenciaFachada;
 import com.mycompany.fitlifegym_persistencia.PersistenciaException;
@@ -20,7 +20,7 @@ public class RenovarMembresiaBO implements IRenovarMembresiaBO {
 
     @Override
     public void renovarMembresia(RenovarMembresiaDTO dto) throws NegocioException{
-        TipoMembresia tipo = DtosAEntidadesAdapter.adaptarTipoMembresia(dto.getTipoMembresia());
+        TipoMembresia tipo = DtosAEntidadesYViceversaAdapter.adaptarTipoMembresia(dto.getTipoMembresia());
         try {
             fachada.actualizarMembresia(dto.getIdCliente(), tipo);
         } catch (PersistenciaException ex) {

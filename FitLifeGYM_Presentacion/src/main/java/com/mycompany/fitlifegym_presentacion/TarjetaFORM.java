@@ -299,7 +299,7 @@ public class TarjetaFORM extends javax.swing.JDialog {
 
             //Solo navegar si todo salio bien
             this.dispose();
-            navegacionForms.navegarMenuPrincipal();
+            navegacionForms.navegarBienvenida();
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
