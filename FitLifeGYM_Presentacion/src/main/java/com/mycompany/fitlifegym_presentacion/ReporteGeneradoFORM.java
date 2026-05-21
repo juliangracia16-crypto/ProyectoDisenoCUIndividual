@@ -126,7 +126,7 @@ public class ReporteGeneradoFORM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAtrasActionPerformed
-        control.navegarBienvenida();
+        control.navegarInicioBuzonQuejas();
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
 

@@ -1,6 +1,7 @@
 
 package com.mycompany.fitlifegym_presentacion;
 
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -15,6 +16,7 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DetallesReporteSeleccionadoMisReportesGeneradosFORM.class.getName());
     private NavegacionForms control;
     private ReporteIncidenteDTO reporteSeleccionado;
+    private ReporteAtencionDTO reporteAtencionSeleccionado;
     
     public DetallesReporteSeleccionadoMisReportesGeneradosFORM(NavegacionForms control) {
         initComponents();
@@ -27,7 +29,15 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         this.setLocationRelativeTo(null);
         this.control = control;
         this.reporteSeleccionado = reporteSeleccionado;
-        mostrarDetallesReporte();
+        mostrarDetallesReporteIncidente();
+    }
+    
+    public DetallesReporteSeleccionadoMisReportesGeneradosFORM(NavegacionForms control, ReporteAtencionDTO reporteAtencionSeleccionado) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.control = control;
+        this.reporteAtencionSeleccionado = reporteAtencionSeleccionado;
+        mostrarDetallesReporteAtencion();
     }
     
     /**
@@ -180,13 +190,37 @@ public class DetallesReporteSeleccionadoMisReportesGeneradosFORM extends javax.s
         this.dispose();
     }//GEN-LAST:event_btnVolverAtrasActionPerformed
     
-    private void mostrarDetallesReporte(){
+    private void mostrarDetallesReporteIncidente(){
         txtFolioReporte.setText(reporteSeleccionado.folio());
         txtAreaDescripcion.setText(reporteSeleccionado.descripcion());
         jScrollPane1.setBorder(null);
         if (reporteSeleccionado.imagen() != null) {
             lblLugarImagen.setText("");
             ImageIcon icono = new ImageIcon(reporteSeleccionado.imagen().imagen());
+            Image imagenEscalada = icono.getImage().getScaledInstance(
+                    lblLugarImagen.getWidth(),
+                    lblLugarImagen.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+
+            lblLugarImagen.setIcon(new ImageIcon(imagenEscalada));
+        } else {
+            lblLugarImagen.setIcon(null);
+            lblLugarImagen.setHorizontalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setVerticalAlignment(SwingConstants.CENTER);
+            lblLugarImagen.setText("REPORTE SIN IMAGEN");
+        }
+        
+    }
+    
+    private void mostrarDetallesReporteAtencion(){
+        txtFolioReporte.setText(reporteAtencionSeleccionado.folio());
+        txtAreaDescripcion.setText(reporteAtencionSeleccionado.solucion());
+        jScrollPane1.setBorder(null);
+        lblDescripcionReporte.setText("Solución: ");
+        if (reporteAtencionSeleccionado.imagen() != null) {
+            lblLugarImagen.setText("");
+            ImageIcon icono = new ImageIcon(reporteAtencionSeleccionado.imagen().imagen());
             Image imagenEscalada = icono.getImage().getScaledInstance(
                     lblLugarImagen.getWidth(),
                     lblLugarImagen.getHeight(),

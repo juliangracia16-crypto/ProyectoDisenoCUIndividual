@@ -2,6 +2,7 @@
 package com.mycompany.fitlifegym_presentacion;
 
 import com.mycompany.fitlifegym_dtos.FiltrosConsultaHistorialReportesNegocioDTO;
+import com.mycompany.fitlifegym_dtos.ReporteAtencionDTO;
 import com.mycompany.fitlifegym_dtos.ReporteIncidenteDTO;
 import com.mycompany.fitlifegym_negocio.NegocioException;
 import com.mycompany.fitlifegym_presentacion.sesion.SesionUsuario;
@@ -29,6 +30,8 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     private ControlSubsistemaQuejasSugerencias control;
     private FiltrosConsultaHistorialReportesNegocioDTO filtros;
     private List<ReporteIncidenteDTO> reportesIncidentes;
+    private ReporteAtencionDTO reporteAtencionSeleccionado;
+
     /**
      * Creates new form ReportesQuejasClientesFORM
      */
@@ -196,30 +199,29 @@ public class MisReportesGeneradosFORM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarTodosActionPerformed
 
     private void btnSeleccionarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarReporteActionPerformed
-        ReporteIncidenteDTO reporteSeleccionado = seleccionarReporte();
-        if(reporteSeleccionado == null){
-            JOptionPane.showMessageDialog(this,"Seleccione un reporte.");
-            return;
-        }
-        navegacionForms.navegarDetallesReporteSeleccionadoCliente(reporteSeleccionado);
-        this.dispose();
+        seleccionarReporte();
     }//GEN-LAST:event_btnSeleccionarReporteActionPerformed
     
-    private ReporteIncidenteDTO seleccionarReporte(){
+    private void seleccionarReporte() {
         try {
-            int filaSeleccionada = tblRegistrosReportes.getSelectedRow();
-            
-            if (filaSeleccionada == -1) {
-                return null;
+            int filaVista = tblRegistrosReportes.getSelectedRow();
+            int filaModelo = tblRegistrosReportes.convertRowIndexToModel(filaVista);
+
+            ReporteIncidenteDTO reporte = reportesIncidentes.get(filaModelo);
+            if (reporte.estado().estado().equals("RESUELTO")) {
+                String folio = tblRegistrosReportes.getValueAt(filaModelo, 0).toString();
+                this.reporteAtencionSeleccionado = control.consultarReporteAtencionPorFolio(folio);
+                navegacionForms.navegarDetallesReporteSeleccionadoMisReportes(this.reporteAtencionSeleccionado);
+                this.dispose();
+            } else{
+                String folio = tblRegistrosReportes.getValueAt(filaModelo, 0).toString();
+                ReporteIncidenteDTO reporteConsultado = control.consultarReporteIncidentePorFolio(folio);
+                navegacionForms.navegarDetallesReporteSeleccionadoMisReportes(reporteConsultado);
+                this.dispose();
             }
-            
-            String folio = tblRegistrosReportes.getValueAt(filaSeleccionada, 0).toString();
-            
-            ReporteIncidenteDTO reporte = control.consultarReporteIncidentePorFolio(folio);
-            return reporte;
+
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this,"Error al cargar los reportes.", "Error",JOptionPane.ERROR_MESSAGE);
-            return null;
+            JOptionPane.showMessageDialog(this, "Error al cargar el reporte. " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     

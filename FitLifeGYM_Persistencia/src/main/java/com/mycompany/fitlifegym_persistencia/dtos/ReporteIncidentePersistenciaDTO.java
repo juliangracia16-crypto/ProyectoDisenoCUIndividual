@@ -7,7 +7,11 @@ import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
+ * DTO auxiliar utilizado para mapear resultados de consultas agregadas de
+ * MongoDB en la capa de persistencia.
  *
+ * Permite recibir información relacionada proveniente de operaciones lookup y
+ * proyecciones personalizadas.
  * @author Julian
  */
 public class ReporteIncidentePersistenciaDTO {

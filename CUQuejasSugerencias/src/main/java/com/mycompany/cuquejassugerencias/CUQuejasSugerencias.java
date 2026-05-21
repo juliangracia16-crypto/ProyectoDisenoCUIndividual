@@ -239,6 +239,7 @@ public class CUQuejasSugerencias implements ICUQuejasSugerencias{
      */
     @Override
     public List<RegistroReporteAdminDTO> consultarTodosLosReportesFiltrados(FiltrosConsultaHistorialReportesNegocioDTO filtros) throws NegocioException {
+        validarNombreFiltro(filtros.cliente());
         validarFechasFiltro(filtros.fechaDesde(), filtros.fechaHasta());
         List<RegistroReporteAdminDTO> reportes = historialAtencionesBO.consultarTodosLosRegistrosReportesFiltrado(filtros);
         return reportes;

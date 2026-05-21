@@ -73,37 +73,38 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(18, 18, 18));
 
+        btnVolverAtras.setText("<- Atras");
         btnVolverAtras.setBackground(new java.awt.Color(255, 0, 51));
+        btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnVolverAtras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnVolverAtras.setForeground(new java.awt.Color(255, 255, 255));
-        btnVolverAtras.setText("<- Atras");
-        btnVolverAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnVolverAtras.addActionListener(this::btnVolverAtrasActionPerformed);
 
+        lblTitulo.setText("GymFit- Generar Nuevo Reporte");
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 3, 34)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitulo.setText("GymFit- Generar Nuevo Reporte");
 
+        lblCategoria.setText("Categoría: ");
         lblCategoria.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        lblCategoria.setText("Categoría: ");
 
         comboCategorias.setBackground(new java.awt.Color(255, 255, 255));
         comboCategorias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         comboCategorias.setForeground(new java.awt.Color(0, 0, 0));
 
+        lblAsunto.setText("Asunto: ");
         lblAsunto.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblAsunto.setForeground(new java.awt.Color(255, 255, 255));
-        lblAsunto.setText("Asunto: ");
 
-        txtAsunto.setBackground(new java.awt.Color(255, 255, 255));
         txtAsunto.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        txtAsunto.setBackground(new java.awt.Color(255, 255, 255));
         txtAsunto.setForeground(new java.awt.Color(0, 0, 0));
         txtAsunto.setMaximumSize(new java.awt.Dimension(298, 35));
+        txtAsunto.setPreferredSize(new java.awt.Dimension(330, 32));
 
+        lblDescripcion.setText("Descripción:");
         lblDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblDescripcion.setForeground(new java.awt.Color(255, 255, 255));
-        lblDescripcion.setText("Descripción:");
 
         txtAreaDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtAreaDescripcion.setColumns(20);
@@ -114,21 +115,21 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
         txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
+        lblImagen.setText("Imagen:");
         lblImagen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblImagen.setForeground(new java.awt.Color(255, 255, 255));
-        lblImagen.setText("Imagen:");
 
+        btnSeleccionarImagen.setText("Seleccionar Imagen");
         btnSeleccionarImagen.setBackground(new java.awt.Color(102, 102, 102));
         btnSeleccionarImagen.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnSeleccionarImagen.setForeground(new java.awt.Color(255, 255, 255));
-        btnSeleccionarImagen.setText("Seleccionar Imagen");
         btnSeleccionarImagen.addActionListener(this::btnSeleccionarImagenActionPerformed);
 
+        btnGenerarReporte.setText("Generar Reporte");
         btnGenerarReporte.setBackground(new java.awt.Color(255, 0, 51));
+        btnGenerarReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnGenerarReporte.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnGenerarReporte.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarReporte.setText("Generar Reporte");
-        btnGenerarReporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnGenerarReporte.addActionListener(this::btnGenerarReporteActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -147,10 +148,10 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                             .addComponent(lblImagen))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addComponent(comboCategorias, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtAsunto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblLugarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtAsunto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTitulo)
@@ -159,11 +160,11 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(300, 300, 300))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSeleccionarImagen)
-                        .addGap(310, 310, 310))))
+                        .addGap(296, 296, 296))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(289, 289, 289))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +179,7 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAsunto)
-                    .addComponent(txtAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -195,9 +196,9 @@ public class GenerarNuevoReporteFORM extends javax.swing.JFrame {
                         .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblLugarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addComponent(btnGenerarReporte, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

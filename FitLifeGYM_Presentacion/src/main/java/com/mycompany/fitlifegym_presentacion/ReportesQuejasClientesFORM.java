@@ -38,9 +38,7 @@ public class ReportesQuejasClientesFORM extends javax.swing.JFrame {
     private FiltrosConsultaHistorialReportesNegocioDTO filtros;
     private ReporteAtencionDTO reporteAtencionSeleccionado;
     private ReporteIncidenteDTO reporteIncidenteSeleccionado;
-    /**
-     * Creates new form ReportesQuejasClientesFORM
-     */
+    
     public ReportesQuejasClientesFORM(NavegacionForms navegacionForms, ControlSubsistemaQuejasSugerencias control) {
         initComponents();
         diseñoTabla();

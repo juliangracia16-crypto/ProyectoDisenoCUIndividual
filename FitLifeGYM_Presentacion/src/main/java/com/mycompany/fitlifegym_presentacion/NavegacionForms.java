@@ -111,6 +111,18 @@ public class NavegacionForms {
         mostrarPantalla(new DetallesReporteSeleccionadoFORM(this));
     }
     
+    public void navegarDetallesReporteSeleccionadoMisReportes(){
+        mostrarPantalla(new DetallesReporteSeleccionadoMisReportesGeneradosFORM(this));
+    }
+    
+    public void navegarDetallesReporteSeleccionadoMisReportes(ReporteIncidenteDTO reporte){
+        mostrarPantalla(new DetallesReporteSeleccionadoMisReportesGeneradosFORM(this,reporte));
+    }
+    
+    public void navegarDetallesReporteSeleccionadoMisReportes(ReporteAtencionDTO reporte){
+        mostrarPantalla(new DetallesReporteSeleccionadoMisReportesGeneradosFORM(this,reporte));
+    }
+    
     public void navegarDetallesReporteSeleccionadoForm(ReporteIncidenteDTO reporte){
         mostrarPantalla(new DetallesReporteSeleccionadoFORM(this, reporte));
     }
